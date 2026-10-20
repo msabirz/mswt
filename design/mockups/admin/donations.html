@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Donations – MSWT Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. <a href="../index.html">All mockups</a></aside>
+<div class="admin">
+  <aside class="admin-side on-dark">
+    <img src="../assets/mswt-logo-horizontal-reversed.svg" alt="MS Welfare Trust admin" width="200" height="63">
+    <nav aria-label="Admin"><ul>
+      <li><a href="dashboard.html">Dashboard</a></li><li><a href="donations.html" aria-current="page">Donations</a></li><li><a href="#">Donors</a></li><li><a href="#">Causes</a></li><li><a href="#">Content</a></li><li><a href="#">Messages</a></li><li><a href="#">Reports</a></li><li><a href="#">Settings</a></li><li><a href="#">Users & roles</a></li><li><a href="#">Audit log</a></li>
+    </ul></nav>
+  </aside>
+  <main id="main" class="admin-main" tabindex="-1">
+<div class="admin-top"><h1>Donations</h1><div class="actions" style="margin:0"><a class="btn btn--secondary" href="#">Export CSV</a><a class="btn btn--secondary" href="#">Export Excel</a><a class="btn btn--primary" href="donation-new.html">Record offline donation</a></div></div>
+<form class="filters" action="#" role="search" aria-label="Filter donations">
+  <div class="field"><label for="f-q">Donor, email or receipt no.</label><input class="input" id="f-q" type="search"></div>
+  <div class="field"><label for="f-fy">Financial year</label><select class="select" id="f-fy"><option>2026-27</option><option>2025-26</option></select></div>
+  <div class="field"><label for="f-from">From</label><input class="input" id="f-from" type="date"></div>
+  <div class="field"><label for="f-to">To</label><input class="input" id="f-to" type="date"></div>
+  <div class="field"><label for="f-cause">Cause</label><select class="select" id="f-cause"><option>All causes</option></select></div>
+  <div class="field"><label for="f-mode">Mode</label><select class="select" id="f-mode"><option>All modes</option><option>Online</option><option>Cash</option><option>Cheque</option><option>NEFT</option><option>UPI (offline)</option></select></div>
+  <div class="field"><label for="f-status">Status</label><select class="select" id="f-status"><option>All statuses</option><option>Paid</option><option>Pending</option><option>Failed</option><option>Refunded</option></select></div>
+  <div class="field"><label for="f-rcpt">Receipt type</label><select class="select" id="f-rcpt"><option>All</option><option>80G</option><option>Acknowledgement</option></select></div>
+  <button class="btn btn--primary" type="submit">Apply filters</button>
+</form>
+<p class="small muted" role="status">Showing 1–5 of 812 donations</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Donations table"><table>
+  <caption class="visually-hidden">Donations, newest first</caption>
+  <thead><tr><th scope="col">Receipt no.</th><th scope="col">Received (IST)</th><th scope="col">Donor</th><th scope="col">Cause</th><th scope="col">Mode</th><th scope="col" class="num">Amount</th><th scope="col">Status</th><th scope="col">Receipt</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+  <tbody>
+    <tr><td>MSWT/2026-27/000123</td><td>20 Oct 2026, 11:42</td><td>Rahul M.</td><td>School support</td><td>Online · UPI</td><td class="num">₹5,000</td><td><span class="badge badge--success">Paid</span></td><td>80G</td><td><a href="#">View<span class="visually-hidden"> donation MSWT/2026-27/000123</span></a></td></tr><tr><td>—</td><td>20 Oct 2026, 11:05</td><td>Asha K.</td><td>General fund</td><td>Online · Card</td><td class="num">₹2,500</td><td><span class="badge badge--warning">Pending</span></td><td>—</td><td><a href="#">View<span class="visually-hidden"> donation —</span></a></td></tr><tr><td>MSWT/ACK/2026-27/000017</td><td>19 Oct 2026, 16:20</td><td>Anonymous display</td><td>Relief kits</td><td>Cash</td><td class="num">₹3,000</td><td><span class="badge badge--success">Paid</span></td><td>Ack</td><td><a href="#">View<span class="visually-hidden"> donation MSWT/ACK/2026-27/000017</span></a></td></tr><tr><td>MSWT/2026-27/000122</td><td>19 Oct 2026, 09:13</td><td>Fatema S.</td><td>Medical help</td><td>NEFT</td><td class="num">₹10,000</td><td><span class="badge badge--success">Paid</span></td><td>80G</td><td><a href="#">View<span class="visually-hidden"> donation MSWT/2026-27/000122</span></a></td></tr><tr><td>—</td><td>18 Oct 2026, 21:47</td><td>Vikram P.</td><td>School support</td><td>Online · Netbanking</td><td class="num">₹1,000</td><td><span class="badge badge--error">Failed</span></td><td>—</td><td><a href="#">View<span class="visually-hidden"> donation —</span></a></td></tr>
+  </tbody></table></div>
+<nav aria-label="Pagination" class="actions"><a class="btn btn--ghost" aria-disabled="true">Previous</a><a class="btn btn--ghost" href="#">Next</a></nav></main>
+</div>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>

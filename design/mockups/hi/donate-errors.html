@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>⚠ दान करें – MS Welfare Trust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">मुख्य सामग्री पर जाएँ</a>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. Translations are samples and need human review. <a href="../index.html">All mockups</a></aside>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="home.html"><img src="../assets/mswt-logo-horizontal.svg" alt="एमएस वेलफेयर ट्रस्ट – मुखपृष्ठ" width="204" height="64"></a>
+    <button class="btn btn--ghost menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">मेनू</button>
+    <nav class="nav" id="site-nav" aria-label="मेनू">
+      <ul><li><a href="#">हमारे बारे में</a></li><li><a href="#">सेवा कार्य</a></li><li><a href="#">गैलरी</a></li><li><a href="#">कार्यक्रम</a></li><li><a href="#">समाचार</a></li><li><a href="#">पारदर्शिता</a></li><li><a href="#">संपर्क</a></li></ul>
+    </nav>
+    <div class="header-actions">
+      <details class="lang-switch">
+        <summary><span class="visually-hidden">भाषा: </span>हिन्दी</summary>
+        <ul><li><a href="../en/home.html" lang="en" hreflang="en">English</a></li><li><a href="../hi/donate-errors.html" lang="hi" hreflang="hi" aria-current="true">हिन्दी</a></li><li><a href="../mr/home.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../gu/home.html" lang="gu" hreflang="gu">ગુજરાતી</a></li></ul>
+      </details>
+      <a class="btn btn--primary" href="donate.html">दान करें</a>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+
+<div class="container section">
+  <nav class="breadcrumbs" aria-label="मुखपृष्ठ"><ol><li><a href="home.html">मुखपृष्ठ</a></li><li><span aria-current="page">दान करें</span></li></ol></nav>
+  <div class="layout-aside">
+    <div>
+      <h1 class="heading-rule">दान करें</h1>
+      <div class="alert alert--error" role="alert" tabindex="-1" id="error-summary" style="margin-bottom: var(--spacing-8)">
+  <span class="alert__icon" aria-hidden="true">!</span>
+  <div><strong>आपके दान विवरण में 4 समस्याएँ हैं</strong>
+    <ul style="margin: var(--spacing-2) 0 0; padding-left: var(--spacing-5)">
+      <li><a href="#other-amount">₹100 या उससे अधिक राशि दर्ज करें</a></li>
+      <li><a href="#email">ईमेल name@example.com के प्रारूप में दर्ज करें</a></li>
+      <li><a href="#pan">PAN ABCDE1234F के प्रारूप में दर्ज करें</a></li>
+      <li><a href="#citizen">आगे बढ़ने के लिए पुष्टि करें कि आप भारतीय नागरिक हैं</a></li>
+    </ul></div>
+</div>
+      <form class="form" action="#" method="post" novalidate>
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">1. सेवा कार्य और राशि चुनें</h2></legend>
+          <div class="field">
+            <label for="cause">सेवा कार्य <span class="req">(आवश्यक)</span></label>
+            <select class="select" id="cause" name="cause">
+              <option>सामान्य कोष – जहाँ सबसे ज़्यादा ज़रूरत हो</option>
+              <option>बच्चों के लिए स्कूल सहायता</option><option>मरीज़ों के लिए चिकित्सा सहायता</option><option>राशन और राहत किट</option>
+            </select>
+          </div>
+          <fieldset class="field">
+            <legend>राशि <span class="req">(आवश्यक)</span></legend>
+            <div class="amounts">
+              <div class="amount"><input type="radio" name="amount" id="amt-0" value="100000"><label for="amt-0">₹1,000</label></div><div class="amount"><input type="radio" name="amount" id="amt-1" value="250000"><label for="amt-1">₹2,500</label></div><div class="amount"><input type="radio" name="amount" id="amt-2" value="500000"><label for="amt-2">₹5,000</label></div><div class="amount"><input type="radio" name="amount" id="amt-3" value="1000000"><label for="amt-3">₹10,000</label></div>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="other-amount">अन्य राशि</label>
+            <p class="hint" id="other-amount-hint">न्यूनतम ₹100। केवल पूरे रुपये।</p>
+            <p class="error-text" id="other-amount-error">₹100 या उससे अधिक राशि दर्ज करें</p>
+            <div class="input-prefix"><span aria-hidden="true">₹</span><input class="input" id="other-amount" name="other" inputmode="numeric" autocomplete="off" value="50" aria-invalid="true" aria-describedby="other-amount-error other-amount-hint"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">2. आपका विवरण</h2></legend>
+          <div class="field"><label for="name">पूरा नाम <span class="req">(आवश्यक)</span></label><input class="input" id="name" name="name" autocomplete="name" value="Rahul Mehta"></div>
+          <div class="grid grid--2">
+            <div class="field">
+              <label for="email">ईमेल <span class="req">(आवश्यक)</span></label>
+              <p class="hint" id="email-hint">हम आपकी रसीद यहाँ भेजेंगे।</p>
+              <p class="error-text" id="email-error">ईमेल name@example.com के प्रारूप में दर्ज करें</p>
+              <input class="input" id="email" name="email" type="email" autocomplete="email" value="rahul@" aria-invalid="true" aria-describedby="email-error email-hint">
+            </div>
+            <div class="field"><label for="phone">मोबाइल नंबर <span class="req">(आवश्यक)</span></label><input class="input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+          </div>
+          <div class="choice"><input type="checkbox" id="want80g" name="want80g" checked aria-describedby="want80g-hint"><div><label for="want80g"><strong>मुझे 80G कर रसीद चाहिए</strong></label><p class="hint" id="want80g-hint">80G रसीद के लिए आयकर विभाग को आपका PAN और पता आवश्यक है।</p></div></div>
+          <div class="field">
+            <label for="pan">PAN <span class="req">(आवश्यक)</span></label>
+            <p class="hint" id="pan-hint">10 अक्षर, उदाहरण: ABCDE1234F</p>
+            <p class="error-text" id="pan-error">PAN ABCDE1234F के प्रारूप में दर्ज करें</p>
+            <input class="input" id="pan" name="pan" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10" style="max-width: 16rem" value="ABCD1234" aria-invalid="true" aria-describedby="pan-error pan-hint">
+          </div>
+          <div class="field"><label for="address">पता <span class="req">(आवश्यक)</span></label><input class="input" id="address" name="address" autocomplete="street-address"></div>
+          <div class="grid grid--3">
+            <div class="field"><label for="city">शहर <span class="req">(आवश्यक)</span></label><input class="input" id="city" name="city" autocomplete="address-level2"></div>
+            <div class="field"><label for="state">राज्य <span class="req">(आवश्यक)</span></label><select class="select" id="state" name="state" autocomplete="address-level1"><option value="">चुनें</option><option>Maharashtra</option><option>Gujarat</option></select></div>
+            <div class="field"><label for="pin">पिन कोड <span class="req">(आवश्यक)</span></label><input class="input" id="pin" name="pin" inputmode="numeric" autocomplete="postal-code" maxlength="6"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">3. पुष्टि करें</h2></legend>
+          <div class="field">
+            <p class="error-text" id="citizen-error">आगे बढ़ने के लिए पुष्टि करें कि आप भारतीय नागरिक हैं</p>
+            <div class="choice"><input type="checkbox" id="citizen" name="citizen" required aria-invalid="true" aria-describedby="citizen-error citizen-hint"><div><label for="citizen"><strong>मैं भारतीय नागरिक हूँ और यह दान मेरे अपने भारतीय बैंक खाते, कार्ड या UPI से है।</strong> <span class="req">(आवश्यक)</span></label><p class="hint" id="citizen-hint">ट्रस्ट FCRA के तहत पंजीकृत नहीं है, इसलिए विदेशी अंशदान स्वीकार नहीं कर सकता।</p></div></div>
+          </div>
+          <div class="choice"><input type="checkbox" id="fee" name="fee" aria-describedby="fee-hint"><div><label for="fee">पेमेंट गेटवे शुल्क के लिए <span class="tbd">[₹ – B3]</span> जोड़ें <span class="req">(वैकल्पिक)</span></label><p class="hint" id="fee-hint">ताकि आपके दान की पूरी राशि सेवा कार्य तक पहुँचे।</p></div></div>
+          <div class="choice"><input type="checkbox" id="anon" name="anon" aria-describedby="anon-hint"><div><label for="anon">सार्वजनिक दानदाता सूची में मेरा नाम न दिखाएँ <span class="req">(वैकल्पिक)</span></label><p class="hint" id="anon-hint">कानून के अनुसार हम आपका नाम और संपर्क विवरण फिर भी दर्ज करते हैं। ये कभी प्रकाशित नहीं होते।</p></div></div>
+          <div class="ph" style="min-height: var(--spacing-16); align-items: center"><span>सुरक्षा जाँच (Cloudflare Turnstile)</span></div>
+          <button class="btn btn--primary btn--lg btn--block" type="submit">₹5,000 सुरक्षित रूप से दान करें</button>
+          <p class="hint">आपको Cashfree के सुरक्षित भुगतान पृष्ठ पर ले जाया जाएगा। हम आपका कार्ड या बैंक विवरण कभी नहीं देखते।</p>
+        </fieldset>
+      </form>
+    </div>
+    <aside class="panel panel--brand stack" aria-labelledby="sum-h" style="position: sticky; top: var(--spacing-6)">
+      <h2 id="sum-h" style="font-size: var(--text-xl)">आपका दान</h2>
+      <table><tbody>
+        <tr><th scope="row">दान</th><td class="num">—</td></tr>
+        <tr><th scope="row">गेटवे शुल्क</th><td class="num">₹0</td></tr>
+        <tr><th scope="row">कुल</th><td class="num"><strong>—</strong></td></tr>
+      </tbody></table>
+      <p class="small muted">अपना PAN देने पर धारा 80G के तहत कर कटौती की रसीद पाएँ।</p>
+    </aside>
+  </div>
+</div>
+</main>
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="stack">
+        <a class="footer-logo" href="home.html"><img src="../assets/mswt-logo-horizontal-reversed.svg" alt="एमएस वेलफेयर ट्रस्ट – मुखपृष्ठ" width="240" height="75"></a>
+        <p>मुनीरा शोएब वेलफेयर ट्रस्ट भारत में पंजीकृत एक धर्मार्थ ट्रस्ट है। दान पर धारा 80G के तहत कर कटौती मिलती है।</p>
+        <p class="small">हम केवल भारतीय नागरिकों से दान स्वीकार करते हैं।</p>
+      </div>
+      <nav aria-label="देखें"><h2>देखें</h2><ul>
+        <li><a href="#">सेवा कार्य</a></li><li><a href="#">कार्यक्रम</a></li><li><a href="#">समाचार</a></li><li><a href="#">गैलरी</a></li>
+      </ul></nav>
+      <nav aria-label="ट्रस्ट"><h2>ट्रस्ट</h2><ul>
+        <li><a href="#">हमारे बारे में</a></li><li><a href="#">पारदर्शिता</a></li><li><a href="#">80G अस्वीकरण</a></li>
+      </ul></nav>
+      <div><h2>सहायता</h2><ul>
+        <li><a href="#">संपर्क</a></li>
+        <li><a href="mailto:info@mswelfaretrust.org">info@mswelfaretrust.org</a></li>
+        <li><span class="tbd">[फ़ोन / Phone – C3]</span></li>
+      </ul></div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2026 मुनीरा शोएब वेलफेयर ट्रस्ट. आयकर अधिनियम, 1961 की धारा 12A और 80G के तहत पंजीकृत.</p>
+      <p><a href="#">गोपनीयता नीति</a> · <a href="#">उपयोग की शर्तें</a> · <a href="#">धनवापसी नीति</a></p>
+    </div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>

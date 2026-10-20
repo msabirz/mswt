@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Donate – MS Welfare Trust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. <a href="../index.html">All mockups</a></aside>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="home.html"><img src="../assets/mswt-logo-horizontal.svg" alt="MS Welfare Trust – home" width="204" height="64"></a>
+    <button class="btn btn--ghost menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul><li><a href="about.html">About</a></li><li><a href="causes.html">Causes</a></li><li><a href="#">Gallery</a></li><li><a href="#">Events</a></li><li><a href="#">News</a></li><li><a href="#">Transparency</a></li><li><a href="contact.html">Contact</a></li></ul>
+    </nav>
+    <div class="header-actions">
+      <details class="lang-switch">
+        <summary><span class="visually-hidden">Language: </span>English</summary>
+        <ul><li><a href="../en/donate.html" lang="en" hreflang="en" aria-current="true">English</a></li><li><a href="../hi/donate.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../mr/donate.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../gu/donate.html" lang="gu" hreflang="gu">ગુજરાતી</a></li></ul>
+      </details>
+      <a class="btn btn--primary" href="donate.html">Donate</a>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+
+<div class="container section">
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="home.html">Home</a></li><li><span aria-current="page">Donate</span></li></ol></nav>
+  <div class="layout-aside">
+    <div>
+      <h1 class="heading-rule">Donate</h1>
+      <div class="alert alert--info" style="margin-bottom: var(--spacing-8)"><span class="alert__icon" aria-hidden="true">i</span><p>Your donation is processed securely. You'll get a receipt by email as soon as the payment is confirmed.</p></div>
+      <form class="form" action="#" method="post" novalidate>
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">1. Choose a cause and amount</h2></legend>
+          <div class="field">
+            <label for="cause">Cause <span class="req">(required)</span></label>
+            <select class="select" id="cause" name="cause">
+              <option>General fund – where it's needed most</option>
+              <option>School support for children</option><option>Medical help for patients</option><option>Food and relief kits</option>
+            </select>
+          </div>
+          <fieldset class="field">
+            <legend>Amount <span class="req">(required)</span></legend>
+            <div class="amounts">
+              <div class="amount"><input type="radio" name="amount" id="amt-0" value="100000"><label for="amt-0">₹1,000</label></div><div class="amount"><input type="radio" name="amount" id="amt-1" value="250000"><label for="amt-1">₹2,500</label></div><div class="amount"><input type="radio" name="amount" id="amt-2" value="500000" checked><label for="amt-2">₹5,000</label></div><div class="amount"><input type="radio" name="amount" id="amt-3" value="1000000"><label for="amt-3">₹10,000</label></div>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="other-amount">Other amount</label>
+            <p class="hint" id="other-amount-hint">Minimum ₹100. Whole rupees only.</p>
+            
+            <div class="input-prefix"><span aria-hidden="true">₹</span><input class="input" id="other-amount" name="other" inputmode="numeric" autocomplete="off" aria-describedby="other-amount-hint"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">2. Your details</h2></legend>
+          <div class="field"><label for="name">Full name <span class="req">(required)</span></label><input class="input" id="name" name="name" autocomplete="name"></div>
+          <div class="grid grid--2">
+            <div class="field">
+              <label for="email">Email <span class="req">(required)</span></label>
+              <p class="hint" id="email-hint">We send your receipt here.</p>
+              
+              <input class="input" id="email" name="email" type="email" autocomplete="email" aria-describedby="email-hint">
+            </div>
+            <div class="field"><label for="phone">Mobile number <span class="req">(required)</span></label><input class="input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+          </div>
+          <div class="choice"><input type="checkbox" id="want80g" name="want80g" checked aria-describedby="want80g-hint"><div><label for="want80g"><strong>I want an 80G tax receipt</strong></label><p class="hint" id="want80g-hint">Your PAN and address are required by the Income-tax Department for an 80G receipt.</p></div></div>
+          <div class="field">
+            <label for="pan">PAN <span class="req">(required)</span></label>
+            <p class="hint" id="pan-hint">10 characters, for example ABCDE1234F</p>
+            
+            <input class="input" id="pan" name="pan" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10" style="max-width: 16rem" aria-describedby="pan-hint">
+          </div>
+          <div class="field"><label for="address">Address <span class="req">(required)</span></label><input class="input" id="address" name="address" autocomplete="street-address"></div>
+          <div class="grid grid--3">
+            <div class="field"><label for="city">City <span class="req">(required)</span></label><input class="input" id="city" name="city" autocomplete="address-level2"></div>
+            <div class="field"><label for="state">State <span class="req">(required)</span></label><select class="select" id="state" name="state" autocomplete="address-level1"><option value="">Select</option><option>Maharashtra</option><option>Gujarat</option></select></div>
+            <div class="field"><label for="pin">PIN code <span class="req">(required)</span></label><input class="input" id="pin" name="pin" inputmode="numeric" autocomplete="postal-code" maxlength="6"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">3. Confirm</h2></legend>
+          <div class="field">
+            
+            <div class="choice"><input type="checkbox" id="citizen" name="citizen" required aria-describedby="citizen-hint"><div><label for="citizen"><strong>I am an Indian citizen and this donation is from my own Indian bank account, card or UPI.</strong> <span class="req">(required)</span></label><p class="hint" id="citizen-hint">The Trust is not registered under FCRA, so it can't accept foreign contributions.</p></div></div>
+          </div>
+          <div class="choice"><input type="checkbox" id="fee" name="fee" aria-describedby="fee-hint"><div><label for="fee">Add <span class="tbd">[₹ fee – B3]</span> to cover the payment gateway fee <span class="req">(optional)</span></label><p class="hint" id="fee-hint">So the full amount of your donation reaches the cause.</p></div></div>
+          <div class="choice"><input type="checkbox" id="anon" name="anon" aria-describedby="anon-hint"><div><label for="anon">Don't show my name in public donor lists <span class="req">(optional)</span></label><p class="hint" id="anon-hint">We still record your name and contact details, as the law requires. They're never published.</p></div></div>
+          <div class="ph" style="min-height: var(--spacing-16); align-items: center"><span>Security check (Cloudflare Turnstile)</span></div>
+          <button class="btn btn--primary btn--lg btn--block" type="submit">Donate ₹5,000 securely</button>
+          <p class="hint">You'll be taken to Cashfree's secure payment page. We never see your card or bank details.</p>
+        </fieldset>
+      </form>
+    </div>
+    <aside class="panel panel--brand stack" aria-labelledby="sum-h" style="position: sticky; top: var(--spacing-6)">
+      <h2 id="sum-h" style="font-size: var(--text-xl)">Your donation</h2>
+      <table><tbody>
+        <tr><th scope="row">Donation</th><td class="num">₹5,000</td></tr>
+        <tr><th scope="row">Gateway fee</th><td class="num">₹0</td></tr>
+        <tr><th scope="row">Total</th><td class="num"><strong>₹5,000</strong></td></tr>
+      </tbody></table>
+      <p class="small muted">Get a receipt for tax deduction under Section 80G when you add your PAN.</p>
+    </aside>
+  </div>
+</div>
+</main>
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="stack">
+        <a class="footer-logo" href="home.html"><img src="../assets/mswt-logo-horizontal-reversed.svg" alt="MS Welfare Trust – home" width="240" height="75"></a>
+        <p>Munira Shoaib Welfare Trust is a registered charitable trust in India. Donations are eligible for tax deduction under Section 80G.</p>
+        <p class="small">We accept donations from Indian citizens only.</p>
+      </div>
+      <nav aria-label="Explore"><h2>Explore</h2><ul>
+        <li><a href="#">Causes</a></li><li><a href="#">Events</a></li><li><a href="#">News</a></li><li><a href="#">Gallery</a></li>
+      </ul></nav>
+      <nav aria-label="The Trust"><h2>The Trust</h2><ul>
+        <li><a href="#">About</a></li><li><a href="#">Transparency</a></li><li><a href="#">80G disclaimer</a></li>
+      </ul></nav>
+      <div><h2>Get help</h2><ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="mailto:info@mswelfaretrust.org">info@mswelfaretrust.org</a></li>
+        <li><span class="tbd">[Phone – C3]</span></li>
+      </ul></div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2026 Munira Shoaib Welfare Trust. Registered under Sections 12A and 80G of the Income-tax Act, 1961.</p>
+      <p><a href="#">Privacy policy</a> · <a href="#">Terms of use</a> · <a href="#">Refund policy</a></p>
+    </div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>

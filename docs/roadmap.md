@@ -5,7 +5,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 | # | Step | Branch |
 |---|---|---|
 | 0 | Foundation + brand tokens | `chore/step-0-foundation` |
-| 1 | Figma design | `design/step-1-figma` |
+| 1 | Design in code (HTML mockups) | `design/step-1-mockups` |
 | 2 | Scaffold + CI gates | `chore/step-2-scaffold` |
 | 3 | Design system in code | `feat/step-3-design-system` |
 | 4 | SEO foundation | `feat/step-4-seo` |
@@ -25,16 +25,28 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 **Deliverables:** `CLAUDE.md`, `docs/brand.md`, `tokens/design-tokens.json`, `docs/spec.md`, `docs/standards.md`, `docs/roadmap.md`, `docs/open-questions.md`, `.claude/commands/*` (a11y-audit, seo-check, jsonld-check, pwa-check, brand-check, done-check).
 **Exit:** tokens parse as valid W3C DTCG JSON with all aliases resolving; contrast table computed with every used pair PASS; owner approves palette, typography and spec; open questions handed to the Trust.
 
-## Step 1 — Figma design (on brand tokens)
-**Deliverables:** tokens imported as Figma variables (Tokens Studio), component library (buttons, inputs, cards, nav, footer, alerts, donation amount picker, language switcher), mobile + desktop frames for Home, Cause detail, Donate (all states incl. errors), Thank you, About, Contact, one list page, admin Dashboard + Donations list + Offline entry; Devanagari and Gujarati sample frames; focus states annotated; export of any token changes back into `tokens/design-tokens.json` (Figma never diverges).
-**Exit:** owner sign-off; every colour/text style in Figma is a token; contrast annotated; designs at 320px and 1440px.
+## Step 1 — Design in code (HTML mockups on brand tokens)
+*Changed from "Figma design": the owner chose to design in code (2026-10-20). Figma stays optional, via the html.to.design plugin and a Tokens Studio import.*
+**Deliverables:**
+- `scripts/tokens-to-css.mjs` → `design/tokens.css`, using Tailwind v4 variable names
+- `design/base.css` (components)
+- 22 static mockups in `design/mockups/`:
+  - Home in en/hi/mr/gu
+  - Donate in all 4 languages, plus error states in en and hi
+  - Thank-you states (confirming, paid, failed)
+  - About, Causes, Cause detail, Contact, 404
+  - Admin sign-in + 2FA, Dashboard, Donations list, Offline entry
+  - Style guide with decision panels for A9 and A10
+- `design/README.md`
+
+**Exit:** owner sign-off on the published mockups; A9 and A10 decided; no literal colours, fonts, radii or shadows outside tokens.css; axe clean; every page reviewed at 360px and 1440px.
 
 ## Step 2 — Scaffold + CI gates
-**Deliverables:** Next.js App Router + TS strict, Tailwind, ESLint (incl. jsx-a11y) + Prettier, next-intl with 4 locales and `/` → `/en`, Drizzle + Neon connection + first SQL migration (users, audit_log, settings), env validation (zod) + `.env.example`, Vitest, Playwright + axe, Lighthouse CI config with budgets, GitHub Actions (lint, typecheck, test, e2e, build, Lighthouse), Vercel project with preview deployments, secure headers baseline, Dependabot.
+**Deliverables:** Node ≥ 20.9 (this Mac has 18.20; current Next.js needs 20.9+), Next.js App Router + TS strict, Tailwind, ESLint (incl. jsx-a11y) + Prettier, next-intl with 4 locales and `/` → `/en`, Drizzle + Neon connection + first SQL migration (users, audit_log, settings), env validation (zod) + `.env.example`, Vitest, Playwright + axe, Lighthouse CI config with budgets, GitHub Actions (lint, typecheck, test, e2e, build, Lighthouse), Vercel project with preview deployments, secure headers baseline, Dependabot.
 **Exit:** CI green on an empty localised page in all 4 locales; axe 0 violations; Lighthouse budgets enforced and failing a deliberately bad change.
 
 ## Step 3 — Design system in code
-**Deliverables:** token build script (`tokens/` → Tailwind theme + CSS variables), `next/font` setup (brand + Indic fallbacks, subsets, swap), UI primitives (Button, Link, Input, Select, Checkbox, Radio, Textarea, FormField with error wiring, Alert, Card, Badge, Breadcrumbs, Skip link, Header, Footer, LanguageSwitcher, Dialog), logo component, reduced-motion utilities, component tests + axe per component, a `/en/_styleguide` route (noindex, dev/preview only).
+**Deliverables:** token build (reuse `scripts/tokens-to-css.mjs` output inside Tailwind v4 `@theme`), components lifted from `design/base.css` and the mockups, `next/font` setup (brand + Indic fallbacks, subsets, swap), UI primitives (Button, Link, Input, Select, Checkbox, Radio, Textarea, FormField with error wiring, Alert, Card, Badge, Breadcrumbs, Skip link, Header, Footer, LanguageSwitcher, Dialog), logo component, reduced-motion utilities, component tests + axe per component, a `/en/_styleguide` route (noindex, dev/preview only).
 **Exit:** `/brand-check` PASS (no literals in `src/`); all components keyboard + axe clean; Indic sample text renders correctly.
 
 ## Step 4 — SEO foundation

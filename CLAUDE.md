@@ -27,6 +27,8 @@ src/lib/receipts/         numbering + PDF generation
 src/messages/{en,hi,mr,gu}.json   UI strings (CMS content lives in the DB)
 drizzle/                  SQL migrations
 tokens/                   design tokens (source of truth for Figma + Tailwind)
+design/                   Step 1 HTML mockups: generated tokens.css, base.css, templates, built pages
+scripts/                  dependency-free build scripts (tokens-to-css, build-mockups)
 brand/                    original logo + font assets (read-only)
 tests/{unit,e2e}/         Vitest, Playwright
 ```

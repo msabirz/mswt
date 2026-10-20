@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Dashboard – MSWT Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. <a href="../index.html">All mockups</a></aside>
+<div class="admin">
+  <aside class="admin-side on-dark">
+    <img src="../assets/mswt-logo-horizontal-reversed.svg" alt="MS Welfare Trust admin" width="200" height="63">
+    <nav aria-label="Admin"><ul>
+      <li><a href="dashboard.html" aria-current="page">Dashboard</a></li><li><a href="donations.html">Donations</a></li><li><a href="#">Donors</a></li><li><a href="#">Causes</a></li><li><a href="#">Content</a></li><li><a href="#">Messages</a></li><li><a href="#">Reports</a></li><li><a href="#">Settings</a></li><li><a href="#">Users & roles</a></li><li><a href="#">Audit log</a></li>
+    </ul></nav>
+  </aside>
+  <main id="main" class="admin-main" tabindex="-1">
+<div class="admin-top"><h1>Dashboard</h1><a class="btn btn--primary" href="donation-new.html">Record offline donation</a></div>
+<div class="kpis">
+  <div class="kpi"><span class="muted small">Today</span><strong>₹10,500</strong><span class="small muted">4 donations</span></div>
+  <div class="kpi"><span class="muted small">FY 2026-27 to date</span><strong>₹33,25,000</strong><span class="small muted">812 donations</span></div>
+  <div class="kpi"><span class="muted small">Pending confirmation</span><strong>3</strong><span class="small muted">oldest 12 min ago</span></div>
+  <div class="kpi"><span class="muted small">Last reconciliation</span><strong>03:00 IST</strong><span class="badge badge--success">OK · 0 changes</span></div>
+</div>
+<div class="grid grid--dash">
+  <section class="stack" aria-labelledby="recent-h"><h2 id="recent-h" style="font-size: var(--text-xl)">Recent donations</h2><div class="table-wrap" tabindex="0" role="region" aria-label="Donations table"><table>
+  <caption class="visually-hidden">Donations, newest first</caption>
+  <thead><tr><th scope="col">Receipt no.</th><th scope="col">Received (IST)</th><th scope="col">Donor</th><th scope="col">Cause</th><th scope="col">Mode</th><th scope="col" class="num">Amount</th><th scope="col">Status</th><th scope="col">Receipt</th></tr></thead>
+  <tbody>
+    <tr><td>MSWT/2026-27/000123</td><td>20 Oct 2026, 11:42</td><td>Rahul M.</td><td>School support</td><td>Online · UPI</td><td class="num">₹5,000</td><td><span class="badge badge--success">Paid</span></td><td>80G</td></tr><tr><td>—</td><td>20 Oct 2026, 11:05</td><td>Asha K.</td><td>General fund</td><td>Online · Card</td><td class="num">₹2,500</td><td><span class="badge badge--warning">Pending</span></td><td>—</td></tr><tr><td>MSWT/ACK/2026-27/000017</td><td>19 Oct 2026, 16:20</td><td>Anonymous display</td><td>Relief kits</td><td>Cash</td><td class="num">₹3,000</td><td><span class="badge badge--success">Paid</span></td><td>Ack</td></tr><tr><td>MSWT/2026-27/000122</td><td>19 Oct 2026, 09:13</td><td>Fatema S.</td><td>Medical help</td><td>NEFT</td><td class="num">₹10,000</td><td><span class="badge badge--success">Paid</span></td><td>80G</td></tr><tr><td>—</td><td>18 Oct 2026, 21:47</td><td>Vikram P.</td><td>School support</td><td>Online · Netbanking</td><td class="num">₹1,000</td><td><span class="badge badge--error">Failed</span></td><td>—</td></tr>
+  </tbody></table></div><p><a href="donations.html">All donations</a></p></section>
+  <section class="panel stack" aria-labelledby="bycause-h"><h2 id="bycause-h" style="font-size: var(--text-xl)">This FY by cause</h2>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="Totals by cause"><table><tbody>
+      <tr><th scope="row">School support</th><td class="num">₹18,25,000</td></tr>
+      <tr><th scope="row">Medical help</th><td class="num">₹9,40,000</td></tr>
+      <tr><th scope="row">Relief kits</th><td class="num">₹5,60,000</td></tr>
+    </tbody></table></div>
+    <p class="small muted">Sample figures.</p>
+  </section>
+</div></main>
+</div>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>
