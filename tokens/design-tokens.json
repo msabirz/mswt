@@ -1,0 +1,559 @@
+{
+  "$description": "MS Welfare Trust design tokens (W3C DTCG draft format: string colour/dimension values). Single source for Figma (Tokens Studio) and Tailwind (Step 3 build). STATUS: provisional — brand colours, brand font, radius and shadow are TBD until logo/font assets arrive. See docs/brand.md.",
+  "color": {
+    "$type": "color",
+    "white": {
+      "$value": "#ffffff"
+    },
+    "primary": {
+      "$description": "TBD — derive from logo (open-questions A1/A3). Scale 50–950, logo colour pinned to its natural step."
+    },
+    "secondary": {
+      "$description": "TBD — derive from logo."
+    },
+    "accent": {
+      "$description": "TBD — derive from logo."
+    },
+    "neutral": {
+      "$description": "PROVISIONAL — untinted cool grey; will be re-tinted toward the primary hue once the logo is analysed.",
+      "50": {
+        "$value": "#f6f7f8"
+      },
+      "100": {
+        "$value": "#ebedef"
+      },
+      "200": {
+        "$value": "#d8dbde"
+      },
+      "300": {
+        "$value": "#bec3c8"
+      },
+      "400": {
+        "$value": "#9ea4aa"
+      },
+      "500": {
+        "$value": "#82888f"
+      },
+      "600": {
+        "$value": "#6b7177"
+      },
+      "700": {
+        "$value": "#575d63"
+      },
+      "800": {
+        "$value": "#44484d"
+      },
+      "900": {
+        "$value": "#32363a"
+      },
+      "950": {
+        "$value": "#202326"
+      }
+    },
+    "success": {
+      "$description": "Semantic. OKLCH hue 150.",
+      "50": {
+        "$value": "#effaf0"
+      },
+      "100": {
+        "$value": "#dcf4e0"
+      },
+      "200": {
+        "$value": "#bce8c4"
+      },
+      "300": {
+        "$value": "#90d69e"
+      },
+      "400": {
+        "$value": "#5dba75"
+      },
+      "500": {
+        "$value": "#30a054"
+      },
+      "600": {
+        "$value": "#00873c"
+      },
+      "700": {
+        "$value": "#026f31"
+      },
+      "800": {
+        "$value": "#015725"
+      },
+      "900": {
+        "$value": "#01421a"
+      },
+      "950": {
+        "$value": "#012c0f"
+      }
+    },
+    "warning": {
+      "$description": "Semantic. OKLCH hue 70.",
+      "50": {
+        "$value": "#fff5ea"
+      },
+      "100": {
+        "$value": "#ffe9d1"
+      },
+      "200": {
+        "$value": "#fad3a7"
+      },
+      "300": {
+        "$value": "#f1b66f"
+      },
+      "400": {
+        "$value": "#db9125"
+      },
+      "500": {
+        "$value": "#ba7709"
+      },
+      "600": {
+        "$value": "#9b6200"
+      },
+      "700": {
+        "$value": "#805001"
+      },
+      "800": {
+        "$value": "#653e01"
+      },
+      "900": {
+        "$value": "#4c2e01"
+      },
+      "950": {
+        "$value": "#331d01"
+      }
+    },
+    "error": {
+      "$description": "Semantic. OKLCH hue 27.",
+      "50": {
+        "$value": "#fff4f2"
+      },
+      "100": {
+        "$value": "#ffe7e3"
+      },
+      "200": {
+        "$value": "#fecdc7"
+      },
+      "300": {
+        "$value": "#fea99f"
+      },
+      "400": {
+        "$value": "#ff6f64"
+      },
+      "500": {
+        "$value": "#ec3f3a"
+      },
+      "600": {
+        "$value": "#ce1a1f"
+      },
+      "700": {
+        "$value": "#af0011"
+      },
+      "800": {
+        "$value": "#8b000b"
+      },
+      "900": {
+        "$value": "#6a0006"
+      },
+      "950": {
+        "$value": "#480103"
+      }
+    },
+    "info": {
+      "$description": "Semantic. OKLCH hue 245.",
+      "50": {
+        "$value": "#f0f8ff"
+      },
+      "100": {
+        "$value": "#deefff"
+      },
+      "200": {
+        "$value": "#bde0fe"
+      },
+      "300": {
+        "$value": "#8bcaff"
+      },
+      "400": {
+        "$value": "#50aaf1"
+      },
+      "500": {
+        "$value": "#198edb"
+      },
+      "600": {
+        "$value": "#0175ba"
+      },
+      "700": {
+        "$value": "#02619a"
+      },
+      "800": {
+        "$value": "#014b79"
+      },
+      "900": {
+        "$value": "#01385c"
+      },
+      "950": {
+        "$value": "#01253f"
+      }
+    }
+  },
+  "semantic": {
+    "$type": "color",
+    "$description": "Semantic aliases — components use ONLY these. Brand-dependent aliases (action.primary.*, link, focus.ring, accent surfaces) are added when primary/secondary/accent exist.",
+    "bg": {
+      "canvas": {
+        "$value": "{color.white}"
+      },
+      "subtle": {
+        "$value": "{color.neutral.50}"
+      },
+      "muted": {
+        "$value": "{color.neutral.100}"
+      },
+      "inverse": {
+        "$value": "{color.neutral.900}"
+      }
+    },
+    "fg": {
+      "default": {
+        "$value": "{color.neutral.900}"
+      },
+      "strong": {
+        "$value": "{color.neutral.950}"
+      },
+      "muted": {
+        "$value": "{color.neutral.700}"
+      },
+      "hint": {
+        "$value": "{color.neutral.600}",
+        "$description": "Minimum for placeholder/hint text on white."
+      },
+      "disabled": {
+        "$value": "{color.neutral.400}",
+        "$description": "Disabled only (exempt from contrast). Never for readable text."
+      },
+      "inverse": {
+        "$value": "{color.white}"
+      },
+      "inverse-muted": {
+        "$value": "{color.neutral.300}"
+      }
+    },
+    "border": {
+      "decorative": {
+        "$value": "{color.neutral.200}",
+        "$description": "Dividers only — not for input boundaries."
+      },
+      "input": {
+        "$value": "{color.neutral.500}",
+        "$description": "3:1 against canvas for form controls (1.4.11)."
+      }
+    },
+    "status": {
+      "success": {
+        "bg": {
+          "$value": "{color.success.50}"
+        },
+        "fg": {
+          "$value": "{color.success.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.success.700}"
+        },
+        "icon": {
+          "$value": "{color.success.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.success.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "warning": {
+        "bg": {
+          "$value": "{color.warning.50}"
+        },
+        "fg": {
+          "$value": "{color.warning.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.warning.700}"
+        },
+        "icon": {
+          "$value": "{color.warning.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.warning.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "error": {
+        "bg": {
+          "$value": "{color.error.50}"
+        },
+        "fg": {
+          "$value": "{color.error.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.error.700}"
+        },
+        "icon": {
+          "$value": "{color.error.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.error.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "info": {
+        "bg": {
+          "$value": "{color.info.50}"
+        },
+        "fg": {
+          "$value": "{color.info.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.info.700}"
+        },
+        "icon": {
+          "$value": "{color.info.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.info.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "brand": {
+        "$description": "TBD — brand font from brand/fonts (open-questions A4); web licence to be confirmed."
+      },
+      "devanagari": {
+        "$value": [
+          "Noto Sans Devanagari",
+          "sans-serif"
+        ],
+        "$description": "PROVISIONAL Hindi/Marathi fallback (SIL OFL 1.1). Swap for serif/closer match once brand font style is known."
+      },
+      "gujarati": {
+        "$value": [
+          "Noto Sans Gujarati",
+          "sans-serif"
+        ],
+        "$description": "PROVISIONAL Gujarati fallback (SIL OFL 1.1)."
+      },
+      "system": {
+        "$value": [
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif"
+        ],
+        "$description": "Fallback stack until the brand font is set."
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "xs": {
+        "$value": "0.75rem"
+      },
+      "sm": {
+        "$value": "0.875rem"
+      },
+      "base": {
+        "$value": "1rem"
+      },
+      "lg": {
+        "$value": "1.125rem"
+      },
+      "xl": {
+        "$value": "1.25rem"
+      },
+      "2xl": {
+        "$value": "1.5rem"
+      },
+      "3xl": {
+        "$value": "1.875rem"
+      },
+      "4xl": {
+        "$value": "2.25rem"
+      },
+      "5xl": {
+        "$value": "3rem"
+      }
+    },
+    "line-height": {
+      "$type": "number",
+      "latin": {
+        "tight": {
+          "$value": 1.2
+        },
+        "snug": {
+          "$value": 1.35
+        },
+        "body": {
+          "$value": 1.5
+        }
+      },
+      "indic": {
+        "$description": "Devanagari/Gujarati need extra room for matras and conjuncts.",
+        "tight": {
+          "$value": 1.4
+        },
+        "snug": {
+          "$value": 1.55
+        },
+        "body": {
+          "$value": 1.75
+        }
+      }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "$description": "4px base grid.",
+    "0": {
+      "$value": "0"
+    },
+    "1": {
+      "$value": "0.25rem"
+    },
+    "2": {
+      "$value": "0.5rem"
+    },
+    "3": {
+      "$value": "0.75rem"
+    },
+    "4": {
+      "$value": "1rem"
+    },
+    "5": {
+      "$value": "1.25rem"
+    },
+    "6": {
+      "$value": "1.5rem"
+    },
+    "8": {
+      "$value": "2rem"
+    },
+    "10": {
+      "$value": "2.5rem"
+    },
+    "12": {
+      "$value": "3rem"
+    },
+    "16": {
+      "$value": "4rem"
+    },
+    "20": {
+      "$value": "5rem"
+    },
+    "24": {
+      "$value": "6rem"
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "TBD — derived from the logo's geometry (rounded vs angular)."
+  },
+  "shadow": {
+    "$type": "shadow",
+    "$description": "TBD — derived from the logo's design language."
+  },
+  "size": {
+    "$type": "dimension",
+    "target-min": {
+      "$value": "24px",
+      "$description": "WCAG 2.5.8 minimum pointer target."
+    },
+    "target-comfortable": {
+      "$value": "44px",
+      "$description": "Default for primary controls and mobile nav."
+    },
+    "focus-ring-width": {
+      "$value": "3px"
+    },
+    "focus-ring-offset": {
+      "$value": "2px"
+    },
+    "border-input": {
+      "$value": "1px"
+    },
+    "container-max": {
+      "$value": "80rem"
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "40rem"
+    },
+    "md": {
+      "$value": "48rem"
+    },
+    "lg": {
+      "$value": "64rem"
+    },
+    "xl": {
+      "$value": "80rem"
+    }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": "120ms"
+      },
+      "base": {
+        "$value": "200ms"
+      },
+      "slow": {
+        "$value": "320ms"
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": [
+          0.2,
+          0,
+          0,
+          1
+        ]
+      },
+      "exit": {
+        "$value": [
+          0.4,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "$description": "All non-essential motion disabled under prefers-reduced-motion: reduce."
+  }
+}
