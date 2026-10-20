@@ -2,14 +2,17 @@
 
 Answer inline (or tick and add the value). IDs are referenced from `spec.md` and `brand.md`.
 
-## A. Brand assets (blocking `docs/brand.md` + `tokens/design-tokens.json`)
-- [ ] **A1** Logo master file — **SVG** preferred (or AI/EPS/PDF). PNG only is workable but colours/shapes get less precise. → `brand/logo/`
-- [ ] **A2** Logo variants that exist: full colour, single-colour/mono, reversed (white on dark), stacked vs horizontal, icon/mark only (needed for favicon and maskable PWA icon).
-- [ ] **A3** Official brand colour hex codes, if any were specified by the designer. → `brand/README.md`
-- [ ] **A4** Brand font name (and files, if any) and **its licence** — does it allow web embedding/self-hosting? → `brand/fonts/`
+## A. Brand assets
+- [ ] **A1** Original vector logo (AI/EPS/SVG/PDF from the designer). *Interim: traced SVGs in `brand/logo/` (2026-10-20), made from screenshots. They are close but not exact copies.*
+- [x] **A2** Variants. *Made from the trace: horizontal, mark, compact mark (no rules), and a reversed version of each. Still missing: a stacked lockup, if the Trust wants one.*
+- [x] **A3** Brand green. *Owner chose `#4b9d66` (2026-10-20); the close-up screenshot read `#41934d`. If the designer has an official hex or Pantone value, send it and the scale will be re-pinned.*
+- [ ] **A4** Wordmark font. It appears to be **Montserrat** (SIL OFL, fine for the web). Can the designer confirm it, and the weights used?
 - [ ] **A5** Is there a Hindi / Marathi / Gujarati version of the logo or wordmark?
-- [ ] **A6** Who designed the logo, and is there any brand guideline document (clear space, do/don't)?
-- [ ] **A7** Photography: do you have real photos of the Trust's work (with consent from people pictured, especially children)? Any images we must not use?
+- [ ] **A6** Who designed the logo, and is there a brand guideline document? (Rules in `docs/brand.md` §5 are proposed until confirmed.)
+- [ ] **A7** Photography: do you have real photos of the Trust's work (with consent from the people pictured, especially children)? Any images we must not use?
+- [ ] **A8** The logo has no accent colour. Is green + slate enough, or should a warm accent (for highlights only, never text) be chosen and approved?
+- [ ] **A9** Optional Didone display font (Bodoni Moda, OFL) for English hero headings, echoing the monogram. Approve, or keep Montserrat everywhere?
+- [ ] **A10** Poppins for Hindi/Marathi (geometric like Montserrat) vs Noto Sans Devanagari. To be decided from Step 1 sample frames, with a check of Marathi-specific forms.
 
 ## B. Legal / tax / payments
 - [ ] **B1** Trust PAN, 12A registration no. + date, 80G registration no. + validity (from–to), Trust registration no. and authority (Charity Commissioner, etc.).
