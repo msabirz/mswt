@@ -1,0 +1,772 @@
+{
+  "$description": "MS Welfare Trust design tokens (W3C DTCG draft format: string colour/dimension values). Single source for Figma (Tokens Studio) and Tailwind (Step 3 build). Colours derived from brand/logo; see docs/brand.md.",
+  "color": {
+    "$type": "color",
+    "white": {
+      "$value": "#ffffff"
+    },
+    "brand": {
+      "$description": "Exact colours sampled from the logo (brand/logo). Use via semantic aliases only.",
+      "green": {
+        "$value": "#4b9d66",
+        "$description": "Logo green (M + top rule). 3.33:1 on white: decorative, logo, large text ≥24px only — never body text or white-on-green buttons."
+      },
+      "ink": {
+        "$value": "#000000",
+        "$description": "Logo black (S + bottom rule). Logo artwork only; text uses neutral.900."
+      },
+      "slate": {
+        "$value": "#32373d",
+        "$description": "Wordmark grey = neutral.900. Default text colour."
+      }
+    },
+    "primary": {
+      "$description": "Green scale from the logo green (OKLCH hue 152). Logo colour pinned at primary.500.",
+      "50": {
+        "$value": "#f0faf2"
+      },
+      "100": {
+        "$value": "#dff3e4"
+      },
+      "200": {
+        "$value": "#c2e5ca"
+      },
+      "300": {
+        "$value": "#9bd2a9"
+      },
+      "400": {
+        "$value": "#6eb683"
+      },
+      "500": {
+        "$value": "#4b9d66"
+      },
+      "600": {
+        "$value": "#2f834e"
+      },
+      "700": {
+        "$value": "#1b6d3c"
+      },
+      "800": {
+        "$value": "#0b562c"
+      },
+      "900": {
+        "$value": "#064120"
+      },
+      "950": {
+        "$value": "#022b13"
+      }
+    },
+    "neutral": {
+      "$description": "Cool slate scale from the wordmark grey (OKLCH hue 253). Wordmark colour pinned at neutral.900.",
+      "50": {
+        "$value": "#f6f7f8"
+      },
+      "100": {
+        "$value": "#ebedef"
+      },
+      "200": {
+        "$value": "#d8dbde"
+      },
+      "300": {
+        "$value": "#bfc3c8"
+      },
+      "400": {
+        "$value": "#9ea4aa"
+      },
+      "500": {
+        "$value": "#82888f"
+      },
+      "600": {
+        "$value": "#6b7177"
+      },
+      "700": {
+        "$value": "#585d63"
+      },
+      "800": {
+        "$value": "#44484d"
+      },
+      "900": {
+        "$value": "#32373d"
+      },
+      "950": {
+        "$value": "#202326"
+      }
+    },
+    "success": {
+      "$description": "Semantic, OKLCH hue 138 (yellower than brand green so status ≠ brand). Always paired with icon + text.",
+      "50": {
+        "$value": "#f1faee"
+      },
+      "100": {
+        "$value": "#e1f3db"
+      },
+      "200": {
+        "$value": "#c5e6bb"
+      },
+      "300": {
+        "$value": "#a1d390"
+      },
+      "400": {
+        "$value": "#77b761"
+      },
+      "500": {
+        "$value": "#569c3b"
+      },
+      "600": {
+        "$value": "#3e831f"
+      },
+      "700": {
+        "$value": "#2c6d08"
+      },
+      "800": {
+        "$value": "#1f5600"
+      },
+      "900": {
+        "$value": "#164100"
+      },
+      "950": {
+        "$value": "#0c2b01"
+      }
+    },
+    "warning": {
+      "$description": "Semantic, OKLCH hue 70.",
+      "50": {
+        "$value": "#fff5ea"
+      },
+      "100": {
+        "$value": "#ffe9d1"
+      },
+      "200": {
+        "$value": "#fad3a7"
+      },
+      "300": {
+        "$value": "#f1b66f"
+      },
+      "400": {
+        "$value": "#db9125"
+      },
+      "500": {
+        "$value": "#ba7709"
+      },
+      "600": {
+        "$value": "#9b6200"
+      },
+      "700": {
+        "$value": "#805001"
+      },
+      "800": {
+        "$value": "#653e01"
+      },
+      "900": {
+        "$value": "#4c2e01"
+      },
+      "950": {
+        "$value": "#331d01"
+      }
+    },
+    "error": {
+      "$description": "Semantic, OKLCH hue 27.",
+      "50": {
+        "$value": "#fff4f2"
+      },
+      "100": {
+        "$value": "#ffe7e3"
+      },
+      "200": {
+        "$value": "#fecdc7"
+      },
+      "300": {
+        "$value": "#fea99f"
+      },
+      "400": {
+        "$value": "#ff6f64"
+      },
+      "500": {
+        "$value": "#ec3f3a"
+      },
+      "600": {
+        "$value": "#ce1a1f"
+      },
+      "700": {
+        "$value": "#af0011"
+      },
+      "800": {
+        "$value": "#8b000b"
+      },
+      "900": {
+        "$value": "#6a0006"
+      },
+      "950": {
+        "$value": "#480103"
+      }
+    },
+    "info": {
+      "$description": "Semantic, OKLCH hue 245.",
+      "50": {
+        "$value": "#f0f8ff"
+      },
+      "100": {
+        "$value": "#deefff"
+      },
+      "200": {
+        "$value": "#bde0fe"
+      },
+      "300": {
+        "$value": "#8bcaff"
+      },
+      "400": {
+        "$value": "#50aaf1"
+      },
+      "500": {
+        "$value": "#198edb"
+      },
+      "600": {
+        "$value": "#0175ba"
+      },
+      "700": {
+        "$value": "#02619a"
+      },
+      "800": {
+        "$value": "#014b79"
+      },
+      "900": {
+        "$value": "#01385c"
+      },
+      "950": {
+        "$value": "#01253f"
+      }
+    }
+  },
+  "semantic": {
+    "$type": "color",
+    "$description": "Semantic aliases — components use ONLY these. Every fg/bg combination used must be a PASS row in docs/brand.md §2.5.",
+    "bg": {
+      "canvas": {
+        "$value": "{color.white}"
+      },
+      "subtle": {
+        "$value": "{color.neutral.50}"
+      },
+      "muted": {
+        "$value": "{color.neutral.100}"
+      },
+      "brand-subtle": {
+        "$value": "{color.primary.50}"
+      },
+      "brand": {
+        "$value": "{color.primary.800}",
+        "$description": "Hero/CTA band with white text."
+      },
+      "brand-strong": {
+        "$value": "{color.primary.900}"
+      },
+      "inverse": {
+        "$value": "{color.neutral.950}",
+        "$description": "Footer."
+      }
+    },
+    "fg": {
+      "default": {
+        "$value": "{color.neutral.900}"
+      },
+      "strong": {
+        "$value": "{color.neutral.950}"
+      },
+      "muted": {
+        "$value": "{color.neutral.700}"
+      },
+      "hint": {
+        "$value": "{color.neutral.600}",
+        "$description": "Lightest grey allowed for text on white."
+      },
+      "disabled": {
+        "$value": "{color.neutral.400}",
+        "$description": "Disabled only (exempt). Never readable text."
+      },
+      "brand": {
+        "$value": "{color.primary.700}",
+        "$description": "Brand-coloured text, eyebrows."
+      },
+      "brand-display": {
+        "$value": "{color.brand.green}",
+        "$description": "Logo green for display text ≥24px (or ≥18.66px bold) on canvas only."
+      },
+      "inverse": {
+        "$value": "{color.white}"
+      },
+      "inverse-muted": {
+        "$value": "{color.neutral.200}"
+      },
+      "on-brand": {
+        "$value": "{color.white}"
+      },
+      "on-brand-muted": {
+        "$value": "{color.primary.100}"
+      }
+    },
+    "border": {
+      "decorative": {
+        "$value": "{color.neutral.200}",
+        "$description": "Dividers only — not input boundaries."
+      },
+      "input": {
+        "$value": "{color.neutral.500}",
+        "$description": "≥3:1 vs canvas (1.4.11)."
+      },
+      "brand": {
+        "$value": "{color.primary.700}"
+      },
+      "rule": {
+        "$value": "{color.brand.green}",
+        "$description": "Logo-motif horizontal rule (decorative)."
+      }
+    },
+    "action": {
+      "primary": {
+        "bg": {
+          "$value": "{color.primary.700}"
+        },
+        "bg-hover": {
+          "$value": "{color.primary.800}"
+        },
+        "bg-active": {
+          "$value": "{color.primary.900}"
+        },
+        "fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "secondary": {
+        "bg": {
+          "$value": "{color.white}"
+        },
+        "bg-hover": {
+          "$value": "{color.primary.50}"
+        },
+        "fg": {
+          "$value": "{color.primary.800}"
+        },
+        "border": {
+          "$value": "{color.primary.700}"
+        }
+      }
+    },
+    "link": {
+      "default": {
+        "$value": "{color.primary.700}",
+        "$description": "Always underlined (only 1.89:1 vs body text)."
+      },
+      "hover": {
+        "$value": "{color.primary.800}"
+      },
+      "inverse": {
+        "$value": "{color.primary.300}",
+        "$description": "Links on the footer (neutral.950)."
+      }
+    },
+    "focus": {
+      "ring": {
+        "$value": "{color.primary.700}",
+        "$description": "3px ring, 2px offset, on light surfaces."
+      },
+      "ring-inverse": {
+        "$value": "{color.white}",
+        "$description": "On brand bands and footer."
+      }
+    },
+    "status": {
+      "success": {
+        "bg": {
+          "$value": "{color.success.50}"
+        },
+        "fg": {
+          "$value": "{color.success.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.success.700}"
+        },
+        "icon": {
+          "$value": "{color.success.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.success.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "warning": {
+        "bg": {
+          "$value": "{color.warning.50}"
+        },
+        "fg": {
+          "$value": "{color.warning.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.warning.700}"
+        },
+        "icon": {
+          "$value": "{color.warning.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.warning.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "error": {
+        "bg": {
+          "$value": "{color.error.50}"
+        },
+        "fg": {
+          "$value": "{color.error.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.error.700}"
+        },
+        "icon": {
+          "$value": "{color.error.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.error.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      },
+      "info": {
+        "bg": {
+          "$value": "{color.info.50}"
+        },
+        "fg": {
+          "$value": "{color.info.800}"
+        },
+        "fg-on-canvas": {
+          "$value": "{color.info.700}"
+        },
+        "icon": {
+          "$value": "{color.info.600}"
+        },
+        "solid-bg": {
+          "$value": "{color.info.700}"
+        },
+        "solid-fg": {
+          "$value": "{color.white}"
+        }
+      }
+    }
+  },
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": [
+          "Montserrat",
+          "system-ui",
+          "sans-serif"
+        ],
+        "$description": "Brand UI/body face — matches the wordmark (confirm: open-questions A4). SIL OFL 1.1."
+      },
+      "serif-display": {
+        "$value": [
+          "Bodoni Moda",
+          "Didot",
+          "serif"
+        ],
+        "$description": "PROPOSED optional display face echoing the Didone monogram; headings in English only, sparingly. SIL OFL 1.1. Needs owner approval."
+      },
+      "devanagari": {
+        "$value": [
+          "Poppins",
+          "Noto Sans Devanagari",
+          "sans-serif"
+        ],
+        "$description": "Hindi + Marathi. Poppins is geometric like Montserrat (OFL); verify Marathi conjuncts in Step 1, else Noto Sans Devanagari (OFL)."
+      },
+      "gujarati": {
+        "$value": [
+          "Noto Sans Gujarati",
+          "sans-serif"
+        ],
+        "$description": "Gujarati. SIL OFL 1.1."
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "xs": {
+        "$value": "0.75rem"
+      },
+      "sm": {
+        "$value": "0.875rem"
+      },
+      "base": {
+        "$value": "1rem"
+      },
+      "lg": {
+        "$value": "1.125rem"
+      },
+      "xl": {
+        "$value": "1.25rem"
+      },
+      "2xl": {
+        "$value": "1.5rem"
+      },
+      "3xl": {
+        "$value": "1.875rem"
+      },
+      "4xl": {
+        "$value": "2.25rem"
+      },
+      "5xl": {
+        "$value": "3rem"
+      }
+    },
+    "letter-spacing": {
+      "$type": "dimension",
+      "normal": {
+        "$value": "0"
+      },
+      "caps": {
+        "$value": "0.12em",
+        "$description": "Uppercase eyebrows/labels, echoing the wide-tracked wordmark. Latin only — never on Indic scripts."
+      }
+    },
+    "line-height": {
+      "$type": "number",
+      "latin": {
+        "tight": {
+          "$value": 1.2
+        },
+        "snug": {
+          "$value": 1.35
+        },
+        "body": {
+          "$value": 1.6,
+          "$description": "Montserrat is wide; 1.6 reads better than 1.5."
+        }
+      },
+      "indic": {
+        "$description": "Devanagari/Gujarati need room for matras and conjuncts.",
+        "tight": {
+          "$value": 1.4
+        },
+        "snug": {
+          "$value": 1.55
+        },
+        "body": {
+          "$value": 1.75
+        }
+      }
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "$description": "4px base grid.",
+    "0": {
+      "$value": "0"
+    },
+    "1": {
+      "$value": "0.25rem"
+    },
+    "2": {
+      "$value": "0.5rem"
+    },
+    "3": {
+      "$value": "0.75rem"
+    },
+    "4": {
+      "$value": "1rem"
+    },
+    "5": {
+      "$value": "1.25rem"
+    },
+    "6": {
+      "$value": "1.5rem"
+    },
+    "8": {
+      "$value": "2rem"
+    },
+    "10": {
+      "$value": "2.5rem"
+    },
+    "12": {
+      "$value": "3rem"
+    },
+    "16": {
+      "$value": "4rem"
+    },
+    "20": {
+      "$value": "5rem"
+    },
+    "24": {
+      "$value": "6rem"
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "$description": "The logo is crisp and classical (sharp serifs, straight rules): small radii.",
+    "none": {
+      "$value": "0"
+    },
+    "sm": {
+      "$value": "2px",
+      "$description": "Inputs, tags."
+    },
+    "md": {
+      "$value": "4px",
+      "$description": "Buttons, alerts."
+    },
+    "lg": {
+      "$value": "8px",
+      "$description": "Cards, images, dialogs."
+    },
+    "full": {
+      "$value": "9999px",
+      "$description": "Avatars and the round trustee photo only."
+    }
+  },
+  "border-width": {
+    "$type": "dimension",
+    "hairline": {
+      "$value": "1px"
+    },
+    "input": {
+      "$value": "1px"
+    },
+    "rule": {
+      "$value": "2px",
+      "$description": "Logo-motif rule under section headings."
+    },
+    "focus": {
+      "$value": "3px"
+    }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "$description": "Flat, print-like. Separation by rules and tints first; shadows only for overlays.",
+    "sm": {
+      "$value": {
+        "color": "#32373d1f",
+        "offsetX": "0px",
+        "offsetY": "1px",
+        "blur": "2px",
+        "spread": "0px"
+      },
+      "$description": "Cards on hover."
+    },
+    "md": {
+      "$value": {
+        "color": "#32373d29",
+        "offsetX": "0px",
+        "offsetY": "4px",
+        "blur": "12px",
+        "spread": "0px"
+      },
+      "$description": "Menus, popovers, dialogs."
+    }
+  },
+  "size": {
+    "$type": "dimension",
+    "target-min": {
+      "$value": "24px",
+      "$description": "WCAG 2.5.8 minimum pointer target."
+    },
+    "target-comfortable": {
+      "$value": "44px",
+      "$description": "Primary controls and mobile nav."
+    },
+    "focus-ring-offset": {
+      "$value": "2px"
+    },
+    "container-max": {
+      "$value": "80rem"
+    },
+    "logo-min-horizontal": {
+      "$value": "200px",
+      "$description": "Smallest on-screen width of the horizontal logo (keeps WELFARE TRUST cap height ≥8px)."
+    },
+    "logo-min-mark": {
+      "$value": "48px",
+      "$description": "Below this use mswt-mark-compact.svg."
+    },
+    "logo-min-compact": {
+      "$value": "16px"
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "sm": {
+      "$value": "40rem"
+    },
+    "md": {
+      "$value": "48rem"
+    },
+    "lg": {
+      "$value": "64rem"
+    },
+    "xl": {
+      "$value": "80rem"
+    }
+  },
+  "motion": {
+    "$description": "All non-essential motion off under prefers-reduced-motion: reduce.",
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": "120ms"
+      },
+      "base": {
+        "$value": "200ms"
+      },
+      "slow": {
+        "$value": "320ms"
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": [
+          0.2,
+          0,
+          0,
+          1
+        ]
+      },
+      "exit": {
+        "$value": [
+          0.4,
+          0,
+          1,
+          1
+        ]
+      }
+    }
+  },
+  "pwa": {
+    "$type": "color",
+    "theme": {
+      "$value": "{color.primary.800}",
+      "$description": "manifest theme_color / meta theme-color."
+    },
+    "background": {
+      "$value": "{color.white}",
+      "$description": "manifest background_color."
+    }
+  }
+}
