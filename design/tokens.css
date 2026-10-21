@@ -131,8 +131,7 @@
   --color-status-info-solid-fg: #ffffff;
   --color-pwa-theme: #0b562c;
   --color-pwa-background: #ffffff;
-  --font-sans: "Montserrat", system-ui, sans-serif;
-  --font-serif-display: "Bodoni Moda", "Didot", serif;
+  --font-sans: "Poppins", system-ui, sans-serif;
   --font-devanagari: "Poppins", "Noto Sans Devanagari", sans-serif;
   --font-gujarati: "Noto Sans Gujarati", sans-serif;
   --font-weight-regular: 400;
@@ -198,13 +197,13 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
 }
 
-/* Script-specific type: Montserrat stays first so Latin text inside Indic pages keeps the brand face. */
+/* Script-specific type: the brand face stays first so Latin text inside Indic pages keeps the brand face. */
 :root {
   font-family: var(--font-sans);
   line-height: var(--leading-body);
 }
 :lang(hi), :lang(mr) {
-  font-family: "Montserrat", "Poppins", "Noto Sans Devanagari", sans-serif;
+  font-family: "Poppins", "Noto Sans Devanagari", sans-serif;
   line-height: var(--leading-indic-body);
   --leading-tight: var(--leading-indic-tight);
   --leading-snug: var(--leading-indic-snug);
@@ -212,7 +211,7 @@
   --tracking-caps: 0;
 }
 :lang(gu) {
-  font-family: "Montserrat", "Noto Sans Gujarati", sans-serif;
+  font-family: "Poppins", "Noto Sans Gujarati", sans-serif;
   line-height: var(--leading-indic-body);
   --leading-tight: var(--leading-indic-tight);
   --leading-snug: var(--leading-indic-snug);

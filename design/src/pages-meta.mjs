@@ -20,7 +20,7 @@ export function styleguide(root) {
   const gujarati = "ગુજરાતી: જરૂરિયાતમંદ પરિવારોને મદદ કરો — ક્ષ, જ્ઞ, શ્ર, દ્ધ.";
   return doc({
     lang: "en", title: "Style guide – MSWT mockups", depth: 0,
-    fonts: ["base", "hi", "gu", "display"],
+    fonts: ["base", "hi", "gu"],
     body: `<a class="skip-link" href="#main">Skip to main content</a>
 <aside class="mock-banner" aria-label="Mockup notice">Design mockup — style guide generated from tokens/design-tokens.json. <a href="index.html">All mockups</a></aside>
 <main id="main" class="container section stack" tabindex="-1">
@@ -29,20 +29,18 @@ export function styleguide(root) {
   <p class="lead muted">Every colour, type style and component used in the mockups, straight from the design tokens.</p>
 
   <section class="stack" aria-labelledby="dec-h">
-    <h2 id="dec-h">Decisions needed</h2>
-    <div class="font-compare">
-      <div class="panel stack"><span class="state-label">A9 · Option 1 — Montserrat everywhere</span>
-        <p style="font-size: var(--text-4xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">Help families in need</p>
-        <p class="muted">Consistent, modern, matches the wordmark.</p></div>
-      <div class="panel stack"><span class="state-label">A9 · Option 2 — Bodoni Moda for English hero headings</span>
-        <p style="font-family: var(--font-serif-display); font-size: var(--text-5xl); font-weight: var(--font-weight-medium); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">Help families in need</p>
-        <p class="muted">Echoes the Didone monogram. English hero headings only; not available in Indic scripts.</p></div>
-      <div class="panel stack" lang="mr" style="font-family: var(--font-devanagari)"><span class="state-label" lang="en">A10 · Option 1 — Poppins (Devanagari)</span>
-        <p style="font-size: var(--text-2xl); font-weight: var(--font-weight-semibold); margin:0">गरजू कुटुंबांना मदत करा</p>
-        <p style="margin:0">${marathi}</p><p style="margin:0">${hindi}</p></div>
-      <div class="panel stack" lang="mr" style="font-family: &quot;Noto Sans Devanagari&quot;, sans-serif"><span class="state-label" lang="en">A10 · Option 2 — Noto Sans Devanagari</span>
-        <p style="font-size: var(--text-2xl); font-weight: var(--font-weight-semibold); margin:0">गरजू कुटुंबांना मदत करा</p>
-        <p style="margin:0">${marathi}</p><p style="margin:0">${hindi}</p></div>
+    <h2 id="dec-h">Typeface</h2>
+    <div class="alert alert--success"><span class="alert__icon" aria-hidden="true">✓</span><div><strong>Decided: Poppins everywhere</strong><p>Poppins is the site font for English, Hindi and Marathi, for headings and body text. Gujarati uses Noto Sans Gujarati because Poppins has no Gujarati letters. Admins can change the site font in Settings → Appearance.</p></div></div>
+    <div class="grid grid--3">
+      <div class="panel stack"><span class="state-label">English · Poppins</span>
+        <p style="font-size: var(--text-3xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">Help families in need</p>
+        <p style="margin:0">Every donation is receipted the moment it is received. ₹1,00,000 · MSWT/2026-27/000123</p></div>
+      <div class="panel stack" lang="mr"><span class="state-label" lang="en">Marathi · Poppins</span>
+        <p style="font-size: var(--text-3xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">गरजू कुटुंबांना मदत करा</p>
+        <p style="margin:0">${marathi}</p><p style="margin:0" lang="hi">${hindi}</p></div>
+      <div class="panel stack" lang="gu"><span class="state-label" lang="en">Gujarati · Noto Sans Gujarati</span>
+        <p style="font-size: var(--text-3xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">જરૂરિયાતમંદ પરિવારોને મદદ કરો</p>
+        <p style="margin:0">${gujarati}</p></div>
     </div>
   </section>
 
@@ -115,7 +113,7 @@ export function index(groups) {
   <img src="assets/mswt-logo-horizontal.svg" alt="MS Welfare Trust" width="240" height="75">
   <h1 class="heading-rule">Design mockups — Step 1</h1>
   <p class="lead muted">Static HTML pages built only from the brand tokens. Review each one at phone width (360px) and desktop width (1440px). Sample content is not real Trust data; <span class="tbd">[highlighted]</span> items are details we still need from the Trust.</p>
-  <div class="alert alert--info"><span class="alert__icon" aria-hidden="true">i</span><div><strong>Decisions needed</strong><p>A9: Bodoni Moda or Montserrat for English hero headings. A10: Poppins or Noto Sans for Hindi/Marathi. Both are compared side by side in the <a href="styleguide.html">style guide</a>.</p></div></div>
+  <div class="alert alert--success"><span class="alert__icon" aria-hidden="true">✓</span><div><strong>Typeface decided</strong><p>Poppins for English, Hindi and Marathi; Noto Sans Gujarati for Gujarati. Admins can change the site font later in Settings → Appearance. See the <a href="styleguide.html">style guide</a>.</p></div></div>
   ${groups.map((g) => `<section class="stack" aria-labelledby="${g.id}"><h2 id="${g.id}" style="font-size: var(--text-xl)">${g.title}</h2><ul>${g.links.map(([href, label]) => `<li><a href="${href}">${label}</a></li>`).join("")}</ul></section>`).join("")}
 </main>`,
   });

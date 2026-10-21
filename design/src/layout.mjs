@@ -1,11 +1,10 @@
 import { LOCALES, LANG_NAMES, t } from "./i18n.mjs";
 
 const FONTS = {
-  base: "family=Montserrat:wght@400;500;600;700",
-  hi: "family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700",
-  mr: "family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700",
+  base: "family=Poppins:wght@400;500;600;700",
+  hi: "family=Noto+Sans+Devanagari:wght@400;500;600;700",
+  mr: "family=Noto+Sans+Devanagari:wght@400;500;600;700",
   gu: "family=Noto+Sans+Gujarati:wght@400;500;600;700",
-  display: "family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600",
 };
 
 export function fontLink(families) {

@@ -6,13 +6,13 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **A1** Original vector logo (AI/EPS/SVG/PDF from the designer). *Interim: traced SVGs in `brand/logo/` (2026-10-20), made from screenshots. They are close but not exact copies.*
 - [x] **A2** Variants. *Made from the trace: horizontal, mark, compact mark (no rules), and a reversed version of each. Still missing: a stacked lockup, if the Trust wants one.*
 - [x] **A3** Brand green. *Owner chose `#4b9d66` (2026-10-20); the close-up screenshot read `#41934d`. If the designer has an official hex or Pantone value, send it and the scale will be re-pinned.*
-- [ ] **A4** Wordmark font. It appears to be **Montserrat** (SIL OFL, fine for the web). Can the designer confirm it, and the weights used?
+- [ ] **A4** Wordmark font in the logo (it looks like Montserrat). Only needed if the logo is ever redrawn; the site uses Poppins (A9).
 - [ ] **A5** Is there a Hindi / Marathi / Gujarati version of the logo or wordmark?
 - [ ] **A6** Who designed the logo, and is there a brand guideline document? (Rules in `docs/brand.md` §5 are proposed until confirmed.)
 - [ ] **A7** Photography: do you have real photos of the Trust's work (with consent from the people pictured, especially children)? Any images we must not use?
 - [ ] **A8** The logo has no accent colour. Is green + slate enough, or should a warm accent (for highlights only, never text) be chosen and approved?
-- [ ] **A9** Optional Didone display font (Bodoni Moda, OFL) for English hero headings, echoing the monogram. Approve, or keep Montserrat everywhere?
-- [ ] **A10** Poppins for Hindi/Marathi (geometric like Montserrat) vs Noto Sans Devanagari. To be decided from Step 1 sample frames, with a check of Marathi-specific forms.
+- [x] **A9** Site font. *Owner decision 2026-10-21: **Poppins everywhere** (English, Hindi, Marathi), configurable by Super Admins in Settings → Appearance. Gujarati uses Noto Sans Gujarati.*
+- [x] **A10** Devanagari font. *Decided with A9: Poppins, with Noto Sans Devanagari as glyph fallback.*
 
 ## B. Legal / tax / payments
 - [ ] **B1** Trust PAN, 12A registration no. + date, 80G registration no. + validity (from–to), Trust registration no. and authority (Charity Commissioner, etc.).

@@ -462,19 +462,11 @@
       "$type": "fontFamily",
       "sans": {
         "$value": [
-          "Montserrat",
+          "Poppins",
           "system-ui",
           "sans-serif"
         ],
-        "$description": "Brand UI/body face — matches the wordmark (confirm: open-questions A4). SIL OFL 1.1."
-      },
-      "serif-display": {
-        "$value": [
-          "Bodoni Moda",
-          "Didot",
-          "serif"
-        ],
-        "$description": "PROPOSED optional display face echoing the Didone monogram; headings in English only, sparingly. SIL OFL 1.1. Needs owner approval."
+        "$description": "Default UI, body and heading face for Latin and Devanagari (owner decision 2026-10-21; SIL OFL 1.1). Admins can switch the site font in Settings → Appearance (see docs/spec.md)."
       },
       "devanagari": {
         "$value": [
@@ -482,14 +474,14 @@
           "Noto Sans Devanagari",
           "sans-serif"
         ],
-        "$description": "Hindi + Marathi. Poppins is geometric like Montserrat (OFL); verify Marathi conjuncts in Step 1, else Noto Sans Devanagari (OFL)."
+        "$description": "Hindi + Marathi: Poppins has Devanagari; Noto Sans Devanagari (OFL) is the fallback for any glyph Poppins lacks."
       },
       "gujarati": {
         "$value": [
           "Noto Sans Gujarati",
           "sans-serif"
         ],
-        "$description": "Gujarati. SIL OFL 1.1."
+        "$description": "Gujarati: Poppins has no Gujarati glyphs. Noto Sans Gujarati, SIL OFL 1.1."
       }
     },
     "weight": {
@@ -558,7 +550,7 @@
         },
         "body": {
           "$value": 1.6,
-          "$description": "Montserrat is wide; 1.6 reads better than 1.5."
+          "$description": "Poppins has tall ascenders; 1.6 keeps body text open."
         }
       },
       "indic": {

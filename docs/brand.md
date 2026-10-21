@@ -10,7 +10,7 @@ Source artwork lives in [`brand/logo/`](../brand/logo/). Those SVGs were **trace
 |---|---|---|
 | Monogram | A high-contrast Didone-style serif **M** in green, interlocked with a black **S** that has ball terminals. The M sits in front of the S. | Formal, classical and trustworthy. Contrast comes from thick vs thin strokes, not from many colours |
 | Rules | A green horizontal rule above the mark and a black one below, both the width of the mark | **Horizontal rules are the signature motif**: a 2px rule under section headings and above the footer, in place of heavy boxes |
-| Wordmark | Geometric sans, all caps, widely tracked. "MUNIRA SHOAIB" is larger and medium weight; "WELFARE TRUST" is smaller and regular. Colour is slate `#32373d` | UI and body text in the same face (Montserrat). Tracked uppercase for eyebrows and labels (`font.letter-spacing.caps`) |
+| Wordmark | Geometric sans, all caps, widely tracked. "MUNIRA SHOAIB" is larger and medium weight; "WELFARE TRUST" is smaller and regular. Colour is slate `#32373d` | UI and body text in a geometric sans (Poppins, owner decision). Tracked uppercase for eyebrows and labels (`font.letter-spacing.caps`) |
 | Colour | Two hues only: green `#4b9d66` and black/slate. No warm accent | Green carries the brand and the actions. Slate carries text. **No accent colour has been invented.** One can be added only if the Trust approves it (open-questions A8) |
 | Geometry | Sharp serifs, straight edges, no rounded shapes, lots of white space | Small radii (2–8px), flat surfaces, generous spacing, photos with plain rectangular or 8px corners |
 
@@ -145,18 +145,27 @@ Donation, receipt and legal pages gain little from a dark theme, and it roughly 
 
 ## 3. Typography
 
+**Decision (owner, 2026-10-21): Poppins everywhere.** Poppins is the face for English, Hindi and Marathi, for headings and body text. Admins can switch the site font later (see "Admin font setting" below).
+
 | Token | Stack | Licence | Notes |
 |---|---|---|---|
-| `font.family.sans` | **Montserrat**, system-ui, sans-serif | SIL OFL 1.1: self-hosting on the web is allowed | It matches the wordmark (geometric, wide caps). The exact wordmark font still needs confirming (A4). Latin + Latin-ext subsets only |
-| `font.family.serif-display` | Bodoni Moda, Didot, serif | SIL OFL 1.1 | **Proposal, needs approval:** an optional Didone display face that echoes the monogram, for English hero headings only. If it isn't approved, Montserrat is used everywhere |
-| `font.family.devanagari` | **Poppins**, Noto Sans Devanagari, sans-serif | SIL OFL 1.1 (both) | Montserrat has **no Devanagari**. Poppins has the same geometric construction. Marathi-specific forms get checked in Step 1, and Noto Sans Devanagari is the fallback if any fall short |
-| `font.family.gujarati` | **Noto Sans Gujarati**, sans-serif | SIL OFL 1.1 | Montserrat has **no Gujarati**. Noto is the most complete Gujarati sans with variable weights |
+| `font.family.sans` | **Poppins**, system-ui, sans-serif | SIL OFL 1.1: self-hosting on the web is allowed | Geometric sans, close to the wordmark's construction. Latin + Devanagari in one family |
+| `font.family.devanagari` | **Poppins**, Noto Sans Devanagari, sans-serif | SIL OFL 1.1 (both) | Hindi and Marathi use Poppins. Noto Sans Devanagari covers any rare conjunct Poppins lacks |
+| `font.family.gujarati` | **Noto Sans Gujarati**, sans-serif | SIL OFL 1.1 | Poppins has **no Gujarati**, so Gujarati pages use Noto Sans Gujarati for Gujarati text and Poppins for any Latin text |
 
-- **Loading:** fonts come through `next/font/google`, so they are self-hosted at build time (no requests to Google). Settings: `display: "swap"` and `adjustFontFallback`. Montserrat loads on every page. Poppins (Devanagari subset) loads only on `/hi` and `/mr`, and Noto Sans Gujarati only on `/gu`. Weights 400/500/600/700 only.
-- **Script selection:** CSS `:lang(hi)`, `:lang(mr)` and `:lang(gu)` put the Indic family first and keep Montserrat for any Latin text inside it.
+The logo wordmark itself is artwork (SVG) and keeps its own lettering whatever the site font is.
+
+- **Loading:** fonts come through `next/font/google`, so they are self-hosted at build time with no requests to Google. Settings: `display: "swap"`, `adjustFontFallback`, weights 400/500/600/700 only. Poppins (latin + devanagari subsets) loads on every page. Noto Sans Devanagari is a fallback and loads only if a glyph needs it. Noto Sans Gujarati loads only on `/gu`.
+- **Script selection:** `:lang(hi)`, `:lang(mr)` and `:lang(gu)` set the script's stack with the site font first, so Latin text inside Indic pages keeps the site font.
 - **Sizes** (rem, base 16px): xs .75 · sm .875 · base 1 · lg 1.125 · xl 1.25 · 2xl 1.5 · 3xl 1.875 · 4xl 2.25 · 5xl 3. Headings may use `clamp()` between two adjacent steps. Body text never goes below `base`.
-- **Line-height:** Latin tight 1.2 / snug 1.35 / body 1.6 (Montserrat is wide). **Indic** tight 1.4 / snug 1.55 / body 1.75, to leave room for matras and conjuncts.
+- **Line-height:** Latin tight 1.2 / snug 1.35 / body 1.6 (Poppins has tall ascenders). **Indic** tight 1.4 / snug 1.55 / body 1.75, to leave room for matras and conjuncts.
 - **Tracking:** `caps` 0.12em for uppercase eyebrows and labels, echoing the wordmark. **Never letter-space Indic scripts**, and never set long text in all caps.
+
+### Admin font setting
+Super Admins can change the site font in **Settings → Appearance** without a redeploy (spec §2 `appearance_settings`, §5).
+- **Curated list only.** Every option is an OFL font self-hosted at build time that covers **Latin + Devanagari**. Options: Poppins (default), Mukta, Hind, Noto Sans (with Noto Sans Devanagari). Gujarati always uses Noto Sans Gujarati, because none of these has Gujarati. Adding an option is a code change: one `next/font` entry plus a visual check of all 4 locales.
+- **How it works:** each option is declared with `next/font` and exposes its own CSS variable. The root layout reads the setting and sets `--font-sans` on `<html>` to the chosen option. Browsers download only the font files a page actually uses, so unused options cost nothing.
+- **Safety:** the admin sees a live preview in all 4 scripts before saving. The change is audited and revalidates every public page. Sizes, line-heights and colours don't change with the font, so the contrast table stays valid.
 
 ## 4. Spacing, shape and motion
 - **Space:** a 4px grid, from `space.1` (0.25rem) to `space.24` (6rem). Sections get generous vertical rhythm (`space.16`–`space.24` on desktop), echoing the logo's white space.

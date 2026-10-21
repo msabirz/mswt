@@ -36,17 +36,17 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
   - Thank-you states (confirming, paid, failed)
   - About, Causes, Cause detail, Contact, 404
   - Admin sign-in + 2FA, Dashboard, Donations list, Offline entry
-  - Style guide with decision panels for A9 and A10
+  - Style guide (colours, type in 3 scripts, components, logo)
 - `design/README.md`
 
-**Exit:** owner sign-off on the published mockups; A9 and A10 decided; no literal colours, fonts, radii or shadows outside tokens.css; axe clean; every page reviewed at 360px and 1440px.
+**Exit:** owner sign-off on the published mockups; site font decided (Poppins, 2026-10-21); no literal colours, fonts, radii or shadows outside tokens.css; axe clean; every page reviewed at 360px and 1440px.
 
 ## Step 2 — Scaffold + CI gates
-**Deliverables:** Node ≥ 20.9 (this Mac has 18.20; current Next.js needs 20.9+), Next.js App Router + TS strict, Tailwind, ESLint (incl. jsx-a11y) + Prettier, next-intl with 4 locales and `/` → `/en`, Drizzle + Neon connection + first SQL migration (users, audit_log, settings), env validation (zod) + `.env.example`, Vitest, Playwright + axe, Lighthouse CI config with budgets, GitHub Actions (lint, typecheck, test, e2e, build, Lighthouse), Vercel project with preview deployments, secure headers baseline, Dependabot.
+**Deliverables:** Node 24 via nvm (`.nvmrc` = 24; run `nvm use`), engines field and CI on Node 24, Next.js App Router + TS strict, Tailwind, ESLint (incl. jsx-a11y) + Prettier, next-intl with 4 locales and `/` → `/en`, Drizzle + Neon connection + first SQL migration (users, audit_log, settings), env validation (zod) + `.env.example`, Vitest, Playwright + axe, Lighthouse CI config with budgets, GitHub Actions (lint, typecheck, test, e2e, build, Lighthouse), Vercel project with preview deployments, secure headers baseline, Dependabot.
 **Exit:** CI green on an empty localised page in all 4 locales; axe 0 violations; Lighthouse budgets enforced and failing a deliberately bad change.
 
 ## Step 3 — Design system in code
-**Deliverables:** token build (reuse `scripts/tokens-to-css.mjs` output inside Tailwind v4 `@theme`), components lifted from `design/base.css` and the mockups, `next/font` setup (brand + Indic fallbacks, subsets, swap), UI primitives (Button, Link, Input, Select, Checkbox, Radio, Textarea, FormField with error wiring, Alert, Card, Badge, Breadcrumbs, Skip link, Header, Footer, LanguageSwitcher, Dialog), logo component, reduced-motion utilities, component tests + axe per component, a `/en/_styleguide` route (noindex, dev/preview only).
+**Deliverables:** token build (reuse `scripts/tokens-to-css.mjs` output inside Tailwind v4 `@theme`), components lifted from `design/base.css` and the mockups, `next/font` setup (Poppins + Noto Sans Devanagari/Gujarati, plus the curated admin font options with CSS variables; subsets, swap), UI primitives (Button, Link, Input, Select, Checkbox, Radio, Textarea, FormField with error wiring, Alert, Card, Badge, Breadcrumbs, Skip link, Header, Footer, LanguageSwitcher, Dialog), logo component, reduced-motion utilities, component tests + axe per component, a `/en/_styleguide` route (noindex, dev/preview only).
 **Exit:** `/brand-check` PASS (no literals in `src/`); all components keyboard + axe clean; Indic sample text renders correctly.
 
 ## Step 4 — SEO foundation
@@ -66,7 +66,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 **Exit:** unit tests for amount validation, fee calc, FY boundaries, receipt numbering under concurrency, cash > ₹2,000 rule, PAN rule; e2e against Cashfree sandbox (success, failure, duplicate webhook, delayed webhook, redirect-without-webhook); no SW caching of donate/api.
 
 ## Step 8 — Admin
-**Deliverables:** Auth.js credentials + TOTP enrolment/recovery codes, role middleware, Dashboard, Donations (filters, detail, offline entry, resend, void/reissue, CSV/XLSX export), Donors, Causes, CMS (pages, gallery, events, news, menus, media with per-locale alt, SEO fields, translation review), Messages, Reports (FY register, cause-wise, 80G register, ack register), Settings (organization, SEO, payments, email), Users/roles, Audit log.
+**Deliverables:** Auth.js credentials + TOTP enrolment/recovery codes, role middleware, Dashboard, Donations (filters, detail, offline entry, resend, void/reissue, CSV/XLSX export), Donors, Causes, CMS (pages, gallery, events, news, menus, media with per-locale alt, SEO fields, translation review), Messages, Reports (FY register, cause-wise, 80G register, ack register), Settings (organization, SEO, payments, email, appearance/site font), Users/roles, Audit log.
 **Exit:** permission matrix in `spec.md` enforced by server tests for every action; audit entries for every write; admin keyboard + axe clean; noindex verified.
 
 ## Step 9 — PWA + email

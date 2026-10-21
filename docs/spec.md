@@ -36,7 +36,7 @@ Locales: `en` (default), `hi`, `mr`, `gu`. `{l}` = locale. Slugs are ASCII and *
 | 404 / 500 | localised `not-found` / `error` |
 
 ### Admin (English, `noindex, nofollow`, `Disallow` in robots, auth required)
-`/admin/login`, `/admin/2fa`, `/admin` (dashboard), `/admin/donations`, `/admin/donations/new` (offline entry), `/admin/donations/{id}`, `/admin/donors`, `/admin/donors/{id}`, `/admin/causes`, `/admin/content/pages`, `/admin/content/gallery`, `/admin/content/events`, `/admin/content/news`, `/admin/content/menus`, `/admin/messages`, `/admin/reports`, `/admin/settings/organization`, `/admin/settings/seo`, `/admin/settings/payments`, `/admin/settings/email`, `/admin/users`, `/admin/audit-log`.
+`/admin/login`, `/admin/2fa`, `/admin` (dashboard), `/admin/donations`, `/admin/donations/new` (offline entry), `/admin/donations/{id}`, `/admin/donors`, `/admin/donors/{id}`, `/admin/causes`, `/admin/content/pages`, `/admin/content/gallery`, `/admin/content/events`, `/admin/content/news`, `/admin/content/menus`, `/admin/messages`, `/admin/reports`, `/admin/settings/organization`, `/admin/settings/seo`, `/admin/settings/payments`, `/admin/settings/email`, `/admin/settings/appearance`, `/admin/users`, `/admin/audit-log`.
 
 ### API (`noindex` header, `Disallow`, never cached)
 `POST /api/donations/order`, `POST /api/webhooks/cashfree`, `GET /api/donations/{publicOrderId}/status`, `GET /api/receipts/{token}` (signed, expiring link to R2 PDF), `POST /api/contact`, `GET /api/cron/reconcile` (Vercel Cron, secret header), `POST /api/indexnow` (internal, on publish).
@@ -77,6 +77,7 @@ Conventions: `id uuid pk`, `created_at`/`updated_at timestamptz`, money `*_paise
 - **organization_settings** — legal_name ("Munira Shoaib Welfare Trust"), display_name ("MS Welfare Trust"), alternate_names jsonb (`{en:["MS Welfare Trust","MSWT"],hi:…,mr:…,gu:…}`), description per locale, founding_date, trust_pan, reg_12a_number + date, reg_80g_number + valid_from + valid_to, registration_authority/trust_reg_no, address (street, locality, city, state, pincode, country `IN`), geo (lat/lng, optional), phones[], email, contact_hours, area_served[], trustees jsonb (name, role, photo_media_id, bio per locale, sort), same_as[] (official social URLs), logo_media_id (≥112×112, crawlable), signatory_name, signatory_title, signature_media_id (for receipts)
 - **seo_settings** — default title template per locale, default description per locale, default og_image_id, google_site_verification, bing_site_verification, indexnow_key, twitter_handle
 - **payment_settings** — min_amount_paise, max_amount_paise, preset_amounts_paise[], fee_cover_percent_bp (basis points), fee_cover_enabled, cash_80g_limit_paise (200000), provider_mode `sandbox|production` (keys stay in env)
+- **appearance_settings** — site_font enum `poppins|mukta|hind|noto_sans` (default `poppins`), updated_by, updated_at. Only fonts bundled at build time can be chosen (docs/brand.md §3)
 - **email_settings** — from_name, from_address, reply_to, admin_alert_recipients[], provider
 
 ## 3. Donation flow (online)
@@ -130,7 +131,7 @@ Accountant enters donor, amount, mode (cash/cheque/NEFT/UPI), instrument ref & d
 | CMS | Pages (typed blocks per locale), gallery, events, news, menus, media library (alt text per locale required), SEO fields per item, translation review flag, preview, publish → revalidate + IndexNow |
 | Messages | Inbox from contact form, status, assign, reply via mailto |
 | Reports | FY donation register, cause-wise summary, 80G receipt register, acknowledgement register, mode-wise — CSV/XLSX/PDF |
-| Settings | Organization, SEO, payments, email (see §2) |
+| Settings | Organization, SEO, payments, email, **appearance** (site font from the curated list, with a 4-script live preview; see §2) |
 | Users & roles | Invite, role, deactivate, force 2FA reset (Super Admin only) |
 | Audit log | Filter by actor / entity / date; read-only |
 
@@ -147,6 +148,7 @@ Accountant enters donor, amount, mode (cash/cheque/NEFT/UPI), instrument ref & d
 | Messages | ✓ | read | ✓ |
 | Organization & SEO settings | ✓ | — | SEO only |
 | Payment & email settings | ✓ | — | — |
+| Appearance (site font) | ✓ | — | — |
 | Users & roles | ✓ | — | — |
 | Audit log | ✓ | own actions | own actions |
 

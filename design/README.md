@@ -21,13 +21,13 @@ No npm packages are needed. Fonts load from Google Fonts **for the mockups only*
 
 ## Rules
 - Never hand-edit `tokens.css` or `mockups/`. Change the tokens or the templates, then rebuild.
-- No literal colours, fonts, radii or shadows in `base.css` or the templates. The one exception is the A10 comparison panel in the style guide, which names Noto Sans Devanagari directly because it isn't a token unless that option is chosen.
+- No literal colours, fonts, radii or shadows in `base.css` or the templates.
 - Content is sample only. Highlighted `[…]` items are Trust details we still need ([open-questions](../docs/open-questions.md)). Hindi, Marathi and Gujarati text is a sample translation that needs human review.
 
 ## Checks run on this step
 - **axe-core 4.10** (WCAG 2.0/2.1/2.2 A and AA plus best practices) on all 22 pages at 360px and 1440px: 0 violations.
 - **No horizontal scrolling** at 360px or 1440px on any page.
-- **Brand lint:** no colour, font, radius or shadow literals outside `tokens.css`, apart from the A10 exception above.
+- **Brand lint:** no colour, font, radius or shadow literals outside `tokens.css`.
 - **Visual review** of the Devanagari and Gujarati pages: no missing glyphs (tofu) and no clipped matras.
 
 ## Figma (optional)

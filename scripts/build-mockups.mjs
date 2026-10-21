@@ -36,7 +36,7 @@ put("styleguide.html", styleguide(root));
 put(
   "index.html",
   index([
-    { id: "g-start", title: "Start here", links: [["styleguide.html", "Style guide and decisions (A9, A10)"]] },
+    { id: "g-start", title: "Start here", links: [["styleguide.html", "Style guide: colours, type, components, logo"]] },
     { id: "g-home", title: "Home in each language", links: LOCALES.map((l) => [`${l}/home.html`, `Home — ${LANG_NAMES[l]}`]) },
     {
       id: "g-donate", title: "Donation flow",

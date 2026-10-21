@@ -7,7 +7,7 @@
 <title>Style guide – MSWT mockups</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/tokens.css">
 <link rel="stylesheet" href="assets/base.css">
 <link rel="icon" href="assets/mswt-mark-compact.svg" type="image/svg+xml">
@@ -21,20 +21,18 @@
   <p class="lead muted">Every colour, type style and component used in the mockups, straight from the design tokens.</p>
 
   <section class="stack" aria-labelledby="dec-h">
-    <h2 id="dec-h">Decisions needed</h2>
-    <div class="font-compare">
-      <div class="panel stack"><span class="state-label">A9 · Option 1 — Montserrat everywhere</span>
-        <p style="font-size: var(--text-4xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">Help families in need</p>
-        <p class="muted">Consistent, modern, matches the wordmark.</p></div>
-      <div class="panel stack"><span class="state-label">A9 · Option 2 — Bodoni Moda for English hero headings</span>
-        <p style="font-family: var(--font-serif-display); font-size: var(--text-5xl); font-weight: var(--font-weight-medium); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">Help families in need</p>
-        <p class="muted">Echoes the Didone monogram. English hero headings only; not available in Indic scripts.</p></div>
-      <div class="panel stack" lang="mr" style="font-family: var(--font-devanagari)"><span class="state-label" lang="en">A10 · Option 1 — Poppins (Devanagari)</span>
-        <p style="font-size: var(--text-2xl); font-weight: var(--font-weight-semibold); margin:0">गरजू कुटुंबांना मदत करा</p>
-        <p style="margin:0">मराठी: ळ, ऱ्य, क्ष, ज्ञ, श्र, द्ध, ह्म — शाळेतील मुलांना मदत करण्यासाठी देणगी द्या.</p><p style="margin:0">हिन्दी: ज़रूरतमंद परिवारों की मदद करें — क्ष, त्र, ज्ञ, श्र, द्ध।</p></div>
-      <div class="panel stack" lang="mr" style="font-family: &quot;Noto Sans Devanagari&quot;, sans-serif"><span class="state-label" lang="en">A10 · Option 2 — Noto Sans Devanagari</span>
-        <p style="font-size: var(--text-2xl); font-weight: var(--font-weight-semibold); margin:0">गरजू कुटुंबांना मदत करा</p>
-        <p style="margin:0">मराठी: ळ, ऱ्य, क्ष, ज्ञ, श्र, द्ध, ह्म — शाळेतील मुलांना मदत करण्यासाठी देणगी द्या.</p><p style="margin:0">हिन्दी: ज़रूरतमंद परिवारों की मदद करें — क्ष, त्र, ज्ञ, श्र, द्ध।</p></div>
+    <h2 id="dec-h">Typeface</h2>
+    <div class="alert alert--success"><span class="alert__icon" aria-hidden="true">✓</span><div><strong>Decided: Poppins everywhere</strong><p>Poppins is the site font for English, Hindi and Marathi, for headings and body text. Gujarati uses Noto Sans Gujarati because Poppins has no Gujarati letters. Admins can change the site font in Settings → Appearance.</p></div></div>
+    <div class="grid grid--3">
+      <div class="panel stack"><span class="state-label">English · Poppins</span>
+        <p style="font-size: var(--text-3xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">Help families in need</p>
+        <p style="margin:0">Every donation is receipted the moment it is received. ₹1,00,000 · MSWT/2026-27/000123</p></div>
+      <div class="panel stack" lang="mr"><span class="state-label" lang="en">Marathi · Poppins</span>
+        <p style="font-size: var(--text-3xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">गरजू कुटुंबांना मदत करा</p>
+        <p style="margin:0">मराठी: ळ, ऱ्य, क्ष, ज्ञ, श्र, द्ध, ह्म — शाळेतील मुलांना मदत करण्यासाठी देणगी द्या.</p><p style="margin:0" lang="hi">हिन्दी: ज़रूरतमंद परिवारों की मदद करें — क्ष, त्र, ज्ञ, श्र, द्ध।</p></div>
+      <div class="panel stack" lang="gu"><span class="state-label" lang="en">Gujarati · Noto Sans Gujarati</span>
+        <p style="font-size: var(--text-3xl); font-weight: var(--font-weight-semibold); line-height: var(--leading-tight); margin:0; color: var(--color-fg-strong)">જરૂરિયાતમંદ પરિવારોને મદદ કરો</p>
+        <p style="margin:0">ગુજરાતી: જરૂરિયાતમંદ પરિવારોને મદદ કરો — ક્ષ, જ્ઞ, શ્ર, દ્ધ.</p></div>
     </div>
   </section>
 
