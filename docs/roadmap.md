@@ -83,6 +83,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 
 ## Step 12 — Go-live
 **Deliverables / checklist:**
+- Confirm the Vercel plan for the MSWT-owned account (Hobby vs Pro, see D6) and that every service (GitHub, Vercel, Neon, Cloudflare, Cashfree, email) is owned by the Trust email with 2FA
 - Cashfree production keys + webhook URL, international payments disabled, ₹1 live test + refund
 - DNS on Cloudflare → Vercel, HTTPS, HSTS; email SPF/DKIM/DMARC verified
 - Production DB migrated, settings filled (Organization, SEO, payments), first FY sequence initialised
