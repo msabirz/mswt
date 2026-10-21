@@ -1,0 +1,173 @@
+// UI strings for the mockups. Hindi, Marathi and Gujarati are SAMPLE translations written for
+// layout testing only — every string needs human review before production (open-questions D3).
+export const LOCALES = ["en", "hi", "mr", "gu"];
+
+export const LANG_NAMES = { en: "English", hi: "हिन्दी", mr: "मराठी", gu: "ગુજરાતી" };
+
+export const t = {
+  en: {
+    skip: "Skip to main content",
+    logoHome: "MS Welfare Trust – home",
+    menu: "Menu",
+    language: "Language",
+    nav: { about: "About", causes: "Causes", gallery: "Gallery", events: "Events", news: "News", transparency: "Transparency", contact: "Contact" },
+    donate: "Donate",
+    footer: {
+      about: "Munira Shoaib Welfare Trust is a registered charitable trust in India. Donations are eligible for tax deduction under Section 80G.",
+      explore: "Explore", trust: "The Trust", help: "Get help",
+      privacy: "Privacy policy", terms: "Terms of use", refund: "Refund policy", disclaimer: "80G disclaimer",
+      reg: "Registered under Sections 12A and 80G of the Income-tax Act, 1961",
+      rights: "© 2026 Munira Shoaib Welfare Trust",
+      noFcra: "We accept donations from Indian citizens only.",
+    },
+    home: {
+      eyebrow: "Registered under 12A and 80G",
+      h1: "Help families in need, with every rupee accounted for",
+      lead: "Your donation supports the Trust's work in education, healthcare and relief. Every gift gets an instant receipt, and every year's accounts are published.",
+      ctaDonate: "Donate now", ctaCauses: "See our causes",
+      heroAlt: "Photo: Trust volunteers at a community programme (real Trust photo needed)",
+      trust1t: "80G tax benefit", trust1: "Get a receipt for tax deduction under Section 80G when you add your PAN.",
+      trust2t: "Open accounts", trust2: "Annual reports and audited accounts are published on our Transparency page.",
+      trust3t: "Secure payments", trust3: "Pay by UPI, cards or net banking through a secure, RBI-regulated gateway.",
+      causesH: "Where your donation goes", causesLead: "Choose a cause, or give to the general fund and we'll direct it where it's needed most.",
+      allCauses: "View all causes",
+      bandH: "Every donation is receipted the moment it is received",
+      bandP: "You get an email with your receipt number and PDF. Your PAN is used only for your 80G receipt and the Trust's tax filings.",
+      newsH: "News and updates", allNews: "All news",
+      eventsH: "Upcoming events", allEvents: "All events",
+      raised: "raised", goal: "goal",
+      readMore: (title) => `Read more about ${title}`,
+    },
+  },
+  hi: {
+    skip: "मुख्य सामग्री पर जाएँ",
+    logoHome: "एमएस वेलफेयर ट्रस्ट – मुखपृष्ठ",
+    menu: "मेनू",
+    language: "भाषा",
+    nav: { about: "हमारे बारे में", causes: "सेवा कार्य", gallery: "गैलरी", events: "कार्यक्रम", news: "समाचार", transparency: "पारदर्शिता", contact: "संपर्क" },
+    donate: "दान करें",
+    footer: {
+      about: "मुनीरा शोएब वेलफेयर ट्रस्ट भारत में पंजीकृत एक धर्मार्थ ट्रस्ट है। दान पर धारा 80G के तहत कर कटौती मिलती है।",
+      explore: "देखें", trust: "ट्रस्ट", help: "सहायता",
+      privacy: "गोपनीयता नीति", terms: "उपयोग की शर्तें", refund: "धनवापसी नीति", disclaimer: "80G अस्वीकरण",
+      reg: "आयकर अधिनियम, 1961 की धारा 12A और 80G के तहत पंजीकृत",
+      rights: "© 2026 मुनीरा शोएब वेलफेयर ट्रस्ट",
+      noFcra: "हम केवल भारतीय नागरिकों से दान स्वीकार करते हैं।",
+    },
+    home: {
+      eyebrow: "12A और 80G के तहत पंजीकृत",
+      h1: "ज़रूरतमंद परिवारों की मदद करें, हर रुपये के पूरे हिसाब के साथ",
+      lead: "आपका दान शिक्षा, स्वास्थ्य और राहत के कार्यों में ट्रस्ट की मदद करता है। हर दान की तुरंत रसीद मिलती है, और हर साल का हिसाब प्रकाशित किया जाता है।",
+      ctaDonate: "अभी दान करें", ctaCauses: "हमारे सेवा कार्य देखें",
+      heroAlt: "फ़ोटो: सामुदायिक कार्यक्रम में ट्रस्ट के स्वयंसेवक (ट्रस्ट की असली फ़ोटो चाहिए)",
+      trust1t: "80G कर लाभ", trust1: "अपना PAN देने पर धारा 80G के तहत कर कटौती की रसीद पाएँ।",
+      trust2t: "खुला हिसाब", trust2: "वार्षिक रिपोर्ट और ऑडिट किया हुआ हिसाब पारदर्शिता पृष्ठ पर प्रकाशित है।",
+      trust3t: "सुरक्षित भुगतान", trust3: "UPI, कार्ड या नेट बैंकिंग से सुरक्षित, RBI-विनियमित गेटवे द्वारा भुगतान करें।",
+      causesH: "आपका दान कहाँ जाता है", causesLead: "कोई सेवा कार्य चुनें, या सामान्य कोष में दें और हम इसे वहाँ लगाएँगे जहाँ सबसे ज़्यादा ज़रूरत है।",
+      allCauses: "सभी सेवा कार्य देखें",
+      bandH: "हर दान मिलते ही उसकी रसीद जारी होती है",
+      bandP: "आपको रसीद संख्या और PDF के साथ ईमेल मिलता है। आपका PAN केवल आपकी 80G रसीद और ट्रस्ट के कर विवरण के लिए उपयोग होता है।",
+      newsH: "समाचार और अपडेट", allNews: "सभी समाचार",
+      eventsH: "आगामी कार्यक्रम", allEvents: "सभी कार्यक्रम",
+      raised: "जुटाए", goal: "लक्ष्य",
+      readMore: (title) => `${title} के बारे में और पढ़ें`,
+    },
+  },
+  mr: {
+    skip: "मुख्य मजकुराकडे जा",
+    logoHome: "एमएस वेल्फेअर ट्रस्ट – मुखपृष्ठ",
+    menu: "मेनू",
+    language: "भाषा",
+    nav: { about: "आमच्याबद्दल", causes: "सेवा कार्य", gallery: "गॅलरी", events: "कार्यक्रम", news: "बातम्या", transparency: "पारदर्शकता", contact: "संपर्क" },
+    donate: "देणगी द्या",
+    footer: {
+      about: "मुनीरा शोएब वेल्फेअर ट्रस्ट हा भारतातील नोंदणीकृत धर्मादाय ट्रस्ट आहे. देणगीवर कलम 80G अंतर्गत करसवलत मिळते.",
+      explore: "पाहा", trust: "ट्रस्ट", help: "मदत",
+      privacy: "गोपनीयता धोरण", terms: "वापराच्या अटी", refund: "परतावा धोरण", disclaimer: "80G अस्वीकरण",
+      reg: "आयकर कायदा, 1961 च्या कलम 12A आणि 80G अंतर्गत नोंदणीकृत",
+      rights: "© 2026 मुनीरा शोएब वेल्फेअर ट्रस्ट",
+      noFcra: "आम्ही फक्त भारतीय नागरिकांकडून देणगी स्वीकारतो.",
+    },
+    home: {
+      eyebrow: "12A आणि 80G अंतर्गत नोंदणीकृत",
+      h1: "गरजू कुटुंबांना मदत करा, प्रत्येक रुपयाच्या पूर्ण हिशोबासह",
+      lead: "तुमची देणगी शिक्षण, आरोग्य आणि मदतकार्यात ट्रस्टला साहाय्य करते. प्रत्येक देणगीची त्वरित पावती मिळते आणि दरवर्षीचा हिशोब प्रकाशित केला जातो.",
+      ctaDonate: "आता देणगी द्या", ctaCauses: "आमची सेवा कार्ये पाहा",
+      heroAlt: "छायाचित्र: सामुदायिक कार्यक्रमात ट्रस्टचे स्वयंसेवक (ट्रस्टचे खरे छायाचित्र हवे)",
+      trust1t: "80G करसवलत", trust1: "तुमचा PAN दिल्यास कलम 80G अंतर्गत करवजावटीची पावती मिळवा.",
+      trust2t: "खुला हिशोब", trust2: "वार्षिक अहवाल आणि लेखापरीक्षित हिशोब पारदर्शकता पानावर प्रकाशित आहेत.",
+      trust3t: "सुरक्षित पेमेंट", trust3: "UPI, कार्ड किंवा नेट बँकिंगद्वारे सुरक्षित, RBI-नियंत्रित गेटवेमधून पेमेंट करा.",
+      causesH: "तुमची देणगी कुठे जाते", causesLead: "एखादे सेवा कार्य निवडा, किंवा सामान्य निधीत द्या आणि आम्ही ती सर्वाधिक गरजेच्या ठिकाणी वापरू.",
+      allCauses: "सर्व सेवा कार्ये पाहा",
+      bandH: "प्रत्येक देणगी मिळताच तिची पावती दिली जाते",
+      bandP: "तुम्हाला पावती क्रमांक आणि PDF सह ईमेल येतो. तुमचा PAN फक्त तुमच्या 80G पावतीसाठी आणि ट्रस्टच्या कर विवरणासाठी वापरला जातो.",
+      newsH: "बातम्या आणि अपडेट्स", allNews: "सर्व बातम्या",
+      eventsH: "आगामी कार्यक्रम", allEvents: "सर्व कार्यक्रम",
+      raised: "जमा", goal: "उद्दिष्ट",
+      readMore: (title) => `${title} बद्दल अधिक वाचा`,
+    },
+  },
+  gu: {
+    skip: "મુખ્ય સામગ્રી પર જાઓ",
+    logoHome: "એમએસ વેલ્ફેર ટ્રસ્ટ – મુખ્ય પૃષ્ઠ",
+    menu: "મેનુ",
+    language: "ભાષા",
+    nav: { about: "અમારા વિશે", causes: "સેવા કાર્યો", gallery: "ગેલેરી", events: "કાર્યક્રમો", news: "સમાચાર", transparency: "પારદર્શિતા", contact: "સંપર્ક" },
+    donate: "દાન કરો",
+    footer: {
+      about: "મુનીરા શોએબ વેલ્ફેર ટ્રસ્ટ ભારતમાં નોંધાયેલ એક સખાવતી ટ્રસ્ટ છે. દાન પર કલમ 80G હેઠળ કરકપાત મળે છે.",
+      explore: "જુઓ", trust: "ટ્રસ્ટ", help: "મદદ",
+      privacy: "ગોપનીયતા નીતિ", terms: "ઉપયોગની શરતો", refund: "રિફંડ નીતિ", disclaimer: "80G અસ્વીકરણ",
+      reg: "આવકવેરા અધિનિયમ, 1961ની કલમ 12A અને 80G હેઠળ નોંધાયેલ",
+      rights: "© 2026 મુનીરા શોએબ વેલ્ફેર ટ્રસ્ટ",
+      noFcra: "અમે ફક્ત ભારતીય નાગરિકો પાસેથી દાન સ્વીકારીએ છીએ.",
+    },
+    home: {
+      eyebrow: "12A અને 80G હેઠળ નોંધાયેલ",
+      h1: "જરૂરિયાતમંદ પરિવારોને મદદ કરો, દરેક રૂપિયાના પૂરા હિસાબ સાથે",
+      lead: "તમારું દાન શિક્ષણ, આરોગ્ય અને રાહત કાર્યોમાં ટ્રસ્ટને મદદ કરે છે. દરેક દાનની તરત રસીદ મળે છે, અને દર વર્ષનો હિસાબ પ્રકાશિત થાય છે.",
+      ctaDonate: "હમણાં દાન કરો", ctaCauses: "અમારાં સેવા કાર્યો જુઓ",
+      heroAlt: "ફોટો: સામુદાયિક કાર્યક્રમમાં ટ્રસ્ટના સ્વયંસેવકો (ટ્રસ્ટનો સાચો ફોટો જોઈએ)",
+      trust1t: "80G કર લાભ", trust1: "તમારો PAN આપવાથી કલમ 80G હેઠળ કરકપાતની રસીદ મેળવો.",
+      trust2t: "ખુલ્લો હિસાબ", trust2: "વાર્ષિક અહેવાલ અને ઓડિટ થયેલો હિસાબ પારદર્શિતા પૃષ્ઠ પર પ્રકાશિત છે.",
+      trust3t: "સુરક્ષિત ચુકવણી", trust3: "UPI, કાર્ડ અથવા નેટ બેંકિંગથી સુરક્ષિત, RBI-નિયંત્રિત ગેટવે દ્વારા ચુકવણી કરો.",
+      causesH: "તમારું દાન ક્યાં જાય છે", causesLead: "કોઈ સેવા કાર્ય પસંદ કરો, અથવા સામાન્ય ફંડમાં આપો અને અમે તેને સૌથી વધુ જરૂર હોય ત્યાં વાપરીશું.",
+      allCauses: "બધાં સેવા કાર્યો જુઓ",
+      bandH: "દરેક દાન મળતાં જ તેની રસીદ આપવામાં આવે છે",
+      bandP: "તમને રસીદ નંબર અને PDF સાથે ઇમેઇલ મળે છે. તમારો PAN ફક્ત તમારી 80G રસીદ અને ટ્રસ્ટના કર રિટર્ન માટે વપરાય છે.",
+      newsH: "સમાચાર અને અપડેટ્સ", allNews: "બધા સમાચાર",
+      eventsH: "આગામી કાર્યક્રમો", allEvents: "બધા કાર્યક્રમો",
+      raised: "એકત્રિત", goal: "લક્ષ્ય",
+      readMore: (title) => `${title} વિશે વધુ વાંચો`,
+    },
+  },
+};
+
+// Sample causes (open-questions C8 — real causes come from the Trust).
+export const causes = {
+  en: [
+    { slug: "education", title: "School support for children", summary: "Fees, books and uniforms for children from low-income families.", raised: 18250000, goal: 30000000 },
+    { slug: "healthcare", title: "Medical help for patients", summary: "Help with treatment, medicines and diagnostics for patients who can't afford them.", raised: 9400000, goal: 20000000 },
+    { slug: "relief", title: "Food and relief kits", summary: "Monthly ration kits and emergency relief for families in crisis.", raised: 5600000, goal: 8000000 },
+  ],
+  hi: [
+    { slug: "education", title: "बच्चों के लिए स्कूल सहायता", summary: "कम आय वाले परिवारों के बच्चों के लिए फ़ीस, किताबें और यूनिफ़ॉर्म।", raised: 18250000, goal: 30000000 },
+    { slug: "healthcare", title: "मरीज़ों के लिए चिकित्सा सहायता", summary: "जो मरीज़ इलाज, दवाइयों और जाँच का खर्च नहीं उठा सकते, उनकी मदद।", raised: 9400000, goal: 20000000 },
+    { slug: "relief", title: "राशन और राहत किट", summary: "संकट में परिवारों के लिए मासिक राशन किट और आपातकालीन राहत।", raised: 5600000, goal: 8000000 },
+  ],
+  mr: [
+    { slug: "education", title: "मुलांसाठी शालेय मदत", summary: "कमी उत्पन्न असलेल्या कुटुंबांतील मुलांसाठी फी, पुस्तके आणि गणवेश.", raised: 18250000, goal: 30000000 },
+    { slug: "healthcare", title: "रुग्णांसाठी वैद्यकीय मदत", summary: "ज्या रुग्णांना उपचार, औषधे आणि तपासण्यांचा खर्च परवडत नाही त्यांना मदत.", raised: 9400000, goal: 20000000 },
+    { slug: "relief", title: "धान्य आणि मदत किट", summary: "संकटात असलेल्या कुटुंबांसाठी मासिक धान्य किट आणि तातडीची मदत.", raised: 5600000, goal: 8000000 },
+  ],
+  gu: [
+    { slug: "education", title: "બાળકો માટે શાળા સહાય", summary: "ઓછી આવક ધરાવતા પરિવારોનાં બાળકો માટે ફી, પુસ્તકો અને ગણવેશ.", raised: 18250000, goal: 30000000 },
+    { slug: "healthcare", title: "દર્દીઓ માટે તબીબી સહાય", summary: "જે દર્દીઓ સારવાર, દવાઓ અને તપાસનો ખર્ચ ઉઠાવી શકતા નથી તેમને મદદ.", raised: 9400000, goal: 20000000 },
+    { slug: "relief", title: "રાશન અને રાહત કિટ", summary: "સંકટમાં રહેલા પરિવારો માટે માસિક રાશન કિટ અને કટોકટી રાહત.", raised: 5600000, goal: 8000000 },
+  ],
+};
+
+// Money is integer paise everywhere; format only at the edge.
+export function rupees(paise, locale = "en") {
+  return new Intl.NumberFormat(`${locale}-IN`, { style: "currency", currency: "INR", maximumFractionDigits: 0, numberingSystem: "latn" }).format(paise / 100);
+}

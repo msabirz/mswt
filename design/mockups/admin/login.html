@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sign in – MSWT Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. <a href="../index.html">All mockups</a></aside>
+<main id="main" class="auth-wrap">
+  <div class="stack" style="width:100%; max-width: 26rem">
+    <div class="auth-card">
+      <img src="../assets/mswt-logo-horizontal.svg" alt="MS Welfare Trust" width="208" height="65">
+      <h1 style="font-size: var(--text-2xl)">Sign in to admin</h1>
+      <form class="form" action="#" method="post" novalidate>
+        <div class="field"><label for="l-email">Email</label><input class="input" id="l-email" type="email" autocomplete="username"></div>
+        <div class="field"><label for="l-pass">Password</label><input class="input" id="l-pass" type="password" autocomplete="current-password"><p class="hint">Paste and password managers are allowed.</p></div>
+        <button class="btn btn--primary btn--block" type="submit">Continue</button>
+      </form>
+    </div>
+    <div class="auth-card">
+      <span class="state-label">Step 2 — two-factor code</span>
+      <h2 style="font-size: var(--text-xl)">Enter your 6-digit code</h2>
+      <form class="form" action="#" method="post" novalidate>
+        <div class="field"><label for="l-otp">Code from your authenticator app</label><p class="hint" id="l-otp-hint">You can paste the code.</p><input class="input" id="l-otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-describedby="l-otp-hint" style="max-width: 12rem; letter-spacing: var(--tracking-caps)"></div>
+        <button class="btn btn--primary btn--block" type="submit">Verify and sign in</button>
+        <p class="small"><a href="#">Use a recovery code instead</a></p>
+      </form>
+    </div>
+  </div>
+</main>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>

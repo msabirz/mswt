@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Thank you for your donation – MS Welfare Trust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. <a href="../index.html">All mockups</a></aside>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="home.html"><img src="../assets/mswt-logo-horizontal.svg" alt="MS Welfare Trust – home" width="204" height="64"></a>
+    <button class="btn btn--ghost menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul><li><a href="about.html">About</a></li><li><a href="causes.html">Causes</a></li><li><a href="#">Gallery</a></li><li><a href="#">Events</a></li><li><a href="#">News</a></li><li><a href="#">Transparency</a></li><li><a href="contact.html">Contact</a></li></ul>
+    </nav>
+    <div class="header-actions">
+      <details class="lang-switch">
+        <summary><span class="visually-hidden">Language: </span>English</summary>
+        <ul><li><a href="../en/thank-you.html" lang="en" hreflang="en" aria-current="true">English</a></li><li><a href="../hi/home.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../mr/home.html" lang="mr" hreflang="mr">मराठी</a></li><li><a href="../gu/home.html" lang="gu" hreflang="gu">ગુજરાતી</a></li></ul>
+      </details>
+      <a class="btn btn--primary" href="donate.html">Donate</a>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+
+<div class="container section stack">
+  <h1 class="heading-rule">Thank you, Rahul</h1>
+  <p class="muted">This page shows three states. Only one appears to a donor; it updates on its own while we wait for the payment confirmation from Cashfree.</p>
+
+  <section class="panel stack" aria-labelledby="s1">
+    <span class="state-label" id="s1">State 1 — waiting for confirmation</span>
+    <div class="alert alert--info" role="status" aria-live="polite"><span class="alert__icon" aria-hidden="true">…</span><div><strong>Confirming your payment</strong><p>This usually takes a few seconds. Please don't close this page or pay again.</p></div></div>
+  </section>
+
+  <section class="panel stack" aria-labelledby="s2">
+    <span class="state-label" id="s2">State 2 — payment confirmed</span>
+    <div class="alert alert--success" role="status"><span class="alert__icon" aria-hidden="true">✓</span><div><strong>We received your donation of ₹5,000</strong><p>Receipt number <strong>MSWT/2026-27/000123</strong>. We've also emailed it to r•••@example.com.</p></div></div>
+    <div class="actions"><a class="btn btn--primary" href="#">Download 80G receipt (PDF, 80 KB)</a><a class="btn btn--secondary" href="home.html">Back to home</a></div>
+    <p class="small muted">Your 80G receipt includes your PAN and the Trust's 80G registration number. Keep it for your income-tax return.</p>
+  </section>
+
+  <section class="panel stack" aria-labelledby="s3">
+    <span class="state-label" id="s3">State 3 — payment failed or cancelled</span>
+    <div class="alert alert--error" role="alert"><span class="alert__icon" aria-hidden="true">!</span><div><strong>Your payment didn't go through</strong><p>No money was taken. If an amount was debited, it will be refunded automatically by your bank within 5–7 working days.</p></div></div>
+    <div class="actions"><a class="btn btn--primary" href="donate.html">Try again</a><a class="btn btn--secondary" href="contact.html">Contact us</a></div>
+  </section>
+</div>
+</main>
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="stack">
+        <a class="footer-logo" href="home.html"><img src="../assets/mswt-logo-horizontal-reversed.svg" alt="MS Welfare Trust – home" width="240" height="75"></a>
+        <p>Munira Shoaib Welfare Trust is a registered charitable trust in India. Donations are eligible for tax deduction under Section 80G.</p>
+        <p class="small">We accept donations from Indian citizens only.</p>
+      </div>
+      <nav aria-label="Explore"><h2>Explore</h2><ul>
+        <li><a href="#">Causes</a></li><li><a href="#">Events</a></li><li><a href="#">News</a></li><li><a href="#">Gallery</a></li>
+      </ul></nav>
+      <nav aria-label="The Trust"><h2>The Trust</h2><ul>
+        <li><a href="#">About</a></li><li><a href="#">Transparency</a></li><li><a href="#">80G disclaimer</a></li>
+      </ul></nav>
+      <div><h2>Get help</h2><ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="mailto:info@mswelfaretrust.org">info@mswelfaretrust.org</a></li>
+        <li><span class="tbd">[Phone – C3]</span></li>
+      </ul></div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2026 Munira Shoaib Welfare Trust. Registered under Sections 12A and 80G of the Income-tax Act, 1961.</p>
+      <p><a href="#">Privacy policy</a> · <a href="#">Terms of use</a> · <a href="#">Refund policy</a></p>
+    </div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>देणगी द्या – MS Welfare Trust</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="icon" href="../assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">मुख्य मजकुराकडे जा</a>
+<aside class="mock-banner" aria-label="Mockup notice">Design mockup — sample content, not real Trust data. Translations are samples and need human review. <a href="../index.html">All mockups</a></aside>
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="home.html"><img src="../assets/mswt-logo-horizontal.svg" alt="एमएस वेल्फेअर ट्रस्ट – मुखपृष्ठ" width="204" height="64"></a>
+    <button class="btn btn--ghost menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">मेनू</button>
+    <nav class="nav" id="site-nav" aria-label="मेनू">
+      <ul><li><a href="#">आमच्याबद्दल</a></li><li><a href="#">सेवा कार्य</a></li><li><a href="#">गॅलरी</a></li><li><a href="#">कार्यक्रम</a></li><li><a href="#">बातम्या</a></li><li><a href="#">पारदर्शकता</a></li><li><a href="#">संपर्क</a></li></ul>
+    </nav>
+    <div class="header-actions">
+      <details class="lang-switch">
+        <summary><span class="visually-hidden">भाषा: </span>मराठी</summary>
+        <ul><li><a href="../en/donate.html" lang="en" hreflang="en">English</a></li><li><a href="../hi/donate.html" lang="hi" hreflang="hi">हिन्दी</a></li><li><a href="../mr/donate.html" lang="mr" hreflang="mr" aria-current="true">मराठी</a></li><li><a href="../gu/donate.html" lang="gu" hreflang="gu">ગુજરાતી</a></li></ul>
+      </details>
+      <a class="btn btn--primary" href="donate.html">देणगी द्या</a>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+
+<div class="container section">
+  <nav class="breadcrumbs" aria-label="मुखपृष्ठ"><ol><li><a href="home.html">मुखपृष्ठ</a></li><li><span aria-current="page">देणगी द्या</span></li></ol></nav>
+  <div class="layout-aside">
+    <div>
+      <h1 class="heading-rule">देणगी द्या</h1>
+      <div class="alert alert--info" style="margin-bottom: var(--spacing-8)"><span class="alert__icon" aria-hidden="true">i</span><p>तुमची देणगी सुरक्षितपणे प्रक्रिया केली जाते. पेमेंटची खात्री होताच तुम्हाला ईमेलवर पावती मिळेल.</p></div>
+      <form class="form" action="#" method="post" novalidate>
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">1. सेवा कार्य आणि रक्कम निवडा</h2></legend>
+          <div class="field">
+            <label for="cause">सेवा कार्य <span class="req">(आवश्यक)</span></label>
+            <select class="select" id="cause" name="cause">
+              <option>सामान्य निधी – जिथे सर्वाधिक गरज आहे</option>
+              <option>मुलांसाठी शालेय मदत</option><option>रुग्णांसाठी वैद्यकीय मदत</option><option>धान्य आणि मदत किट</option>
+            </select>
+          </div>
+          <fieldset class="field">
+            <legend>रक्कम <span class="req">(आवश्यक)</span></legend>
+            <div class="amounts">
+              <div class="amount"><input type="radio" name="amount" id="amt-0" value="100000"><label for="amt-0">₹1,000</label></div><div class="amount"><input type="radio" name="amount" id="amt-1" value="250000"><label for="amt-1">₹2,500</label></div><div class="amount"><input type="radio" name="amount" id="amt-2" value="500000" checked><label for="amt-2">₹5,000</label></div><div class="amount"><input type="radio" name="amount" id="amt-3" value="1000000"><label for="amt-3">₹10,000</label></div>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="other-amount">इतर रक्कम</label>
+            <p class="hint" id="other-amount-hint">किमान ₹100. फक्त पूर्ण रुपये.</p>
+            
+            <div class="input-prefix"><span aria-hidden="true">₹</span><input class="input" id="other-amount" name="other" inputmode="numeric" autocomplete="off" aria-describedby="other-amount-hint"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">2. तुमचा तपशील</h2></legend>
+          <div class="field"><label for="name">पूर्ण नाव <span class="req">(आवश्यक)</span></label><input class="input" id="name" name="name" autocomplete="name"></div>
+          <div class="grid grid--2">
+            <div class="field">
+              <label for="email">ईमेल <span class="req">(आवश्यक)</span></label>
+              <p class="hint" id="email-hint">आम्ही तुमची पावती येथे पाठवू.</p>
+              
+              <input class="input" id="email" name="email" type="email" autocomplete="email" aria-describedby="email-hint">
+            </div>
+            <div class="field"><label for="phone">मोबाइल क्रमांक <span class="req">(आवश्यक)</span></label><input class="input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></div>
+          </div>
+          <div class="choice"><input type="checkbox" id="want80g" name="want80g" checked aria-describedby="want80g-hint"><div><label for="want80g"><strong>मला 80G कर पावती हवी आहे</strong></label><p class="hint" id="want80g-hint">80G पावतीसाठी आयकर विभागाला तुमचा PAN आणि पत्ता आवश्यक आहे.</p></div></div>
+          <div class="field">
+            <label for="pan">PAN <span class="req">(आवश्यक)</span></label>
+            <p class="hint" id="pan-hint">10 अक्षरे, उदाहरणार्थ ABCDE1234F</p>
+            
+            <input class="input" id="pan" name="pan" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10" style="max-width: 16rem" aria-describedby="pan-hint">
+          </div>
+          <div class="field"><label for="address">पत्ता <span class="req">(आवश्यक)</span></label><input class="input" id="address" name="address" autocomplete="street-address"></div>
+          <div class="grid grid--3">
+            <div class="field"><label for="city">शहर <span class="req">(आवश्यक)</span></label><input class="input" id="city" name="city" autocomplete="address-level2"></div>
+            <div class="field"><label for="state">राज्य <span class="req">(आवश्यक)</span></label><select class="select" id="state" name="state" autocomplete="address-level1"><option value="">निवडा</option><option>Maharashtra</option><option>Gujarat</option></select></div>
+            <div class="field"><label for="pin">पिन कोड <span class="req">(आवश्यक)</span></label><input class="input" id="pin" name="pin" inputmode="numeric" autocomplete="postal-code" maxlength="6"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="panel stack">
+          <legend><h2 style="font-size: var(--text-xl); margin: 0">3. खात्री करा</h2></legend>
+          <div class="field">
+            
+            <div class="choice"><input type="checkbox" id="citizen" name="citizen" required aria-describedby="citizen-hint"><div><label for="citizen"><strong>मी भारतीय नागरिक आहे आणि ही देणगी माझ्या स्वतःच्या भारतीय बँक खाते, कार्ड किंवा UPI मधून आहे.</strong> <span class="req">(आवश्यक)</span></label><p class="hint" id="citizen-hint">ट्रस्ट FCRA अंतर्गत नोंदणीकृत नाही, त्यामुळे परदेशी देणगी स्वीकारू शकत नाही.</p></div></div>
+          </div>
+          <div class="choice"><input type="checkbox" id="fee" name="fee" aria-describedby="fee-hint"><div><label for="fee">पेमेंट गेटवे शुल्कासाठी <span class="tbd">[₹ – B3]</span> जोडा <span class="req">(ऐच्छिक)</span></label><p class="hint" id="fee-hint">जेणेकरून तुमच्या देणगीची पूर्ण रक्कम सेवा कार्यापर्यंत पोहोचेल.</p></div></div>
+          <div class="choice"><input type="checkbox" id="anon" name="anon" aria-describedby="anon-hint"><div><label for="anon">सार्वजनिक देणगीदार यादीत माझे नाव दाखवू नका <span class="req">(ऐच्छिक)</span></label><p class="hint" id="anon-hint">कायद्यानुसार आम्ही तुमचे नाव आणि संपर्क तपशील तरीही नोंदवतो. ते कधीही प्रकाशित केले जात नाहीत.</p></div></div>
+          <div class="ph" style="min-height: var(--spacing-16); align-items: center"><span>सुरक्षा तपासणी (Cloudflare Turnstile)</span></div>
+          <button class="btn btn--primary btn--lg btn--block" type="submit">₹5,000 सुरक्षितपणे दान करा</button>
+          <p class="hint">तुम्हाला Cashfree च्या सुरक्षित पेमेंट पानावर नेले जाईल. आम्ही तुमचे कार्ड किंवा बँक तपशील कधीही पाहत नाही.</p>
+        </fieldset>
+      </form>
+    </div>
+    <aside class="panel panel--brand stack" aria-labelledby="sum-h" style="position: sticky; top: var(--spacing-6)">
+      <h2 id="sum-h" style="font-size: var(--text-xl)">तुमची देणगी</h2>
+      <table><tbody>
+        <tr><th scope="row">देणगी</th><td class="num">₹5,000</td></tr>
+        <tr><th scope="row">गेटवे शुल्क</th><td class="num">₹0</td></tr>
+        <tr><th scope="row">एकूण</th><td class="num"><strong>₹5,000</strong></td></tr>
+      </tbody></table>
+      <p class="small muted">तुमचा PAN दिल्यास कलम 80G अंतर्गत करवजावटीची पावती मिळवा.</p>
+    </aside>
+  </div>
+</div>
+</main>
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="stack">
+        <a class="footer-logo" href="home.html"><img src="../assets/mswt-logo-horizontal-reversed.svg" alt="एमएस वेल्फेअर ट्रस्ट – मुखपृष्ठ" width="240" height="75"></a>
+        <p>मुनीरा शोएब वेल्फेअर ट्रस्ट हा भारतातील नोंदणीकृत धर्मादाय ट्रस्ट आहे. देणगीवर कलम 80G अंतर्गत करसवलत मिळते.</p>
+        <p class="small">आम्ही फक्त भारतीय नागरिकांकडून देणगी स्वीकारतो.</p>
+      </div>
+      <nav aria-label="पाहा"><h2>पाहा</h2><ul>
+        <li><a href="#">सेवा कार्य</a></li><li><a href="#">कार्यक्रम</a></li><li><a href="#">बातम्या</a></li><li><a href="#">गॅलरी</a></li>
+      </ul></nav>
+      <nav aria-label="ट्रस्ट"><h2>ट्रस्ट</h2><ul>
+        <li><a href="#">आमच्याबद्दल</a></li><li><a href="#">पारदर्शकता</a></li><li><a href="#">80G अस्वीकरण</a></li>
+      </ul></nav>
+      <div><h2>मदत</h2><ul>
+        <li><a href="#">संपर्क</a></li>
+        <li><a href="mailto:info@mswelfaretrust.org">info@mswelfaretrust.org</a></li>
+        <li><span class="tbd">[फ़ोन / Phone – C3]</span></li>
+      </ul></div>
+    </div>
+    <div class="footer-legal">
+      <p>© 2026 मुनीरा शोएब वेल्फेअर ट्रस्ट. आयकर कायदा, 1961 च्या कलम 12A आणि 80G अंतर्गत नोंदणीकृत.</p>
+      <p><a href="#">गोपनीयता धोरण</a> · <a href="#">वापराच्या अटी</a> · <a href="#">परतावा धोरण</a></p>
+    </div>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>

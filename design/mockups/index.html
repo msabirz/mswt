@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MSWT design mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="icon" href="assets/mswt-mark-compact.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<main id="main" class="container section stack" tabindex="-1">
+  <img src="assets/mswt-logo-horizontal.svg" alt="MS Welfare Trust" width="240" height="75">
+  <h1 class="heading-rule">Design mockups — Step 1</h1>
+  <p class="lead muted">Static HTML pages built only from the brand tokens. Review each one at phone width (360px) and desktop width (1440px). Sample content is not real Trust data; <span class="tbd">[highlighted]</span> items are details we still need from the Trust.</p>
+  <div class="alert alert--success"><span class="alert__icon" aria-hidden="true">✓</span><div><strong>Typeface decided</strong><p>Poppins for English, Hindi and Marathi; Noto Sans Gujarati for Gujarati. Admins can change the site font later in Settings → Appearance. See the <a href="styleguide.html">style guide</a>.</p></div></div>
+  <section class="stack" aria-labelledby="g-start"><h2 id="g-start" style="font-size: var(--text-xl)">Start here</h2><ul><li><a href="styleguide.html">Style guide: colours, type, components, logo</a></li></ul></section><section class="stack" aria-labelledby="g-home"><h2 id="g-home" style="font-size: var(--text-xl)">Home in each language</h2><ul><li><a href="en/home.html">Home — English</a></li><li><a href="hi/home.html">Home — हिन्दी</a></li><li><a href="mr/home.html">Home — मराठी</a></li><li><a href="gu/home.html">Home — ગુજરાતી</a></li></ul></section><section class="stack" aria-labelledby="g-donate"><h2 id="g-donate" style="font-size: var(--text-xl)">Donation flow</h2><ul><li><a href="en/donate.html">Donate — English</a></li><li><a href="hi/donate.html">Donate — हिन्दी</a></li><li><a href="mr/donate.html">Donate — मराठी</a></li><li><a href="gu/donate.html">Donate — ગુજરાતી</a></li><li><a href="en/donate-errors.html">Donate — validation errors (English)</a></li><li><a href="hi/donate-errors.html">Donate — validation errors (हिन्दी)</a></li><li><a href="en/thank-you.html">Thank you — confirming, paid and failed states</a></li></ul></section><section class="stack" aria-labelledby="g-pages"><h2 id="g-pages" style="font-size: var(--text-xl)">Other public pages (English)</h2><ul><li><a href="en/about.html">About</a></li><li><a href="en/causes.html">Causes</a></li><li><a href="en/cause-detail.html">Cause detail</a></li><li><a href="en/contact.html">Contact</a></li><li><a href="en/404.html">Page not found</a></li></ul></section><section class="stack" aria-labelledby="g-admin"><h2 id="g-admin" style="font-size: var(--text-xl)">Admin (English only)</h2><ul><li><a href="admin/login.html">Sign in and two-factor code</a></li><li><a href="admin/dashboard.html">Dashboard</a></li><li><a href="admin/donations.html">Donations list and filters</a></li><li><a href="admin/donation-new.html">Record offline donation (cash over ₹2,000 warning)</a></li></ul></section>
+</main>
+<script>
+document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
+  const nav = document.getElementById(btn.getAttribute("aria-controls"));
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+  });
+});
+</script>
+</body>
+</html>
