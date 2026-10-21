@@ -83,6 +83,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 
 ## Step 12 — Go-live
 **Deliverables / checklist:**
+- Transfer the Vercel project from the personal account to the MSWT-owned account/team (plan: Pro if needed, see D6); reconnect Git, verify env vars
 - Cashfree production keys + webhook URL, international payments disabled, ₹1 live test + refund
 - DNS on Cloudflare → Vercel, HTTPS, HSTS; email SPF/DKIM/DMARC verified
 - Production DB migrated, settings filled (Organization, SEO, payments), first FY sequence initialised
