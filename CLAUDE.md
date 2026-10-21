@@ -14,7 +14,8 @@ Donation website and admin panel for **Munira Shoaib Welfare Trust** ("MS Welfar
 
 ## Folder conventions (from Step 2)
 ```
-src/app/[locale]/…        public pages (server components by default)
+src/app/[locale]/…        public pages (server components by default; static via generateStaticParams)
+src/i18n/                 next-intl routing, request config; src/proxy.ts is the locale proxy (Next 16)
 src/app/admin/…           admin UI (English only, noindex, not locale-prefixed)
 src/app/api/…             route handlers (webhooks, cron, forms) — noindex
 src/components/ui/        design-system primitives (tokens only)
@@ -43,6 +44,9 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Validate all input on the server (zod); never trust client-sent amounts, fees or status.
 - Every admin write goes through a service that records an audit-log entry.
 - Webhook handlers: verify signature on the raw body, be idempotent, return 200 only after commit.
+
+## Commands
+`nvm use` (Node 24) · `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` · `npm run build && npm run test:e2e && npm run lhci` · `npm run db:generate` (then review the SQL) · `npm run db:migrate` · `npm run tokens`. Full list in README.md.
 
 ## Workflow
 1. **Plan mode first** for every step: propose, wait for approval, then write.

@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: "1"
+  NEXT_PUBLIC_SITE_URL: http://localhost:3000
+
+jobs:
+  check:
+    name: Lint, types, unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Design tokens are up to date
+        run: npm run tokens:check
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+
+  db:
+    name: Migrations apply cleanly
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Schema and SQL migrations are in sync
+        run: |
+          npx drizzle-kit check
+          npx drizzle-kit generate --name ci_drift_check
+          git diff --exit-code drizzle/ || (echo "schema.ts changed without a migration: run npm run db:generate" && exit 1)
+          test -z "$(git status --porcelain drizzle/)" || (git status --porcelain drizzle/ && echo "Uncommitted migration generated" && exit 1)
+      - name: Apply migrations
+        run: npm run db:migrate
+      - name: Re-run is a no-op
+        run: npm run db:migrate
+      - name: Audit log is append-only
+        run: |
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "insert into audit_log (action, entity_type) values ('ci.test', 'ci')"
+          if psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "update audit_log set action = 'x'"; then echo "UPDATE was allowed" && exit 1; fi
+          if psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "delete from audit_log"; then echo "DELETE was allowed" && exit 1; fi
+          echo "audit_log rejects UPDATE and DELETE"
+
+  e2e:
+    name: Build, e2e + axe, Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Lighthouse budgets
+        run: npm run lhci
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            playwright-report/
+            .lighthouseci/
+          retention-days: 7

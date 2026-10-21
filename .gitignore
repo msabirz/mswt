@@ -11,3 +11,6 @@ test-results/
 .DS_Store
 *.log
 .claude/settings.local.json
+next-env.d.ts
+*.tsbuildinfo
+.lighthouseci/
