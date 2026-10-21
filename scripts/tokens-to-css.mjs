@@ -50,12 +50,14 @@ const vars = [];
 const add = (name, value, note) => vars.push({ name, value, note });
 
 for (const [p, t] of leaves(tokens.color)) add(`--color-${p.join("-")}`, resolve(t.$value));
-for (const [p, t] of leaves(tokens.semantic)) add(`--color-${p.join("-")}`, resolve(t.$value), t.$description);
+for (const [p, t] of leaves(tokens.semantic))
+  add(`--color-${p.join("-")}`, resolve(t.$value), t.$description);
 for (const [p, t] of leaves(tokens.pwa)) add(`--color-pwa-${p.join("-")}`, resolve(t.$value));
 for (const [p, t] of leaves(tokens.font.family)) add(`--font-${p.join("-")}`, fontStack(resolve(t.$value)));
 for (const [p, t] of leaves(tokens.font.weight)) add(`--font-weight-${p.join("-")}`, resolve(t.$value));
 for (const [p, t] of leaves(tokens.font.size)) add(`--text-${p.join("-")}`, resolve(t.$value));
-for (const [p, t] of leaves(tokens.font["letter-spacing"])) add(`--tracking-${p.join("-")}`, resolve(t.$value));
+for (const [p, t] of leaves(tokens.font["letter-spacing"]))
+  add(`--tracking-${p.join("-")}`, resolve(t.$value));
 for (const [p, t] of leaves(tokens.font["line-height"])) {
   const [script, step] = p;
   add(script === "latin" ? `--leading-${step}` : `--leading-${script}-${step}`, resolve(t.$value));
@@ -67,7 +69,8 @@ for (const [p, t] of leaves(tokens.shadow)) add(`--shadow-${p.join("-")}`, shado
 for (const [p, t] of leaves(tokens.size)) add(`--size-${p.join("-")}`, resolve(t.$value));
 for (const [p, t] of leaves(tokens.breakpoint)) add(`--breakpoint-${p.join("-")}`, resolve(t.$value));
 for (const [p, t] of leaves(tokens.motion.duration)) add(`--duration-${p.join("-")}`, resolve(t.$value));
-for (const [p, t] of leaves(tokens.motion.easing)) add(`--ease-${p.join("-")}`, `cubic-bezier(${resolve(t.$value).join(", ")})`);
+for (const [p, t] of leaves(tokens.motion.easing))
+  add(`--ease-${p.join("-")}`, `cubic-bezier(${resolve(t.$value).join(", ")})`);
 
 const names = new Set();
 for (const v of vars) {

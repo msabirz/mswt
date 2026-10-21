@@ -1,0 +1,11 @@
+design/
+drizzle/meta/
+package-lock.json
+.next/
+playwright-report/
+test-results/
+.lighthouseci/
+*.md
+brand/
+tokens/
+.claude/

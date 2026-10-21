@@ -36,10 +36,19 @@ put("styleguide.html", styleguide(root));
 put(
   "index.html",
   index([
-    { id: "g-start", title: "Start here", links: [["styleguide.html", "Style guide: colours, type, components, logo"]] },
-    { id: "g-home", title: "Home in each language", links: LOCALES.map((l) => [`${l}/home.html`, `Home — ${LANG_NAMES[l]}`]) },
     {
-      id: "g-donate", title: "Donation flow",
+      id: "g-start",
+      title: "Start here",
+      links: [["styleguide.html", "Style guide: colours, type, components, logo"]],
+    },
+    {
+      id: "g-home",
+      title: "Home in each language",
+      links: LOCALES.map((l) => [`${l}/home.html`, `Home — ${LANG_NAMES[l]}`]),
+    },
+    {
+      id: "g-donate",
+      title: "Donation flow",
       links: [
         ...LOCALES.map((l) => [`${l}/donate.html`, `Donate — ${LANG_NAMES[l]}`]),
         ["en/donate-errors.html", "Donate — validation errors (English)"],
@@ -48,14 +57,27 @@ put(
       ],
     },
     {
-      id: "g-pages", title: "Other public pages (English)",
-      links: [["en/about.html", "About"], ["en/causes.html", "Causes"], ["en/cause-detail.html", "Cause detail"], ["en/contact.html", "Contact"], ["en/404.html", "Page not found"]],
+      id: "g-pages",
+      title: "Other public pages (English)",
+      links: [
+        ["en/about.html", "About"],
+        ["en/causes.html", "Causes"],
+        ["en/cause-detail.html", "Cause detail"],
+        ["en/contact.html", "Contact"],
+        ["en/404.html", "Page not found"],
+      ],
     },
     {
-      id: "g-admin", title: "Admin (English only)",
-      links: [["admin/login.html", "Sign in and two-factor code"], ["admin/dashboard.html", "Dashboard"], ["admin/donations.html", "Donations list and filters"], ["admin/donation-new.html", "Record offline donation (cash over ₹2,000 warning)"]],
+      id: "g-admin",
+      title: "Admin (English only)",
+      links: [
+        ["admin/login.html", "Sign in and two-factor code"],
+        ["admin/dashboard.html", "Dashboard"],
+        ["admin/donations.html", "Donations list and filters"],
+        ["admin/donation-new.html", "Record offline donation (cash over ₹2,000 warning)"],
+      ],
     },
-  ])
+  ]),
 );
 
 for (const [path, html] of Object.entries(files)) {
@@ -66,7 +88,12 @@ for (const [path, html] of Object.entries(files)) {
 mkdirSync(join(out, "assets"), { recursive: true });
 copyFileSync(join(root, "design/tokens.css"), join(out, "assets/tokens.css"));
 copyFileSync(join(root, "design/base.css"), join(out, "assets/base.css"));
-for (const f of ["mswt-logo-horizontal.svg", "mswt-logo-horizontal-reversed.svg", "mswt-mark.svg", "mswt-mark-compact.svg"]) {
+for (const f of [
+  "mswt-logo-horizontal.svg",
+  "mswt-logo-horizontal-reversed.svg",
+  "mswt-mark.svg",
+  "mswt-mark-compact.svg",
+]) {
   copyFileSync(join(root, "brand/logo", f), join(out, "assets", f));
 }
 console.log(`Built ${Object.keys(files).length} pages into design/mockups/`);

@@ -71,7 +71,7 @@ Every PR must satisfy every item that applies to what it touches. Slash commands
 - [ ] **PERF-02** Field target: LCP < 2.5 s, INP < 200 ms, CLS < 0.1 at p75 (monitored post-launch via Search Console / Vercel Speed Insights)
 - [ ] **PERF-03** All images via `next/image` with sizes, AVIF/WebP, LCP image `priority`, no layout shift
 - [ ] **PERF-04** Fonts via `next/font` (self-hosted, subset, `display: swap`, size-adjusted fallback)
-- [ ] **PERF-05** Minimal client JS: server components by default; client bundle per public route ≤ ~100 kB gzip (budget in Lighthouse CI)
+- [ ] **PERF-05** Minimal client JS: server components by default; JS transferred per public route ≤ 150 KiB compressed (Lighthouse CI budget). The Next 16 + React 19 runtime alone is ~120 KiB, so page code gets ~30 KiB; any increase needs a reason in the PR
 - [ ] **PERF-06** Third-party scripts (Cashfree SDK, Turnstile) loaded only on pages that need them, `lazyOnload`/on interaction
 - [ ] **PERF-07** Static/ISR for content pages; cache headers correct; no N+1 queries on list pages
 

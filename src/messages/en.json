@@ -1,0 +1,24 @@
+{
+  "Meta": {
+    "siteName": "MS Welfare Trust",
+    "homeTitle": "MS Welfare Trust – Donate to education, healthcare and relief",
+    "homeDescription": "Munira Shoaib Welfare Trust is a registered charitable trust in India. Donations are eligible for tax deduction under Section 80G."
+  },
+  "Layout": {
+    "skip": "Skip to main content",
+    "logoHome": "MS Welfare Trust – home",
+    "language": "Language",
+    "rights": "© 2026 Munira Shoaib Welfare Trust",
+    "reg": "Registered under Sections 12A and 80G of the Income-tax Act, 1961"
+  },
+  "Home": {
+    "eyebrow": "Registered under 12A and 80G",
+    "h1": "Help families in need, with every rupee accounted for",
+    "intro": "Our new website is being built. Online donations with instant 80G receipts are coming soon."
+  },
+  "NotFound": {
+    "title": "We can't find that page",
+    "body": "The link may be out of date, or the page may have moved.",
+    "home": "Go to the home page"
+  }
+}

@@ -1,0 +1,24 @@
+@import "tailwindcss";
+/* Generated from tokens/design-tokens.json (npm run tokens). Step 3 maps the full set into @theme. */
+@import "../../design/tokens.css";
+
+@theme inline {
+  --color-canvas: var(--color-bg-canvas);
+  --color-subtle: var(--color-bg-subtle);
+  --color-inverse: var(--color-bg-inverse);
+  --color-fg: var(--color-fg-default);
+  --color-fg-muted: var(--color-fg-muted);
+  --color-brand: var(--color-fg-brand);
+  --color-on-inverse: var(--color-fg-inverse-muted);
+  --color-rule: var(--color-border-rule);
+}
+
+body {
+  background: var(--color-bg-canvas);
+  color: var(--color-fg-default);
+}
+
+:focus-visible {
+  outline: var(--border-width-focus) solid var(--color-focus-ring);
+  outline-offset: var(--size-focus-ring-offset);
+}
