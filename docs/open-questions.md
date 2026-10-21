@@ -39,12 +39,12 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **C8** Initial causes (names, descriptions, goals), and any annual reports / audited accounts to publish on Transparency.
 
 ## D. Operations & accounts
-- [x] **D1** GitHub repository: `msabirz/mswt` (answered 2026-10-20).
+- [x] **D1** GitHub repository: **`mswtorg/mswt`**, owned by the Trust's own GitHub account `mswtorg` (moved from `msabirz/mswt` on 2026-10-22). Developers are added as collaborators.
 - [ ] **D2** Who will be the admins (names, emails, role each)?
 - [ ] **D3** Who human-reviews Hindi, Marathi and Gujarati translations?
 - [ ] **D4** Outbound email provider: Resend (3,000/month free, best DX) vs Brevo (300/day free) vs MSG91 — proposal: **Resend**. Sender address (e.g. `receipts@mswelfaretrust.org`)?
 - [ ] **D5** Domain `mswelfaretrust.org` — registered where, and is DNS already on Cloudflare?
 - [ ] **D6** Vercel plan: the free **Hobby** plan is limited to non-commercial personal use; a donation-collecting site may need **Pro** (or a Vercel nonprofit arrangement). Please confirm before go-live.
-  *2026-10-21: building on the owner's **personal** Vercel account for now. Before go-live, transfer the project to an MSWT-owned Vercel account/team (Project → Settings → General → Transfer). Re-check env vars, the Git connection and the plan after the transfer.*
+  *2026-10-22: hosting moved to a Vercel account owned by the Trust (signed in with GitHub `mswtorg`). The database is Neon, added through the Vercel Marketplace, so Vercel injects `DATABASE_URL` automatically. Still to decide before go-live: Hobby vs Pro.*
 - [ ] **D7** Analytics: none, Vercel Web Analytics, or a privacy-friendly tool (no cookie banner needed if cookieless)?
 - [ ] **D8** Admin notification recipients for new donations and messages.

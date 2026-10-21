@@ -10,6 +10,15 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # Node 24 is the runtime (.nvmrc); keep its types on 24.x.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # eslint-plugin-jsx-a11y supports ESLint up to 9; typescript-eslint supports TypeScript < 6.1.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
