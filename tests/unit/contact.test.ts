@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { ContactSchema } from "@/lib/contact/schema";
-import { clientIp, hashIp, isRateLimited, MAX_MESSAGES_PER_HOUR } from "@/lib/contact/rate-limit";
-import { verifyTurnstile } from "@/lib/contact/turnstile";
+import { clientIp, hashIp, isRateLimited, MAX_MESSAGES_PER_HOUR } from "@/lib/security/rate-limit";
+import { verifyTurnstile } from "@/lib/security/turnstile";
 
 const valid = {
   name: "Asha",

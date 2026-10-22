@@ -11,7 +11,7 @@ export type PageMetaInput = {
   description: string;
   /** Site name in the page's language (for og:site_name). */
   siteName: string;
-  /** Absolute or root-relative image URL; defaults to the page's opengraph-image route. */
+  /** Absolute or root-relative image URL; defaults to the locale's opengraph-image route. */
   image?: string;
   type?: "website" | "article";
   noindex?: boolean;
@@ -36,7 +36,11 @@ export function buildMetadata(input: PageMetaInput): Metadata {
     locales,
   } = input;
   const url = absoluteUrl(locale, path);
-  const images = image ? [{ url: image, width: 1200, height: 630, alt: title }] : undefined;
+  // A page's own openGraph replaces the layout's, so the locale share card (app/[locale]/
+  // opengraph-image + twitter-image) is the explicit default for every page (SEO-08).
+  const ogImage = image ?? absoluteUrl(locale, "/opengraph-image");
+  const twitterImage = image ?? absoluteUrl(locale, "/twitter-image");
+  const images = [{ url: ogImage, width: 1200, height: 630, alt: title }];
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
@@ -49,9 +53,14 @@ export function buildMetadata(input: PageMetaInput): Metadata {
       siteName,
       locale: OG_LOCALES[locale],
       alternateLocale: (locales ?? routing.locales).filter((l) => l !== locale).map((l) => OG_LOCALES[l]),
-      ...(images ? { images } : {}),
+      images,
     },
-    twitter: { card: "summary_large_image", title, description, ...(images ? { images } : {}) },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [{ url: twitterImage, width: 1200, height: 630, alt: title }],
+    },
     robots: noindex ? { index: false, follow: false } : { index: true, follow: true },
   };
 }

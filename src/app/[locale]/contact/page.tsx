@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { turnstileSiteKey } from "@/lib/contact/turnstile";
+import { turnstileSiteKey } from "@/lib/security/turnstile";
 import { breadcrumbList, pageGraph, webPage } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/page";
 import { getOrganizationSettings } from "@/lib/settings";

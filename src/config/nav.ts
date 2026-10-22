@@ -1,4 +1,5 @@
 import { routing, type Locale } from "@/i18n/routing";
+import { donationsEnabled } from "@/lib/flags";
 
 /**
  * Every public page in the sitemap (docs/spec.md §1). `ready` turns a page on in the header/footer;
@@ -14,7 +15,8 @@ export const PAGES = {
   news: { path: "/news", ready: true },
   transparency: { path: "/transparency", ready: true },
   contact: { path: "/contact", ready: true },
-  donate: { path: "/donate", ready: false },
+  // Off in production until go-live (src/lib/flags.ts).
+  donate: { path: "/donate", ready: donationsEnabled() },
   privacy: { path: "/privacy", ready: false },
   terms: { path: "/terms", ready: false },
   refund: { path: "/refund-policy", ready: false },

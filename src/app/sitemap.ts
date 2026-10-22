@@ -5,7 +5,7 @@ import { albumsFrom, causesFrom, eventsFrom, newsFrom } from "@/lib/content/quer
 import { getSiteContent, type SiteContent } from "@/lib/content/source";
 import { absoluteUrl, languageAlternates } from "@/lib/seo/site";
 
-const INDEXABLE: PageKey[] = (Object.keys(PAGES) as PageKey[]).filter((k) => k !== "donate");
+const INDEXABLE: PageKey[] = Object.keys(PAGES) as PageKey[];
 
 function entry(path: string, locales: readonly Locale[], lastModified: Date): MetadataRoute.Sitemap {
   return locales.map((locale) => ({

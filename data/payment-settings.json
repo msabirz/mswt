@@ -1,0 +1,8 @@
+{
+  "$comment": "Donate-form amounts in paise (₹1 = 100). PROVISIONAL until the Trust answers open-questions B3/B7. Apply with `npm run settings:sync`; the admin replaces this in Step 8.",
+  "minAmountPaise": 10000,
+  "maxAmountPaise": null,
+  "presetAmountsPaise": [50000, 100000, 250000, 500000],
+  "feeCoverEnabled": false,
+  "feeCoverPercentBp": 0
+}

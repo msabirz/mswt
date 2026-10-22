@@ -18,13 +18,15 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 ## B. Legal / tax / payments
 - [ ] **B1** Trust PAN, 12A registration no. + date, 80G registration no. + validity (from–to), Trust registration no. and authority (Charity Commissioner, etc.).
 - [ ] **B2** No FCRA: confirm the rule — block everyone without an Indian citizenship declaration, INR only, international cards disabled on Cashfree. Should NRIs who are Indian citizens paying from Indian (NRO/NRE) accounts be allowed? (Recommend confirming with the Trust's CA.)
-- [ ] **B3** "Cover the gateway fee": what % to add (Cashfree pricing on your plan), and should the fee-cover amount be included in the 80G receipt amount? (Proposal: included.)
+- [ ] **B3** "Cover the gateway fee": what % to add (Cashfree pricing on your plan), and should the fee-cover amount be included in the 80G receipt amount? (Proposal: included.) *Step 7: fee cover is built but **off** until answered; when on, the receipt amount includes it.*
 - [ ] **B4** Separate number series for non-80G acknowledgements (`MSWT/ACK/2026-27/000001`) — OK?
 - [ ] **B5** Donor without PAN: issue acknowledgement only, and allow later conversion to an 80G receipt within the same FY — OK?
 - [ ] **B6** "Anonymous" = hidden from public display only, identity still recorded (to avoid Section 115BBC tax on anonymous donations) — OK? Confirm with CA.
-- [ ] **B7** Minimum and maximum online donation amount, and the preset amounts to show.
+- [ ] **B7** Minimum and maximum online donation amount, and the preset amounts to show. *Owner decision 2026-10-22: minimum must be above ₹5, 3–4 suggested amounts, all editable in the admin. **Provisional:** min ₹100, presets ₹500 / ₹1,000 / ₹2,500 / ₹5,000, no max (`data/payment-settings.json`).*
 - [ ] **B8** Authorised signatory for receipts (name, designation) and a scanned signature/stamp image, if wanted on the PDF.
-- [ ] **B9** Cashfree account: already approved (KYC done) or to be opened? Business/settlement account in the Trust's name?
+- [ ] **B9** Cashfree account: already approved (KYC done) or to be opened? Business/settlement account in the Trust's name? *Step 7 is built against the sandbox; sandbox keys are needed for the live test run. Ask Cashfree to keep **international payments disabled** on the account (SEC-12).*
+- [ ] **B13** Receipt wording (80G statement, acknowledgement notes, "no goods or services" line in `src/lib/receipts/pdf.ts`) and showing the donor's PAN **masked** on receipts: confirm with the CA.
+- [ ] **B14** Brevo sender: which address sends receipts (e.g. `receipts@mswelfaretrust.org`), with SPF/DKIM DNS records added for the domain.
 - [ ] **B10** Refund policy terms (window, process) and who approves refunds.
   *2026-10-22: draft refund policy written (data/content/content.json); window and timings marked [to be confirmed].*
 - [ ] **B11** Legal texts (Privacy, Terms, Refund, 80G disclaimer): will the Trust's CA/lawyer provide or review drafts we write? DPDP Act 2023 grievance officer name and email.
