@@ -7,7 +7,7 @@ import {
   resendReceipt,
   voidReceipt,
 } from "@/lib/admin/donations";
-import { mergeDonors, MergeError } from "@/lib/admin/donors";
+import { mergeDonors, MergeError, searchDonors } from "@/lib/admin/donors";
 import {
   ACCESS_WINDOW_MS,
   MAX_ATTEMPTS,
@@ -164,6 +164,15 @@ describe("receipt corrections", () => {
 });
 
 describe("donors", () => {
+  it("search lists donors with paid totals, newest activity first", async () => {
+    await offline({ name: "Searchable Donor" });
+    const { rows, total } = await searchDonors("Searchable Donor");
+    expect(total).toBeGreaterThan(0);
+    expect(rows[0]!.name).toBe("Searchable Donor");
+    expect(rows[0]!.totalPaise).toBe(300000);
+    expect((await searchDonors(undefined)).rows.length).toBeGreaterThan(0);
+  });
+
   it("merge moves donations and hides the source", async () => {
     const a = await offline({ name: "Dup One" });
     const b = await offline({ name: "Dup Two" });

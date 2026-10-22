@@ -34,7 +34,7 @@ export async function searchDonors(q: string | undefined, page = 1) {
     .leftJoin(donations, eq(donations.donorId, donors.id))
     .where(where)
     .groupBy(donors.id)
-    .orderBy(desc(sql`max(${donations.receivedAt}) nulls last`), donors.fullName)
+    .orderBy(sql`max(${donations.receivedAt}) desc nulls last`, donors.fullName)
     .limit(DONOR_PAGE_SIZE)
     .offset((page - 1) * DONOR_PAGE_SIZE);
   const [total] = await db
