@@ -12,11 +12,18 @@ export function absoluteUrl(locale: Locale, path = ""): string {
 
 export const OG_LOCALES: Record<Locale, string> = { en: "en_IN", hi: "hi_IN", mr: "mr_IN", gu: "gu_IN" };
 
-/** hreflang map for one page: every locale plus x-default → English. */
-export function languageAlternates(path = ""): Record<string, string> {
+/**
+ * hreflang map for one page: each locale it exists in, plus x-default → English (or the first
+ * available language when there is no English version).
+ */
+export function languageAlternates(
+  path = "",
+  locales: readonly Locale[] = routing.locales,
+): Record<string, string> {
+  const fallback = locales.includes("en") ? "en" : locales[0];
   return {
-    ...Object.fromEntries(routing.locales.map((l) => [l, absoluteUrl(l, path)])),
-    "x-default": absoluteUrl("en", path),
+    ...Object.fromEntries(locales.map((l) => [l, absoluteUrl(l, path)])),
+    ...(fallback ? { "x-default": absoluteUrl(fallback, path) } : {}),
   };
 }
 

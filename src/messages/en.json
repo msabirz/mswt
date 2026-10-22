@@ -59,12 +59,138 @@
     "required": "required",
     "optional": "optional",
     "breadcrumb": "Breadcrumb",
-    "home": "Home"
+    "home": "Home",
+    "sample": "Sample content for review – not real Trust information.",
+    "draft": "Draft – pending review by the Trust. Not shown on the live site.",
+    "readMore": "Read more",
+    "pageOf": "Page {page} of {total}",
+    "previous": "Previous",
+    "next": "Next",
+    "pagination": "Pages",
+    "lastUpdated": "Last updated {date}"
   },
   "Error": {
     "title": "Something went wrong",
     "body": "Sorry, this page couldn't be loaded. Please try again. If it keeps happening, email info@mswelfaretrust.org.",
     "retry": "Try again",
     "home": "Go to the home page"
+  },
+  "Causes": {
+    "title": "Causes you can support",
+    "description": "Choose a cause to support, or give to the general fund. Every donation gets a receipt.",
+    "lead": "Give to a specific cause, or to the general fund. Every donation gets a receipt, and progress is updated as donations are confirmed.",
+    "raised": "{amount} raised",
+    "goal": "Goal {amount}",
+    "progressLabel": "{percent}% of the goal raised",
+    "closed": "Closed",
+    "support": "Support this cause",
+    "donateSoon": "Online donations are coming soon.",
+    "eligible80g": "80G tax receipt available. Indian citizens only.",
+    "empty": "No causes are published yet. Please check back soon.",
+    "donateTo": "Donate to {title}"
+  },
+  "Events": {
+    "title": "Events",
+    "description": "Upcoming and past events organised by MS Welfare Trust.",
+    "upcoming": "Upcoming events",
+    "past": "Past events",
+    "emptyUpcoming": "No upcoming events right now.",
+    "emptyPast": "No past events yet.",
+    "when": "When",
+    "where": "Where",
+    "online": "Online",
+    "onlineAndVenue": "Online and in person",
+    "joinOnline": "Join online",
+    "status": {
+      "scheduled": "Scheduled",
+      "cancelled": "Cancelled",
+      "postponed": "Postponed",
+      "rescheduled": "Rescheduled",
+      "moved_online": "Moved online"
+    }
+  },
+  "News": {
+    "title": "News and updates",
+    "description": "News and updates from MS Welfare Trust.",
+    "empty": "No news yet.",
+    "published": "Published {date}",
+    "by": "By {name}"
+  },
+  "Gallery": {
+    "title": "Gallery",
+    "description": "Photos from MS Welfare Trust's work and events.",
+    "empty": "No albums yet.",
+    "photos": "{count, plural, one {# photo} other {# photos}}",
+    "photoPending": "Photo coming soon"
+  },
+  "Transparency": {
+    "title": "Transparency",
+    "description": "Annual reports and audited accounts of MS Welfare Trust, by financial year.",
+    "lead": "We publish our annual reports and audited accounts every financial year (April to March).",
+    "fy": "Financial year {fy}",
+    "kind": {
+      "annual_report": "Annual report",
+      "audited_accounts": "Audited accounts",
+      "other": "Document"
+    },
+    "fileSoon": "PDF coming soon",
+    "empty": "No reports are published yet."
+  },
+  "About": {
+    "title": "About us",
+    "description": "Who we are: Munira Shoaib Welfare Trust, a registered charitable trust in India.",
+    "trustees": "Trustees",
+    "registration": "Registration and tax status",
+    "legalName": "Legal name",
+    "pan": "PAN",
+    "reg12a": "12A registration",
+    "reg80g": "80G registration",
+    "validity": "valid {from} to {to}",
+    "fcra": "FCRA",
+    "fcraValue": "Not registered. We accept donations from Indian citizens only.",
+    "reports": "Read our annual reports and audited accounts"
+  },
+  "Contact": {
+    "title": "Contact us",
+    "description": "Contact MS Welfare Trust by email or using our contact form.",
+    "office": "Office",
+    "email": "Email",
+    "phone": "Phone",
+    "hours": "Hours",
+    "formTitle": "Send us a message",
+    "name": "Your name",
+    "emailField": "Email",
+    "phoneField": "Phone",
+    "subject": "Subject",
+    "message": "Message",
+    "subjects": {
+      "donation": "Donation or receipt",
+      "help": "Request for help",
+      "volunteer": "Volunteering",
+      "other": "Other"
+    },
+    "select": "Select a subject",
+    "send": "Send message",
+    "sending": "Sending…",
+    "sent": "Thank you – we've received your message and will reply by email.",
+    "errorSummary": "Please correct the following",
+    "errors": {
+      "name": "Enter your name",
+      "email": "Enter an email address in the format name@example.com",
+      "phone": "Enter a valid phone number, or leave it empty",
+      "subject": "Choose a subject",
+      "message": "Enter a message of at least 10 characters",
+      "captcha": "Please complete the security check",
+      "rate": "You've sent several messages recently. Please wait an hour and try again.",
+      "server": "Sorry, your message couldn't be sent. Please email us instead."
+    },
+    "captcha": "Security check",
+    "privacy": "We use your details only to reply to you. See our privacy policy."
+  },
+  "Legal": {
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "refund_policy": "Refund policy",
+    "disclaimer_80g": "80G tax deduction"
   }
 }
