@@ -1,36 +1,135 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState, type ReactNode } from "react";
+import { cn } from "@/lib/cn";
 import { Alert } from "@/components/ui/Alert";
-import { Button } from "@/components/ui/Button";
-import { Choice, ErrorSummary, FormField, Input, Select, Textarea } from "@/components/ui/Form";
-import type { FieldSpec, FormState } from "./form-state";
+import { ErrorSummary, FieldError, Hint, fieldControlProps } from "@/components/ui/Form";
+import { compactControl } from "./ui";
+import type { FieldSpec, FormSectionSpec, FormState } from "./form-state";
 
 const fieldId = (form: string, name: string) => `${form}-${name.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 
+const primaryButton =
+  "inline-flex min-h-10 items-center justify-center rounded-md bg-action-primary-bg px-4 text-sm font-semibold text-action-primary-fg hover:bg-action-primary-bg-hover disabled:cursor-not-allowed disabled:bg-bg-muted disabled:text-fg-disabled";
+const secondaryButton =
+  "inline-flex min-h-10 items-center justify-center rounded-md border border-border-input bg-bg-canvas px-4 text-sm font-semibold text-fg-default hover:bg-bg-subtle";
+
+function Field({ f, formId, error, value }: { f: FieldSpec; formId: string; error?: string; value: string }) {
+  const id = fieldId(formId, f.name);
+  const full = f.span === "full" || f.type === "textarea";
+  if (f.type === "checkbox")
+    return (
+      <div className={cn("grid gap-1", full && "sm:col-span-2")}>
+        {error ? <FieldError id={`${id}-error`}>{error}</FieldError> : null}
+        <div className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            name={f.name}
+            defaultChecked={value === "on" || value === "true"}
+            {...fieldControlProps(id, { hint: f.hint, error })}
+            className="mt-0.5 size-5 flex-none accent-action-primary-bg"
+          />
+          <div className="grid gap-0.5">
+            <label htmlFor={id} className="text-sm font-medium text-fg-strong">
+              {f.label}
+            </label>
+            {f.hint ? <Hint id={`${id}-hint`}>{f.hint}</Hint> : null}
+          </div>
+        </div>
+      </div>
+    );
+  const p = fieldControlProps(id, { hint: f.hint, error, required: f.required });
+  const control = cn(
+    compactControl,
+    "aria-invalid:border-2 aria-invalid:border-status-error-fg-on-canvas",
+    f.readOnly && "bg-bg-muted",
+  );
+  return (
+    <div className={cn("grid content-start gap-1.5", full && "sm:col-span-2")}>
+      <label htmlFor={id} className="text-sm font-medium text-fg-strong">
+        {f.label}
+        {f.required ? <span className="ml-1 text-xs font-normal text-fg-muted">(required)</span> : null}
+      </label>
+      {f.type === "textarea" ? (
+        <textarea
+          {...p}
+          name={f.name}
+          defaultValue={value}
+          rows={f.rows ?? 3}
+          lang={f.lang}
+          maxLength={f.maxLength}
+          readOnly={f.readOnly}
+          className={control}
+        />
+      ) : f.type === "select" ? (
+        <select {...p} name={f.name} defaultValue={value} className={control}>
+          {(f.options ?? []).map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          {...p}
+          name={f.name}
+          type={f.type ?? "text"}
+          defaultValue={f.type === "password" ? undefined : value}
+          autoComplete={f.autoComplete}
+          inputMode={f.inputMode}
+          lang={f.lang}
+          maxLength={f.maxLength}
+          readOnly={f.readOnly}
+          className={control}
+        />
+      )}
+      {error ? (
+        <FieldError id={`${id}-error`}>{error}</FieldError>
+      ) : f.hint ? (
+        <Hint id={`${id}-hint`}>{f.hint}</Hint>
+      ) : null}
+    </div>
+  );
+}
+
 /**
- * Generic admin form: fields from a spec, posted to a Server Action that validates on the server.
- * Errors appear next to each field and in a focused summary (A11Y-05); success is announced.
+ * Admin form posted to a Server Action that validates on the server. Fields sit in a two-column
+ * grid, optionally grouped into settings-style sections. Errors appear next to each field and in a
+ * focused summary (A11Y-05); success is announced. With `sticky`, the actions stay visible at the
+ * bottom and show when there are unsaved changes.
  */
 export function AdminForm({
   id,
   action,
   fields,
+  sections,
   submitLabel,
   pendingLabel = "Saving…",
   hidden,
   confirm,
+  sticky,
+  variant = "primary",
+  columns = 2,
+  children,
 }: {
   id: string;
   action: (prev: FormState, form: FormData) => Promise<FormState>;
-  fields: FieldSpec[];
+  fields?: FieldSpec[];
+  sections?: FormSectionSpec[];
   submitLabel: string;
   pendingLabel?: string;
   hidden?: Record<string, string>;
   /** Ask before submitting (destructive actions). */
   confirm?: string;
+  /** Sticky Save / Discard bar (long settings forms). */
+  sticky?: boolean;
+  variant?: "primary" | "secondary" | "danger";
+  /** 1 for narrow forms such as the sign-in screens. */
+  columns?: 1 | 2;
+  children?: ReactNode;
 }) {
   const [state, run, pending] = useActionState(action, { status: "idle" } as FormState);
+  const [dirty, setDirty] = useState(false);
   const status = useRef<HTMLDivElement>(null);
   const errors = state.errors ?? {};
   const values = state.values ?? {};
@@ -44,20 +143,55 @@ export function AdminForm({
     fieldId: name === "form" ? `${id}-submit` : fieldId(id, name),
     message,
   }));
-  const groups: FieldSpec[][] = [];
-  for (const f of fields) {
-    const last = groups.at(-1);
-    if (f.group && last?.[0]?.group === f.group) last.push(f);
-    else groups.push([f]);
-  }
+  const grid = (list: FieldSpec[]) =>
+    list.length ? (
+      <div className={cn("grid gap-x-4 gap-y-5", columns === 2 && "sm:grid-cols-2")}>
+        {list.map((f) => (
+          <Field
+            key={f.name}
+            f={f}
+            formId={id}
+            error={errors[f.name]}
+            value={values[f.name] ?? f.defaultValue ?? ""}
+          />
+        ))}
+      </div>
+    ) : null;
+
+  const buttons = (
+    <div className="flex items-center gap-2">
+      {sticky ? (
+        <button type="reset" className={secondaryButton} onClick={() => setDirty(false)} disabled={!dirty}>
+          Discard
+        </button>
+      ) : null}
+      <button
+        id={`${id}-submit`}
+        type="submit"
+        disabled={pending}
+        aria-disabled={pending}
+        className={
+          variant === "secondary"
+            ? secondaryButton
+            : variant === "danger"
+              ? cn(primaryButton, "bg-status-error-fg-on-canvas hover:bg-status-error-fg-on-canvas")
+              : primaryButton
+        }
+      >
+        {pending ? pendingLabel : submitLabel}
+      </button>
+    </div>
+  );
 
   return (
     <form
       action={run}
-      className="grid gap-6"
       noValidate
+      className="grid gap-5"
+      onChange={() => setDirty(true)}
       onSubmit={(e) => {
         if (confirm && !window.confirm(confirm)) e.preventDefault();
+        else setDirty(false);
       }}
     >
       {hidden
@@ -73,83 +207,42 @@ export function AdminForm({
       <div ref={status} tabIndex={-1} className="empty:hidden">
         {state.status === "saved" ? (
           <Alert tone="success" live="polite">
-            <p>{state.message ?? "Saved."}</p>
+            <p className="break-words">{state.message ?? "Saved."}</p>
           </Alert>
         ) : null}
       </div>
-      {groups.map((group) => (
-        <div
-          key={group.map((f) => f.name).join("|")}
-          className={group.length > 1 ? "grid gap-6 md:grid-cols-2 lg:grid-cols-4" : "grid gap-6"}
-        >
-          {group.map((f) => {
-            const fid = fieldId(id, f.name);
-            const value = values[f.name] ?? f.defaultValue ?? "";
-            if (f.type === "checkbox")
-              return (
-                <Choice
-                  key={f.name}
-                  id={fid}
-                  name={f.name}
-                  label={f.label}
-                  hint={f.hint}
-                  error={errors[f.name]}
-                  defaultChecked={value === "on" || value === "true"}
-                />
-              );
-            return (
-              <FormField
-                key={f.name}
-                id={fid}
-                label={f.label}
-                hint={f.hint}
-                error={errors[f.name]}
-                required={f.required}
-                requiredLabel={f.required ? "required" : undefined}
-              >
-                {(p) =>
-                  f.type === "textarea" ? (
-                    <Textarea
-                      {...p}
-                      name={f.name}
-                      defaultValue={value}
-                      rows={f.rows ?? 4}
-                      lang={f.lang}
-                      maxLength={f.maxLength}
-                      readOnly={f.readOnly}
-                    />
-                  ) : f.type === "select" ? (
-                    <Select {...p} name={f.name} defaultValue={value}>
-                      {(f.options ?? []).map((o) => (
-                        <option key={o.value} value={o.value}>
-                          {o.label}
-                        </option>
-                      ))}
-                    </Select>
-                  ) : (
-                    <Input
-                      {...p}
-                      name={f.name}
-                      type={f.type ?? "text"}
-                      defaultValue={f.type === "password" ? undefined : value}
-                      autoComplete={f.autoComplete}
-                      inputMode={f.inputMode}
-                      lang={f.lang}
-                      maxLength={f.maxLength}
-                      readOnly={f.readOnly}
-                    />
-                  )
-                }
-              </FormField>
-            );
-          })}
+      {sections ? (
+        <div className="rounded-lg border border-border-decorative bg-bg-canvas">
+          {sections.map((s, i) => (
+            <section
+              key={s.title}
+              aria-labelledby={`${id}-s${i}`}
+              className="grid gap-4 border-b border-border-decorative p-5 last:border-b-0 md:grid-cols-[14rem_minmax(0,1fr)] md:gap-8 md:p-6"
+            >
+              <div className="grid content-start gap-1">
+                <h2 id={`${id}-s${i}`} className="text-base font-semibold text-fg-strong">
+                  {s.title}
+                </h2>
+                {s.description ? <p className="m-0 text-sm text-fg-muted">{s.description}</p> : null}
+              </div>
+              {grid(s.fields)}
+            </section>
+          ))}
         </div>
-      ))}
-      <div>
-        <Button id={`${id}-submit`} type="submit" disabled={pending} aria-disabled={pending}>
-          {pending ? pendingLabel : submitLabel}
-        </Button>
-      </div>
+      ) : (
+        grid(fields ?? [])
+      )}
+      {children}
+      {sticky ? (
+        <div className="sticky bottom-0 z-10 -mx-1 flex items-center justify-between gap-4 rounded-lg border border-border-decorative bg-bg-canvas px-4 py-3 shadow-md">
+          <p className="m-0 text-sm text-fg-muted" aria-live="polite">
+            {dirty ? "You have unsaved changes." : "All changes saved."}
+          </p>
+          {buttons}
+        </div>
+      ) : (
+        <div>{buttons}</div>
+      )}
     </form>
   );
 }

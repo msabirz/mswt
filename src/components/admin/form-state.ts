@@ -25,8 +25,8 @@ export type FieldSpec = {
   rows?: number;
   readOnly?: boolean;
   maxLength?: number;
-  /** Fields with the same group are laid out side by side on wide screens. */
-  group?: string;
+  /** "full" spans both columns of the form grid (textareas do by default). */
+  span?: "full";
 };
 
 /** Everything a form posted, as strings (checkboxes "on"). */
@@ -45,3 +45,6 @@ export function issuesToErrors(issues: { path: PropertyKey[]; message: string }[
   }
   return errors;
 }
+
+/** A titled block of fields (settings-style: title and description on the left). */
+export type FormSectionSpec = { title: string; description?: string; fields: FieldSpec[] };

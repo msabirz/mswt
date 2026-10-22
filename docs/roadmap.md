@@ -77,7 +77,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 **Exit:** permission matrix in `spec.md` enforced by server tests for every action; audit entries for every write; admin keyboard + axe clean; noindex verified.
 **Split (owner decision, 2026-10-23):** three PRs.
 - **8a (built 2026-10-23):** Auth.js + mandatory TOTP (setup, recovery codes, no reuse), argon2id, 5-failure lockout, 30-min idle sessions ended at once on deactivate/role change/2FA reset; one-time invite and reset links (72 h, hash stored) handed out by a Super Admin; Users, Audit log, My account; Settings (organization, SEO, payments, email, appearance → public site font); `npm run admin:create`.
-- **8b:** dashboard, donations (filters, detail, offline entry, resend, void/reissue, exports), donors, reports.
+- **8b (built 2026-10-23):** dashboard; donations (filters, detail with timeline, offline entry with the cash warning, resend, void, reissue in the same FY, CSV + Excel export); donors (search, profile, contact edit, merge); reports (5 registers/summaries, CSV + Excel); full PAN only after a code emailed to the admin (15-minute window, audited). Admin UI redesigned: grouped sidebar with icons, page headers, sectioned two-column forms with a sticky Save bar, compact tables and filters.
 - **8c:** causes, CMS (pages, events, news, gallery, menus), media uploads to a public R2 bucket, messages.
 
 ## Step 9 — PWA + email

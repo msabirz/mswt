@@ -21,6 +21,7 @@ export const CAPABILITIES = {
   "donations.offline": FINANCE,
   "receipts.manage": FINANCE, // resend / void / reissue
   "reports.export": FINANCE,
+  "donors.merge": SA, // merging duplicate donor records (8b)
   "causes.read": ALL,
   "causes.write": CONTENT,
   "cms.write": CONTENT, // pages, gallery, events, news, menus, media

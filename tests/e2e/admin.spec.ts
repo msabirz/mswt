@@ -1,17 +1,5 @@
-import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Browser, type Page } from "@playwright/test";
-import { hash } from "@node-rs/argon2";
-import { Secret, TOTP } from "otpauth";
-import postgres from "postgres";
-
-const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
-const PASSWORD = "e2e admin passphrase 2026";
-
-async function expectAccessible(page: Page) {
-  const { violations } = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
-  const serious = violations.filter((v) => v.impact === "serious" || v.impact === "critical");
-  expect(serious, JSON.stringify(serious, null, 2)).toEqual([]);
-}
+import { expect, test } from "@playwright/test";
+import { createUser, expectAccessible, newPage, PASSWORD, signInFirstTime } from "./admin-helpers";
 
 test.describe("admin without signing in", () => {
   test("protected pages redirect to sign-in; sign-in is noindex and accessible", async ({
@@ -53,41 +41,7 @@ test.describe("admin flows", () => {
   test.skip(({ isMobile }) => !process.env.CI || isMobile, "writes to the database; CI only");
   test.describe.configure({ mode: "serial" });
 
-  const sql = () => postgres(process.env.DATABASE_URL!);
   const email = (role: string) => `e2e-${role}-${Date.now()}@example.com`;
-
-  async function createUser(role: "super_admin" | "accountant" | "content_editor") {
-    const db = sql();
-    const address = email(role);
-    await db`insert into users (email, name, role, password_hash)
-             values (${address}, ${`E2E ${role}`}, ${role}, ${await hash(PASSWORD)})`;
-    await db.end();
-    return address;
-  }
-
-  /** Password → first-time 2FA setup (key read from the page) → recovery codes → admin home. */
-  async function signInFirstTime(page: Page, address: string, password = PASSWORD) {
-    await page.goto("/admin/login");
-    await page.getByLabel("Email").fill(address);
-    await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Continue" }).click();
-    await expect(page.getByRole("heading", { name: "Set up two-step verification" })).toBeVisible();
-    await expectAccessible(page);
-    const key = (await page.locator("code").first().textContent())!.replace(/\s/g, "");
-    const totp = new TOTP({ secret: Secret.fromBase32(key) });
-    await page.getByLabel(/6-digit code/).fill(totp.generate());
-    await page.getByRole("button", { name: "Turn on two-step verification" }).click();
-    await expect(page.getByRole("heading", { name: "Save your recovery codes" })).toBeFocused();
-    const codes = await page.getByRole("list", { name: "Recovery codes" }).locator("li").allTextContents();
-    expect(codes).toHaveLength(10);
-    await page.getByRole("button", { name: /I have saved my codes/ }).click();
-    await expect(page.getByRole("heading", { level: 1, name: /^Welcome/ })).toBeVisible();
-    return { totp, codes };
-  }
-
-  async function newPage(browser: Browser) {
-    return (await browser.newContext()).newPage();
-  }
 
   let superAdmin = "";
   let recovery: string[] = [];
@@ -180,7 +134,7 @@ test.describe("admin flows", () => {
     await signInFirstTime(other, editor, "editor passphrase for e2e");
 
     const nav = other.getByRole("navigation", { name: "Admin" });
-    await expect(nav.getByRole("link")).toHaveText(["Home", "SEO", "Audit log", "My account"]);
+    await expect(nav.getByRole("link")).toHaveText(["Dashboard", "SEO", "Audit log", "My account"]);
     for (const path of ["/admin/settings/payments", "/admin/settings/organization", "/admin/users"]) {
       await other.goto(path);
       await expect(other.getByRole("heading", { name: /don’t have access/ }), path).toBeVisible();
