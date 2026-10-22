@@ -44,6 +44,14 @@ Locales: `en` (default), `hi`, `mr`, `gu`. `{l}` = locale. Slugs are ASCII and *
 ### Generated
 `/sitemap.xml` (`app/sitemap.ts`, with `alternates.languages` for all 4 locales + x-default), `/robots.txt` (`app/robots.ts`), `/manifest.webmanifest`, `/sw.js`, `/{indexnow-key}.txt`, OG images via `opengraph-image.tsx` per route.
 
+### SEO rules (as built in Step 4)
+- Canonical origin = `NEXT_PUBLIC_SITE_URL`. Every page uses `buildMetadata()` (`src/lib/seo/metadata.ts`): absolute canonical, hreflang for en/hi/mr/gu + x-default → `/en…`, Open Graph (`en_IN`, `hi_IN`, `mr_IN`, `gu_IN`), Twitter `summary_large_image`.
+- `robots.txt`: production allows `/` and disallows `/admin` and `/api`, plus a sitemap link; every other environment disallows all. Requests on a non-canonical host get `X-Robots-Tag: noindex, nofollow` (set in `src/proxy.ts`). In Step 12 the vercel.app host gets a 308 redirect to the domain.
+- `sitemap.xml` lists only `ready` pages from `src/config/nav.ts` × 4 locales with alternates; CMS content is added in Step 6.
+- Share images: English is rendered live by `next/og`. **Hindi, Marathi and Gujarati use PNGs pre-rendered in Chromium** (`scripts/og-indic.mjs` → `public/og/*.png`) because next/og's Satori mis-shapes Indic scripts (vowel signs and conjuncts). Re-run the script when the home headline or site name changes.
+- Unknown paths return a real 404 (`[...rest]` catch-all). The error page is localised and noindex.
+- IndexNow: `pingIndexNow()` runs only in production with a key from `seo_settings`; the key is served at `/indexnow-key.txt`. Verification meta tags come from `seo_settings` when set (DNS TXT stays primary).
+
 ## 2. Data model (Drizzle / Postgres)
 
 Conventions: `id uuid pk`, `created_at`/`updated_at timestamptz`, money `*_paise bigint`, soft delete `deleted_at` where content is editable. Translatable content uses a `*_translations` table keyed `(parent_id, locale)` with `locale` enum `en|hi|mr|gu`.

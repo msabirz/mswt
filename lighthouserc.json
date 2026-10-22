@@ -1,9 +1,9 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "npx next start -p 3200",
+      "startServerCommand": "npx next start -p 3000",
       "startServerReadyPattern": "Ready",
-      "url": ["http://127.0.0.1:3200/en", "http://127.0.0.1:3200/hi", "http://127.0.0.1:3200/mr"],
+      "url": ["http://localhost:3000/en", "http://localhost:3000/hi", "http://localhost:3000/mr"],
       "numberOfRuns": 3,
       "settings": {
         "formFactor": "mobile",
@@ -13,7 +13,8 @@
           "height": 823,
           "deviceScaleFactor": 1.75,
           "disabled": false
-        }
+        },
+        "skipAudits": ["is-crawlable"]
       }
     },
     "assert": {

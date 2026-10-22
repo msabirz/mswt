@@ -28,7 +28,8 @@ src/components/…          feature components
 src/lib/payments/         PaymentProvider interface + cashfree adapter
 src/lib/email/            EmailProvider interface + adapters + templates
 src/lib/db/               Drizzle schema + queries
-src/lib/seo/              metadata helpers, <JsonLd>, schema builders
+src/lib/seo/              buildMetadata, site/host helpers, OG renderer, IndexNow (JSON-LD in Step 5)
+src/lib/settings.ts       cached DB settings (seo, organization) — revalidate tags after admin edits
 src/lib/receipts/         numbering + PDF generation
 src/messages/{en,hi,mr,gu}.json   UI strings (CMS content lives in the DB)
 drizzle/                  SQL migrations
@@ -45,7 +46,9 @@ tests/{unit,e2e}/         Vitest, Playwright
 - No hard-coded colours, fonts, radii or shadows in components — use token-backed Tailwind classes only (see `docs/brand.md`). Tailwind's default palette is removed, and `npm run brand:lint` (in CI) enforces this.
 - Reuse `src/components/ui` before writing new markup; new pages link only via `src/config/nav.ts`.
 - Server components by default; `"use client"` only where interaction needs it.
-- Every user-facing string goes through next-intl; every page has `generateMetadata`.
+- Every user-facing string goes through next-intl; every page has `generateMetadata` built with `buildMetadata()`.
+- The build reads settings from the database: run `npm run db:migrate` before `npm run build` on a fresh DB.
+- Changing the home headline or site name? Re-run `node scripts/og-indic.mjs` (Indic share images).
 - Secrets only in env vars (`.env.local`, Vercel env); `.env.example` lists names, never values.
 - Validate all input on the server (zod); never trust client-sent amounts, fees or status.
 - Every admin write goes through a service that records an audit-log entry.

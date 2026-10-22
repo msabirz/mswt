@@ -27,7 +27,8 @@
   "NotFound": {
     "title": "We can't find that page",
     "body": "The link may be out of date, or the page may have moved.",
-    "home": "Go to the home page"
+    "home": "Go to the home page",
+    "metaTitle": "Page not found"
   },
   "Nav": {
     "label": "Main",
@@ -59,5 +60,11 @@
     "optional": "optional",
     "breadcrumb": "Breadcrumb",
     "home": "Home"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "body": "Sorry, this page couldn't be loaded. Please try again. If it keeps happening, email info@mswelfaretrust.org.",
+    "retry": "Try again",
+    "home": "Go to the home page"
   }
 }

@@ -39,7 +39,7 @@ Every PR must satisfy every item that applies to what it touches. Slash commands
 - [ ] **SEO-04** `/` redirects (308) to `/en`; no duplicate unprefixed public URLs
 - [ ] **SEO-05** `app/sitemap.ts` lists every indexable URL × locale with `alternates.languages` and `lastModified`
 - [ ] **SEO-06** `app/robots.ts` allows public, `Disallow: /admin`, `Disallow: /api`, points to sitemap
-- [ ] **SEO-07** `/admin/**` and `/api/**` send `X-Robots-Tag: noindex, nofollow` and `robots` meta noindex; thank-you and offline pages noindex
+- [ ] **SEO-07** `/admin/**` and `/api/**` send `X-Robots-Tag: noindex, nofollow` and `robots` meta noindex; thank-you, offline, 404 and error pages are noindex; **any host other than the canonical domain** (e.g. `*.vercel.app`, previews) gets `X-Robots-Tag: noindex, nofollow`, and `robots.txt` disallows everything outside production
 - [ ] **SEO-08** Open Graph + Twitter card (title, description, image 1200×630, locale, alternate locales) per page
 - [ ] **SEO-09** Public pages are server-rendered or statically generated (content visible without JS)
 - [ ] **SEO-10** Clear, consistent top navigation and footer links; descriptive internal anchor text

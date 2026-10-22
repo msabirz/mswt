@@ -26,6 +26,7 @@ Design system: components in `src/components/ui`, all states on `/en/styleguide`
 | `npm run db:generate` | Write a new SQL migration from `src/lib/db/schema.ts` into `drizzle/` (review it before committing) |
 | `npm run db:migrate` | Apply migrations in `drizzle/` to `DATABASE_URL` |
 | `npm run tokens` · `tokens:check` | Regenerate / verify `src/styles/theme.css` (Tailwind theme) and `design/tokens.css` from `tokens/design-tokens.json` |
+| `node scripts/og-indic.mjs` | Re-render the Hindi/Marathi/Gujarati share images (`public/og/*.png`) in Chromium |
 | `npm run brand:lint` | Fail on colour, font, radius or shadow literals in `src/` (use token classes) |
 | `npm run mockups` | Rebuild the Step 1 HTML mockups in `design/mockups/` |
 
