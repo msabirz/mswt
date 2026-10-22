@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
+import { preload } from "react-dom";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { DEFAULT_SITE_FONT, fontVariables, poppinsPreloads } from "@/lib/fonts";
+import { SkipLink } from "@/components/ui/SkipLink";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 import "../globals.css";
-
-const LANGUAGE_NAMES = { en: "English", hi: "हिन्दी", mr: "मराठी", gu: "ગુજરાતી" } as const;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -28,50 +31,19 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const t = await getTranslations("Layout");
+  for (const href of poppinsPreloads(locale))
+    preload(href, { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
 
   return (
-    <html lang={locale}>
-      <body className="min-h-screen">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-10 focus:rounded-md focus:bg-inverse focus:px-4 focus:py-2 focus:text-white"
-        >
-          {t("skip")}
-        </a>
-        <header className="border-b border-subtle">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-3">
-            <a href={`/${locale}`} className="inline-flex">
-              {/* eslint-disable-next-line @next/next/no-img-element -- SVG logo, no optimisation needed */}
-              <img src="/brand/mswt-logo-horizontal.svg" alt={t("logoHome")} width={204} height={64} />
-            </a>
-            <nav aria-label={t("language")}>
-              <ul className="flex flex-wrap gap-2">
-                {routing.locales.map((l) => (
-                  <li key={l}>
-                    <a
-                      href={`/${l}`}
-                      lang={l}
-                      hrefLang={l}
-                      aria-current={l === locale ? "true" : undefined}
-                      className="inline-flex min-h-11 items-center rounded-md px-3 underline-offset-4 hover:underline aria-[current=true]:font-semibold aria-[current=true]:text-brand"
-                    >
-                      {LANGUAGE_NAMES[l]}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-        </header>
+    // The site font becomes admin-configurable in Step 8 (appearance_settings.site_font).
+    <html lang={locale} className={fontVariables} data-site-font={DEFAULT_SITE_FONT}>
+      <body className="min-h-screen bg-bg-canvas text-fg-default">
+        <SkipLink label={t("skip")} />
+        <SiteHeader locale={locale} />
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <footer className="mt-24 border-t-2 border-rule bg-inverse text-on-inverse">
-          <div className="mx-auto max-w-7xl px-4 py-10 text-sm">
-            <p>{t("rights")}</p>
-            <p>{t("reg")}</p>
-          </div>
-        </footer>
+        <SiteFooter locale={locale} />
       </body>
     </html>
   );

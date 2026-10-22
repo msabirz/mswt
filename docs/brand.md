@@ -155,7 +155,7 @@ Donation, receipt and legal pages gain little from a dark theme, and it roughly 
 
 The logo wordmark itself is artwork (SVG) and keeps its own lettering whatever the site font is.
 
-- **Loading:** fonts come through `next/font/google`, so they are self-hosted at build time with no requests to Google. Settings: `display: "swap"`, `adjustFontFallback`, weights 400/500/600/700 only. Poppins (latin + devanagari subsets) loads on every page. Noto Sans Devanagari is a fallback and loads only if a glyph needs it. Noto Sans Gujarati loads only on `/gu`.
+- **Loading (as built in Step 3):** Poppins is self-hosted from `public/fonts/poppins` (`src/styles/fonts.css`), in Latin, Latin-ext and Devanagari subsets, weights 400/500/600/700, `font-display: swap`, with a metric-matched fallback so text doesn't shift. The layout preloads Latin 400/600 on `/en` and `/gu`, and Devanagari 400/600 on `/hi` and `/mr`. Noto Sans Devanagari and Noto Sans Gujarati, and the admin font options (Mukta, Hind, Noto Sans), come from `next/font` and download only when used. Hindi/Marathi pages have a documented 2.8 s lab LCP budget (standards PERF-01).
 - **Script selection:** `:lang(hi)`, `:lang(mr)` and `:lang(gu)` set the script's stack with the site font first, so Latin text inside Indic pages keeps the site font.
 - **Sizes** (rem, base 16px): xs .75 · sm .875 · base 1 · lg 1.125 · xl 1.25 · 2xl 1.5 · 3xl 1.875 · 4xl 2.25 · 5xl 3. Headings may use `clamp()` between two adjacent steps. Body text never goes below `base`.
 - **Line-height:** Latin tight 1.2 / snug 1.35 / body 1.6 (Poppins has tall ascenders). **Indic** tight 1.4 / snug 1.55 / body 1.75, to leave room for matras and conjuncts.

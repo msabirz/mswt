@@ -18,7 +18,12 @@ src/app/[locale]/…        public pages (server components by default; static v
 src/i18n/                 next-intl routing, request config; src/proxy.ts is the locale proxy (Next 16)
 src/app/admin/…           admin UI (English only, noindex, not locale-prefixed)
 src/app/api/…             route handlers (webhooks, cron, forms) — noindex
-src/components/ui/        design-system primitives (tokens only)
+src/components/ui/        design-system primitives (tokens only); see /en/styleguide (not in production)
+src/components/layout/    SiteHeader, SiteFooter, AdminShell
+src/config/nav.ts         every page + `ready` flag (only ready pages are linked)
+src/styles/               theme.css (GENERATED from tokens), fonts.css (self-hosted Poppins), base.css
+src/lib/fonts.ts          font registry, admin font options, per-locale preloads
+public/fonts/poppins/     self-hosted Poppins (OFL) — fixed URLs for preloading
 src/components/…          feature components
 src/lib/payments/         PaymentProvider interface + cashfree adapter
 src/lib/email/            EmailProvider interface + adapters + templates
@@ -37,7 +42,8 @@ tests/{unit,e2e}/         Vitest, Playwright
 ## Coding rules
 - Money is **integer paise** (`bigint`/`integer`), never floats; format only at the edge.
 - All dates stored as `timestamptz`, displayed and bucketed in **Asia/Kolkata**; financial year is **1 Apr – 31 Mar** (`2026-27`).
-- No hard-coded colours, fonts, radii or shadows in components — use token-backed Tailwind classes only (see `docs/brand.md`).
+- No hard-coded colours, fonts, radii or shadows in components — use token-backed Tailwind classes only (see `docs/brand.md`). Tailwind's default palette is removed, and `npm run brand:lint` (in CI) enforces this.
+- Reuse `src/components/ui` before writing new markup; new pages link only via `src/config/nav.ts`.
 - Server components by default; `"use client"` only where interaction needs it.
 - Every user-facing string goes through next-intl; every page has `generateMetadata`.
 - Secrets only in env vars (`.env.local`, Vercel env); `.env.example` lists names, never values.
@@ -46,7 +52,7 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Webhook handlers: verify signature on the raw body, be idempotent, return 200 only after commit.
 
 ## Commands
-`nvm use` (Node 24) · `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` · `npm run build && npm run test:e2e && npm run lhci` · `npm run db:generate` (then review the SQL) · `npm run db:migrate` · `npm run tokens`. Full list in README.md.
+`nvm use` (Node 24) · `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` · `npm run build && npm run test:e2e && npm run lhci` · `npm run db:generate` (then review the SQL) · `npm run db:migrate` · `npm run tokens` · `npm run brand:lint`. Full list in README.md.
 
 ## Workflow
 1. **Plan mode first** for every step: propose, wait for approval, then write.

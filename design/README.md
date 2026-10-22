@@ -1,5 +1,7 @@
 # Design mockups (Step 1)
 
+> Since Step 3 these mockups are **reference only**. The real components live in `src/components/ui` (all states on `/en/styleguide`), and the Tailwind theme is generated into `src/styles/theme.css` from the same tokens.
+
 These static HTML pages are the design sign-off for Phase 1. They are built **only** from the brand tokens. Step 3 (design system) and Step 6 (public pages) lift their structure and classes.
 
 ## Layout
