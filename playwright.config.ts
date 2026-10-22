@@ -16,6 +16,8 @@ export default defineConfig({
   webServer: {
     // Tests run against the production build (`npm run build` first).
     command: `npx next start -p ${PORT}`,
+    // Never send real email or upload to the real bucket from tests, even if .env.local has keys.
+    env: { BREVO_API_KEY: "", R2_ACCOUNT_ID: "" },
     url: `http://127.0.0.1:${PORT}/en`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

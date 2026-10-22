@@ -12,7 +12,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 | 5 | JSON-LD | `feat/step-5-jsonld` |
 | 6 | Public pages | `feat/step-6-public-pages` |
 | 7 | Donation flow | `feat/step-7-donations` |
-| 8 | Admin | `feat/step-8-admin` |
+| 8 | Admin, in 3 PRs: 8a auth + users + audit + settings, 8b donations + donors + reports, 8c causes + CMS + media + messages | `feat/step-8a-admin-auth`, `feat/step-8b-admin-donations`, `feat/step-8c-admin-content` |
 | 9 | PWA + email | `feat/step-9-pwa-email` |
 | 10 | QA audit | `chore/step-10-qa` |
 | 11 | Staging review | `chore/step-11-staging` |
@@ -73,6 +73,10 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 ## Step 8 — Admin
 **Deliverables:** Auth.js credentials + TOTP enrolment/recovery codes, role middleware, Dashboard, Donations (filters, detail, offline entry, resend, void/reissue, CSV/XLSX export), Donors, Causes, CMS (pages, gallery, events, news, menus, media with per-locale alt, SEO fields, translation review), Messages, Reports (FY register, cause-wise, 80G register, ack register), Settings (organization, SEO, payments, email, appearance/site font), Users/roles, Audit log.
 **Exit:** permission matrix in `spec.md` enforced by server tests for every action; audit entries for every write; admin keyboard + axe clean; noindex verified.
+**Split (owner decision, 2026-10-23):** three PRs.
+- **8a (built 2026-10-23):** Auth.js + mandatory TOTP (setup, recovery codes, no reuse), argon2id, 5-failure lockout, 30-min idle sessions ended at once on deactivate/role change/2FA reset; one-time invite and reset links (72 h, hash stored) handed out by a Super Admin; Users, Audit log, My account; Settings (organization, SEO, payments, email, appearance → public site font); `npm run admin:create`.
+- **8b:** dashboard, donations (filters, detail, offline entry, resend, void/reissue, exports), donors, reports.
+- **8c:** causes, CMS (pages, events, news, gallery, menus), media uploads to a public R2 bucket, messages.
 
 ## Step 9 — PWA + email
 **Deliverables:** Serwist SW (precache static, SWR public pages, NetworkOnly for donate/api/admin/receipts, offline page), manifest + icons + screenshots + Apple meta; `EmailProvider` interface + one adapter (choice from open questions) + templates (donor receipt, admin alert, contact acknowledgement, reconciliation summary) with logo header, 4 locales; SPF/DKIM/DMARC on Cloudflare DNS; Cloudflare Email Routing `info@` → Trust Gmail.

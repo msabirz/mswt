@@ -16,7 +16,9 @@ Donation website and admin panel for **Munira Shoaib Welfare Trust** ("MS Welfar
 ```
 src/app/[locale]/…        public pages (server components by default; static via generateStaticParams)
 src/i18n/                 next-intl routing, request config; src/proxy.ts is the locale proxy (Next 16)
-src/app/admin/…           admin UI (English only, noindex, not locale-prefixed)
+src/app/admin/…           admin UI (English only, noindex, not locale-prefixed): (auth) sign-in screens, (app) signed-in area
+src/auth.ts               Auth.js (sessions only; password + TOTP checks in src/lib/auth/)
+src/lib/admin/            permissions matrix, guard, nav, user + settings services
 src/app/api/…             route handlers (webhooks, cron, forms) — noindex
 src/components/ui/        design-system primitives (tokens only); see /en/styleguide (not in production)
 src/components/layout/    SiteShell (html/header/main/footer, shared by the layout and global-not-found), SiteHeader, SiteFooter, AdminShell
@@ -65,6 +67,8 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Secrets only in env vars (`.env.local`, Vercel env); `.env.example` lists names, never values.
 - Validate all input on the server (zod); never trust client-sent amounts, fees or status.
 - Every admin write goes through a service that records an audit-log entry.
+- Every admin page and Server Action starts with `requireCapability(...)` (`src/lib/admin/guard.ts`); roles live only in `src/lib/admin/permissions.ts` (spec §5). Never trust hidden links or the client.
+- Admin forms use `AdminForm` + a Server Action returning `FormState` (`src/components/admin/`). Admin is English-only and noindex.
 - Webhook handlers: verify signature on the raw body, be idempotent, return 200 only after commit.
 - Anything that must be atomic (receipt numbers, payment confirmation, audited writes) uses `withTx()`; the Neon HTTP `db` cannot hold a transaction.
 - PAN is stored only encrypted (`encryptPii`) + last 4 + HMAC; show it masked. Never log it.

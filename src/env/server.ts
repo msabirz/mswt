@@ -26,6 +26,8 @@ export const serverEnv = createEnv({
     PII_ENCRYPTION_KEY: z.base64().optional(),
     RECEIPT_LINK_SECRET: z.string().min(32).optional(),
     CRON_SECRET: z.string().min(16).optional(),
+    // Signs admin sessions (Auth.js) and login challenges: 32+ random characters.
+    AUTH_SECRET: z.string().min(32).optional(),
   },
   experimental__runtimeEnv: {},
   emptyStringAsUndefined: true,

@@ -8,7 +8,7 @@ Checks that automated tests can't cover or that are waiting on accounts or keys.
 - [ ] **M7-1 Cashfree sandbox keys.** Sign up in the Cashfree merchant dashboard (Test mode, no KYC). Go to Developers → API Keys → Test and add these to `.env.local`:
   `CASHFREE_APP_ID`, `CASHFREE_SECRET_KEY`, `CASHFREE_ENV=sandbox`.
   Ask Cashfree to keep **international payments disabled** on the account (no FCRA, SEC-12).
-- [ ] **M7-2 Brevo key and sender.** Create an API key (SMTP & API → API keys) and add `BREVO_API_KEY` to `.env.local`. `EMAIL_FROM_ADDRESS` must be a verified sender. Add Brevo's SPF and DKIM records to the domain's DNS (B14).
+- [ ] **M7-2 Brevo key and sender.** Create an API key (SMTP & API → API keys) and add `BREVO_API_KEY` to `.env.local`. `EMAIL_FROM_ADDRESS` must be a verified sender. Add Brevo's SPF and DKIM records to the domain's DNS (B14). In Brevo → Security → **Authorised IPs**, turn off IP blocking for the API key: Vercel sends from changing IP addresses, and Brevo already rejected a local test send because of this.
 - [ ] **M7-3 Vercel environment variables (Preview only for now).** Add every variable from `.env.example` that is set in `.env.local` (R2, Brevo, Cashfree, `PII_ENCRYPTION_KEY`, `RECEIPT_LINK_SECRET`, `CRON_SECRET`). **Do not** set `NEXT_PUBLIC_DONATIONS_LIVE` (it stays off until go-live). Use the **same** `PII_ENCRYPTION_KEY` everywhere that shares a database.
 
 ### End-to-end test on the Vercel preview (after M7-1 to M7-3)
@@ -43,3 +43,12 @@ Open the preview in a browser where you are signed in to Vercel.
 - [ ] **M7-16 CA review.** The CA checks the receipt and acknowledgement wording and approves printing the donor's PAN masked (B13), along with the legal pages (B11).
 - [ ] **M7-17 Amounts.** The Trust confirms the minimum and suggested amounts, and whether fee cover is on (B3, B7). Update `data/payment-settings.json` and run `npm run settings:sync`.
 - [ ] **M7-18 Production switch.** Add Cashfree **production** keys (after KYC) with `CASHFREE_ENV=production` and the production webhook URL. Then set `NEXT_PUBLIC_DONATIONS_LIVE=true` in Vercel Production, and make one real ₹10 donation and refund it.
+
+## Step 8a: Admin sign-in
+
+- [ ] **M8-1 First Super Admin on production.** After merging, with `AUTH_SECRET` in Vercel (Production and Preview), run `npm run admin:create` with `DATABASE_URL` pointing at the production Neon database. Sign in at `/admin/login` and set up 2FA with your phone's authenticator app. Print or store the 10 recovery codes.
+- [ ] **M8-2 Authenticator apps.** Check that setup works with Google Authenticator, Microsoft Authenticator and 1Password (scan the QR code, and also type the key by hand).
+- [ ] **M8-3 Password managers.** Your password manager offers to save the password on the invite page and fills it on the sign-in page. Pasting works in every field (A11Y-16).
+- [ ] **M8-4 Invite a second person** as a Content Editor. They open the link, set a password and set up 2FA. Check they see only Home, SEO, Audit log and My account.
+- [ ] **M8-5 Screen reader** (VoiceOver/NVDA): sign in, 2FA, one settings save and the audit log, with every field and message announced.
+- [ ] **M8-6 Idle timeout.** Leave the admin open for 31 minutes; the next click goes to the sign-in page.
