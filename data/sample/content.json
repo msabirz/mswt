@@ -1,0 +1,713 @@
+{
+  "$comment": "SAMPLE content for local builds and Vercel previews only. Never synced to the database or shown in production.",
+  "causes": [
+    {
+      "slug": "school-support",
+      "status": "active",
+      "goalPaise": 30000000,
+      "raisedPaise": 18250000,
+      "sortOrder": 1,
+      "translations": {
+        "en": {
+          "title": "School support for children",
+          "summary": "Fees, books and uniforms for children from low-income families.",
+          "body": [
+            {
+              "type": "heading",
+              "level": 2,
+              "text": "Why this matters"
+            },
+            {
+              "type": "paragraph",
+              "text": "Sample text. The Trust will describe the need, what it does about it and what a donation pays for."
+            },
+            {
+              "type": "list",
+              "items": [
+                "₹1,000: sample – books for one child for a year",
+                "₹2,500: sample – uniform and school bag",
+                "₹5,000: sample – one term's fees"
+              ]
+            }
+          ]
+        },
+        "hi": {
+          "title": "बच्चों के लिए स्कूल सहायता",
+          "summary": "कम आय वाले परिवारों के बच्चों के लिए फ़ीस, किताबें और यूनिफ़ॉर्म।",
+          "body": [
+            {
+              "type": "heading",
+              "level": 2,
+              "text": "यह क्यों ज़रूरी है"
+            },
+            {
+              "type": "paragraph",
+              "text": "नमूना पाठ। ट्रस्ट ज़रूरत, अपने काम और दान के उपयोग का वर्णन करेगा।"
+            }
+          ]
+        },
+        "mr": {
+          "title": "मुलांसाठी शालेय मदत",
+          "summary": "कमी उत्पन्न असलेल्या कुटुंबांतील मुलांसाठी फी, पुस्तके आणि गणवेश.",
+          "body": [
+            {
+              "type": "heading",
+              "level": 2,
+              "text": "हे का महत्त्वाचे आहे"
+            },
+            {
+              "type": "paragraph",
+              "text": "नमुना मजकूर. ट्रस्ट गरज, आपले काम आणि देणगीचा उपयोग यांचे वर्णन करेल."
+            }
+          ]
+        },
+        "gu": {
+          "title": "બાળકો માટે શાળા સહાય",
+          "summary": "ઓછી આવક ધરાવતા પરિવારોનાં બાળકો માટે ફી, પુસ્તકો અને ગણવેશ.",
+          "body": [
+            {
+              "type": "heading",
+              "level": 2,
+              "text": "આ કેમ મહત્વનું છે"
+            },
+            {
+              "type": "paragraph",
+              "text": "નમૂના લખાણ. ટ્રસ્ટ જરૂરિયાત, પોતાનું કામ અને દાનના ઉપયોગનું વર્ણન કરશે."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "medical-help",
+      "status": "active",
+      "goalPaise": 20000000,
+      "raisedPaise": 9400000,
+      "sortOrder": 2,
+      "translations": {
+        "en": {
+          "title": "Medical help for patients",
+          "summary": "Help with treatment, medicines and tests for patients who can't afford them.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample text describing how the Trust helps patients."
+            }
+          ]
+        },
+        "hi": {
+          "title": "मरीज़ों के लिए चिकित्सा सहायता",
+          "summary": "जो मरीज़ इलाज, दवाइयों और जाँच का खर्च नहीं उठा सकते, उनकी मदद।",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमूना पाठ।"
+            }
+          ]
+        },
+        "mr": {
+          "title": "रुग्णांसाठी वैद्यकीय मदत",
+          "summary": "ज्या रुग्णांना उपचार, औषधे आणि तपासण्यांचा खर्च परवडत नाही त्यांना मदत.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमुना मजकूर."
+            }
+          ]
+        },
+        "gu": {
+          "title": "દર્દીઓ માટે તબીબી સહાય",
+          "summary": "જે દર્દીઓ સારવાર, દવાઓ અને તપાસનો ખર્ચ ઉઠાવી શકતા નથી તેમને મદદ.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "નમૂના લખાણ."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "relief-kits",
+      "status": "active",
+      "goalPaise": null,
+      "raisedPaise": 5600000,
+      "sortOrder": 3,
+      "translations": {
+        "en": {
+          "title": "Food and relief kits",
+          "summary": "Monthly ration kits and emergency relief for families in crisis.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample text. This cause has no fixed goal, so no progress bar is shown."
+            }
+          ]
+        },
+        "hi": {
+          "title": "राशन और राहत किट",
+          "summary": "संकट में परिवारों के लिए मासिक राशन किट और आपातकालीन राहत।",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमूना पाठ।"
+            }
+          ]
+        },
+        "mr": {
+          "title": "धान्य आणि मदत किट",
+          "summary": "संकटात असलेल्या कुटुंबांसाठी मासिक धान्य किट आणि तातडीची मदत.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमुना मजकूर."
+            }
+          ]
+        },
+        "gu": {
+          "title": "રાશન અને રાહત કિટ",
+          "summary": "સંકટમાં રહેલા પરિવારો માટે માસિક રાશન કિટ અને કટોકટી રાહત.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "નમૂના લખાણ."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "slug": "health-camp-2027",
+      "status": "published",
+      "eventStatus": "scheduled",
+      "attendance": "offline",
+      "startsAt": "2027-01-17T10:00:00+05:30",
+      "endsAt": "2027-01-17T16:00:00+05:30",
+      "venue": {
+        "name": "Sample community hall",
+        "city": "Sample city",
+        "region": "Maharashtra"
+      },
+      "translations": {
+        "en": {
+          "title": "Free health check-up camp",
+          "summary": "Sample event: free check-ups and medicines for local families.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample event description."
+            }
+          ]
+        },
+        "hi": {
+          "title": "निःशुल्क स्वास्थ्य जाँच शिविर",
+          "summary": "नमूना कार्यक्रम: स्थानीय परिवारों के लिए निःशुल्क जाँच और दवाइयाँ।",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमूना विवरण।"
+            }
+          ]
+        },
+        "mr": {
+          "title": "मोफत आरोग्य तपासणी शिबिर",
+          "summary": "नमुना कार्यक्रम: स्थानिक कुटुंबांसाठी मोफत तपासणी आणि औषधे.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमुना वर्णन."
+            }
+          ]
+        },
+        "gu": {
+          "title": "મફત આરોગ્ય તપાસ શિબિર",
+          "summary": "નમૂના કાર્યક્રમ: સ્થાનિક પરિવારો માટે મફત તપાસ અને દવાઓ.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "નમૂના વર્ણન."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "school-kit-drive-2026",
+      "status": "published",
+      "eventStatus": "scheduled",
+      "attendance": "offline",
+      "startsAt": "2026-06-10T09:30:00+05:30",
+      "endsAt": null,
+      "venue": {
+        "name": "Sample school",
+        "city": "Sample city"
+      },
+      "translations": {
+        "en": {
+          "title": "School kit distribution",
+          "summary": "Sample past event: school kits for the new academic year.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample text."
+            }
+          ]
+        },
+        "hi": {
+          "title": "स्कूल किट वितरण",
+          "summary": "नमूना पिछला कार्यक्रम: नए शैक्षणिक वर्ष के लिए स्कूल किट।",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमूना पाठ।"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "awareness-webinar",
+      "status": "published",
+      "eventStatus": "postponed",
+      "attendance": "online",
+      "startsAt": "2027-02-05T18:00:00+05:30",
+      "onlineUrl": "https://example.org/sample-webinar",
+      "translations": {
+        "en": {
+          "title": "Online talk: health schemes for families",
+          "summary": "Sample postponed event, held online.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample text."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "news": [
+    {
+      "slug": "annual-report-published",
+      "status": "published",
+      "publishedAt": "2026-09-30T11:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample: annual report published",
+          "excerpt": "Sample news item about the Trust publishing its yearly report.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        },
+        "hi": {
+          "headline": "नमूना: वार्षिक रिपोर्ट प्रकाशित",
+          "excerpt": "ट्रस्ट की वार्षिक रिपोर्ट प्रकाशित होने के बारे में नमूना समाचार।",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमूना लेख।"
+            }
+          ]
+        },
+        "mr": {
+          "headline": "नमुना: वार्षिक अहवाल प्रकाशित",
+          "excerpt": "ट्रस्टचा वार्षिक अहवाल प्रकाशित झाल्याबद्दल नमुना बातमी.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "नमुना लेख."
+            }
+          ]
+        },
+        "gu": {
+          "headline": "નમૂનો: વાર્ષિક અહેવાલ પ્રકાશિત",
+          "excerpt": "ટ્રસ્ટનો વાર્ષિક અહેવાલ પ્રકાશિત થયા વિશે નમૂના સમાચાર.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "નમૂના લેખ."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-1",
+      "status": "published",
+      "publishedAt": "2026-09-21T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 1",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-2",
+      "status": "published",
+      "publishedAt": "2026-09-14T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 2",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-3",
+      "status": "published",
+      "publishedAt": "2026-08-28T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 3",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-4",
+      "status": "published",
+      "publishedAt": "2026-08-21T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 4",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-5",
+      "status": "published",
+      "publishedAt": "2026-08-14T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 5",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-6",
+      "status": "published",
+      "publishedAt": "2026-07-28T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 6",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-7",
+      "status": "published",
+      "publishedAt": "2026-07-21T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 7",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-8",
+      "status": "published",
+      "publishedAt": "2026-07-14T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 8",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-9",
+      "status": "published",
+      "publishedAt": "2026-06-28T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 9",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-10",
+      "status": "published",
+      "publishedAt": "2026-06-21T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 10",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "slug": "sample-update-11",
+      "status": "published",
+      "publishedAt": "2026-06-14T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "headline": "Sample update 11",
+          "excerpt": "Sample news excerpt used to test the list and pagination.",
+          "body": [
+            {
+              "type": "paragraph",
+              "text": "Sample article text."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "albums": [
+    {
+      "slug": "health-camp-photos",
+      "status": "published",
+      "publishedAt": "2026-08-20T10:00:00+05:30",
+      "translations": {
+        "en": {
+          "title": "Health camp photos (sample)",
+          "description": "Placeholder album until the Trust's photos are uploaded."
+        },
+        "hi": {
+          "title": "स्वास्थ्य शिविर की तस्वीरें (नमूना)"
+        },
+        "mr": {
+          "title": "आरोग्य शिबिराचे फोटो (नमुना)"
+        },
+        "gu": {
+          "title": "આરોગ્ય શિબિરના ફોટા (નમૂનો)"
+        }
+      },
+      "items": [
+        {
+          "width": 4,
+          "height": 3,
+          "alt": {
+            "en": "Photo 1: volunteers at the health camp (placeholder)",
+            "hi": "फ़ोटो 1: स्वास्थ्य शिविर में स्वयंसेवक (प्लेसहोल्डर)",
+            "mr": "फोटो 1: आरोग्य शिबिरातील स्वयंसेवक (प्लेसहोल्डर)",
+            "gu": "ફોટો 1: આરોગ્ય શિબિરમાં સ્વયંસેવકો (પ્લેસહોલ્ડર)"
+          }
+        },
+        {
+          "width": 4,
+          "height": 3,
+          "alt": {
+            "en": "Photo 2: volunteers at the health camp (placeholder)",
+            "hi": "फ़ोटो 2: स्वास्थ्य शिविर में स्वयंसेवक (प्लेसहोल्डर)",
+            "mr": "फोटो 2: आरोग्य शिबिरातील स्वयंसेवक (प्लेसहोल्डर)",
+            "gu": "ફોટો 2: આરોગ્ય શિબિરમાં સ્વયંસેવકો (પ્લેસહોલ્ડર)"
+          }
+        },
+        {
+          "width": 4,
+          "height": 3,
+          "alt": {
+            "en": "Photo 3: volunteers at the health camp (placeholder)",
+            "hi": "फ़ोटो 3: स्वास्थ्य शिविर में स्वयंसेवक (प्लेसहोल्डर)",
+            "mr": "फोटो 3: आरोग्य शिबिरातील स्वयंसेवक (प्लेसहोल्डर)",
+            "gu": "ફોટો 3: આરોગ્ય શિબિરમાં સ્વયંસેવકો (પ્લેસહોલ્ડર)"
+          }
+        },
+        {
+          "width": 4,
+          "height": 3,
+          "alt": {
+            "en": "Photo 4: volunteers at the health camp (placeholder)",
+            "hi": "फ़ोटो 4: स्वास्थ्य शिविर में स्वयंसेवक (प्लेसहोल्डर)",
+            "mr": "फोटो 4: आरोग्य शिबिरातील स्वयंसेवक (प्लेसहोल्डर)",
+            "gu": "ફોટો 4: આરોગ્ય શિબિરમાં સ્વયંસેવકો (પ્લેસહોલ્ડર)"
+          }
+        },
+        {
+          "width": 4,
+          "height": 3,
+          "alt": {
+            "en": "Photo 5: volunteers at the health camp (placeholder)",
+            "hi": "फ़ोटो 5: स्वास्थ्य शिविर में स्वयंसेवक (प्लेसहोल्डर)",
+            "mr": "फोटो 5: आरोग्य शिबिरातील स्वयंसेवक (प्लेसहोल्डर)",
+            "gu": "ફોટો 5: આરોગ્ય શિબિરમાં સ્વયંસેવકો (પ્લેસહોલ્ડર)"
+          }
+        },
+        {
+          "width": 4,
+          "height": 3,
+          "alt": {
+            "en": "Photo 6: volunteers at the health camp (placeholder)",
+            "hi": "फ़ोटो 6: स्वास्थ्य शिविर में स्वयंसेवक (प्लेसहोल्डर)",
+            "mr": "फोटो 6: आरोग्य शिबिरातील स्वयंसेवक (प्लेसहोल्डर)",
+            "gu": "ફોટો 6: આરોગ્ય શિબિરમાં સ્વયંસેવકો (પ્લેસહોલ્ડર)"
+          }
+        }
+      ]
+    }
+  ],
+  "reports": [
+    {
+      "fy": "2025-26",
+      "kind": "annual_report",
+      "status": "published",
+      "translations": {
+        "en": {
+          "title": "Annual report 2025-26 (sample)"
+        },
+        "hi": {
+          "title": "वार्षिक रिपोर्ट 2025-26 (नमूना)"
+        },
+        "mr": {
+          "title": "वार्षिक अहवाल 2025-26 (नमुना)"
+        },
+        "gu": {
+          "title": "વાર્ષિક અહેવાલ 2025-26 (નમૂનો)"
+        }
+      }
+    },
+    {
+      "fy": "2025-26",
+      "kind": "audited_accounts",
+      "status": "published",
+      "translations": {
+        "en": {
+          "title": "Audited accounts 2025-26 (sample)"
+        },
+        "hi": {
+          "title": "ऑडिट किया हुआ हिसाब 2025-26 (नमूना)"
+        }
+      }
+    }
+  ],
+  "pages": {
+    "about": {
+      "en": {
+        "title": "About the Trust",
+        "h1": "About Munira Shoaib Welfare Trust",
+        "intro": "Sample introduction. The Trust's mission statement goes here once provided.",
+        "sections": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Our story"
+          },
+          {
+            "type": "paragraph",
+            "text": "Sample text about when and why the Trust was founded and whom it serves."
+          }
+        ]
+      },
+      "hi": {
+        "title": "ट्रस्ट के बारे में",
+        "h1": "मुनीरा शोएब वेलफेयर ट्रस्ट के बारे में",
+        "intro": "नमूना परिचय।",
+        "sections": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "हमारी कहानी"
+          },
+          {
+            "type": "paragraph",
+            "text": "नमूना पाठ।"
+          }
+        ]
+      },
+      "mr": {
+        "title": "ट्रस्टबद्दल",
+        "h1": "मुनीरा शोएब वेल्फेअर ट्रस्टबद्दल",
+        "intro": "नमुना परिचय.",
+        "sections": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "आमची कहाणी"
+          },
+          {
+            "type": "paragraph",
+            "text": "नमुना मजकूर."
+          }
+        ]
+      },
+      "gu": {
+        "title": "ટ્રસ્ટ વિશે",
+        "h1": "મુનીરા શોએબ વેલ્ફેર ટ્રસ્ટ વિશે",
+        "intro": "નમૂના પરિચય.",
+        "sections": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "અમારી વાર્તા"
+          },
+          {
+            "type": "paragraph",
+            "text": "નમૂના લખાણ."
+          }
+        ]
+      }
+    }
+  }
+}

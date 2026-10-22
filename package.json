@@ -24,7 +24,8 @@
     "tokens:check": "node scripts/tokens-to-css.mjs --check",
     "mockups": "node scripts/build-mockups.mjs",
     "brand:lint": "node scripts/brand-lint.mjs",
-    "org:sync": "tsx scripts/org-sync.ts"
+    "org:sync": "tsx scripts/org-sync.ts",
+    "content:sync": "tsx scripts/content-sync.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.0",

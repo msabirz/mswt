@@ -1,0 +1,4 @@
+{
+  "$comment": "REAL content for the database (npm run content:sync). Translations with \"reviewed\": true appear in production; others only in previews.",
+  "pages": {}
+}
