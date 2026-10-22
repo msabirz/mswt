@@ -19,7 +19,7 @@ src/i18n/                 next-intl routing, request config; src/proxy.ts is the
 src/app/admin/…           admin UI (English only, noindex, not locale-prefixed)
 src/app/api/…             route handlers (webhooks, cron, forms) — noindex
 src/components/ui/        design-system primitives (tokens only); see /en/styleguide (not in production)
-src/components/layout/    SiteHeader, SiteFooter, AdminShell
+src/components/layout/    SiteShell (html/header/main/footer, shared by the layout and global-not-found), SiteHeader, SiteFooter, AdminShell
 src/config/nav.ts         every page + `ready` flag (only ready pages are linked)
 src/styles/               theme.css (GENERATED from tokens), fonts.css (self-hosted Poppins), base.css
 src/lib/fonts.ts          font registry, admin font options, per-locale preloads
@@ -53,6 +53,7 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Server components by default; `"use client"` only where interaction needs it.
 - Every user-facing string goes through next-intl; every page has `generateMetadata` built with `buildMetadata()`.
 - The build reads settings from the database: run `npm run db:migrate` before `npm run build` on a fresh DB.
+- Unknown URLs are 404s rendered by `src/app/global-not-found.tsx`: don't add catch-all routes that call `notFound()` (Next sends an empty HTML shell for those). Check 404 output with `curl`, not the browser.
 - Content appears in a language only if translated (and reviewed, in production) — never fall back to English inside another language.
 - Changing the home headline or site name? Re-run `node scripts/og-indic.mjs` (Indic share images).
 - Secrets only in env vars (`.env.local`, Vercel env); `.env.example` lists names, never values.

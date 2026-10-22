@@ -46,7 +46,7 @@ Every PR must satisfy every item that applies to what it touches. Slash commands
 - [ ] **SEO-11** Each cause/event/news item has a unique keyword-relevant title and H1 per language
 - [ ] **SEO-12** Images: descriptive alt text and descriptive kebab-case file names; width/height set
 - [ ] **SEO-13** Translations human-reviewed (`reviewed_at` set) before publishing a locale *(manual)*
-- [ ] **SEO-14** No broken internal links; 404 returns HTTP 404; removed content returns 404/410 or 301
+- [ ] **SEO-14** No broken internal links; unknown URLs return HTTP 404 with a complete server-rendered, localized, `noindex` page (checked on the raw HTML, not the browser DOM); removed content returns 404/410 or 301
 - [ ] **SEO-15** Site verification meta/DNS values come from SEO settings, not hard-coded
 - [ ] **SEO-16** Publishing/updating content triggers revalidation and an IndexNow ping
 
