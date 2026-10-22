@@ -12,7 +12,9 @@ Checks that automated tests can't cover or that are waiting on accounts or keys.
 - [ ] **M7-3 Vercel environment variables (Preview only for now).** Add every variable from `.env.example` that is set in `.env.local` (R2, Brevo, Cashfree, `PII_ENCRYPTION_KEY`, `RECEIPT_LINK_SECRET`, `CRON_SECRET`). **Do not** set `NEXT_PUBLIC_DONATIONS_LIVE` (it stays off until go-live). Use the **same** `PII_ENCRYPTION_KEY` everywhere that shares a database.
 
 ### End-to-end test on the Vercel preview (after M7-1 to M7-3)
-In the Cashfree dashboard, set the webhook URL to `https://<preview-url>/api/webhooks/cashfree` (Developers → Webhooks, payment and refund events).
+Previews are behind Vercel's login (Deployment Protection), which would also block Cashfree's webhooks and return pages. In Vercel → Project → Settings → Deployment Protection, create a **Protection Bypass for Automation** secret. Then set the Cashfree webhook URL (Developers → Webhooks, payment and refund events) to
+`https://<preview-url>/api/webhooks/cashfree?x-vercel-protection-bypass=<secret>`.
+Open the preview in a browser where you are signed in to Vercel.
 
 - [ ] **M7-4 Successful payment.** On `/en/donate`, donate ₹100 with the 80G option (PAN in the format `ABCDE1234F`, with an address). Pay in the Cashfree test checkout with a test UPI ID or test card from Cashfree's docs. Expect:
   - The thank-you page shows "Thank you for your donation" and a receipt number `MSWT/2026-27/000001`.
