@@ -53,6 +53,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 ## Step 4 — SEO foundation
 **Deliverables:** metadata helpers (title template, canonical, hreflang + x-default), `sitemap.ts` with alternates, `robots.ts`, noindex for admin/api/thank-you/offline, OG/Twitter image template (`opengraph-image.tsx` with logo + brand tokens, Indic-capable font), 404/500 pages, IndexNow helper + key file, verification meta from settings.
 **Exit:** `/seo-check` PASS; sitemap validates; hreflang reciprocal across 4 locales in e2e test.
+**Done (2026-10-22):** `buildMetadata` + per-locale title templates from `seo_settings`; sitemap and robots with environment rules; noindex on non-canonical hosts; OG/Twitter images (English live, Indic pre-rendered in Chromium); catch-all 404 and localised error pages; IndexNow helper and key route; verification from settings. The CI build now reads settings from its own Postgres. Lighthouse SEO is 1.0.
 
 ## Step 5 — JSON-LD
 **Deliverables:** typed `<JsonLd>` (schema-dts), builders for NGO (from `organization_settings`), WebSite, WebPage/AboutPage/ContactPage/CollectionPage, BreadcrumbList, Event, NewsArticle, ImageObject, DonateAction; unit tests asserting shape; Organization settings form (minimal) in admin seeded with Trust data.
