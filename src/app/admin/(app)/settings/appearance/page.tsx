@@ -27,8 +27,8 @@ export default async function AppearanceSettingsPage() {
       id="look"
       action={saveAppearance}
       aside={
-        <section aria-labelledby="preview-h" className="grid gap-4">
-          <h2 id="preview-h" className="text-xl">
+        <section aria-labelledby="preview-h" className="grid gap-3">
+          <h2 id="preview-h" className="text-base font-semibold text-fg-strong">
             Preview
           </h2>
           <div className="grid gap-4 md:grid-cols-2">
@@ -40,7 +40,7 @@ export default async function AppearanceSettingsPage() {
               >
                 <p className="m-0 text-sm font-semibold text-fg-muted">{SITE_FONTS[k].label}</p>
                 {SAMPLES.map((sample) => (
-                  <p key={sample.lang} lang={sample.lang} className="m-0 text-lg">
+                  <p key={sample.lang} lang={sample.lang} className="m-0 text-base">
                     {sample.text}
                   </p>
                 ))}
@@ -49,13 +49,19 @@ export default async function AppearanceSettingsPage() {
           </div>
         </section>
       }
-      fields={[
+      sections={[
         {
-          name: "siteFont",
-          label: "Site font",
-          type: "select",
-          defaultValue: s?.siteFont ?? DEFAULT_SITE_FONT,
-          options: keys.map((k) => ({ value: k, label: SITE_FONTS[k].label })),
+          title: "Site font",
+          description: "Applies to English, Hindi and Marathi text on the public site.",
+          fields: [
+            {
+              name: "siteFont",
+              label: "Font",
+              type: "select",
+              defaultValue: s?.siteFont ?? DEFAULT_SITE_FONT,
+              options: keys.map((k) => ({ value: k, label: SITE_FONTS[k].label })),
+            },
+          ],
         },
       ]}
     />

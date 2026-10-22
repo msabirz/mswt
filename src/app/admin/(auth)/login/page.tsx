@@ -27,6 +27,7 @@ export default async function LoginPage({ searchParams }: Props) {
         </Alert>
       ) : null}
       <AdminForm
+        columns={1}
         id="login"
         action={loginAction}
         submitLabel="Continue"

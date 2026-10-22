@@ -25,6 +25,7 @@ export default async function Page({ params }: Props) {
       lead={`For ${found.user.email}. Then you will set up two-step verification.`}
     >
       <AdminForm
+        columns={1}
         id="password"
         action={setPasswordAction.bind(null, "reset")}
         hidden={{ token }}

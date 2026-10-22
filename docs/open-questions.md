@@ -27,6 +27,7 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **B9** Cashfree account: already approved (KYC done) or to be opened? Business/settlement account in the Trust's name? *Step 7 is built against the sandbox; sandbox keys are needed for the live test run. Ask Cashfree to keep **international payments disabled** on the account (SEC-12).*
 - [ ] **B13** Receipt wording (80G statement, acknowledgement notes, "no goods or services" line in `src/lib/receipts/pdf.ts`) and showing the donor's PAN **masked** on receipts: confirm with the CA.
 - [ ] **B14** Brevo sender: which address sends receipts (e.g. `receipts@mswelfaretrust.org`), with SPF/DKIM DNS records added for the domain.
+- [ ] **B15** Receipt corrections after the financial year ends: the admin only reissues within the same FY (a new number in that FY's series). Corrections after 31 March, once Form 10BD may be filed, need the CA's process. Also confirm with the CA that donor details may be corrected by void + reissue.
 - [ ] **B10** Refund policy terms (window, process) and who approves refunds.
   *2026-10-22: draft refund policy written (data/content/content.json); window and timings marked [to be confirmed].*
 - [ ] **B11** Legal texts (Privacy, Terms, Refund, 80G disclaimer): will the Trust's CA/lawyer provide or review drafts we write? DPDP Act 2023 grievance officer name and email.

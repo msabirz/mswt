@@ -36,3 +36,16 @@ export function piiLookupHash(value: string): string {
 export function maskPan(last4: string | null | undefined): string {
   return last4 ? `XXXXXX${last4}` : "";
 }
+
+/**
+ * decryptPii for display: a value that can't be decrypted (wrong or rotated PII_ENCRYPTION_KEY)
+ * shows a placeholder and is logged, instead of failing the whole page or export.
+ */
+export function decryptPiiForDisplay(stored: string): string {
+  try {
+    return decryptPii(stored);
+  } catch (error) {
+    console.error("PII value could not be decrypted (check PII_ENCRYPTION_KEY)", (error as Error).message);
+    return "[can't be decrypted]";
+  }
+}

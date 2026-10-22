@@ -45,6 +45,8 @@ export const users = pgTable(
     totpEnabledAt: timestamp("totp_enabled_at", { withTimezone: true }),
     // Last accepted TOTP time step: a code can't be used twice.
     totpLastStep: bigint("totp_last_step", { mode: "number" }),
+    // Full PAN is visible to this admin until then (email OTP, src/lib/admin/pan-access.ts).
+    panAccessUntil: timestamp("pan_access_until", { withTimezone: true }),
     // Bumped on deactivation, password reset or 2FA reset: every existing session ends.
     sessionVersion: integer("session_version").default(1).notNull(),
     recoveryCodesHash: text("recovery_codes_hash").array(),
@@ -576,6 +578,8 @@ export const donors = pgTable(
     declaredAt: timestamp("declared_at", { withTimezone: true }).notNull(),
     consentMarketing: boolean("consent_marketing").default(false).notNull(),
     createdVia: donorCreatedVia("created_via").notNull(),
+    /** Set when this record was merged into another donor (kept for history, hidden from lists). */
+    mergedIntoId: uuid("merged_into_id"),
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
@@ -689,9 +693,15 @@ export const receipts = pgTable(
     voidedAt: timestamp("voided_at", { withTimezone: true }),
     voidReason: text("void_reason"),
     voidedByUserId: uuid("voided_by_user_id").references(() => users.id),
+    /** A reissued receipt points at the voided one it replaces. */
+    replacesReceiptId: uuid("replaces_receipt_id"),
   },
   (t) => [
-    uniqueIndex("receipts_donation_idx").on(t.donationId),
+    // One live receipt per donation; voided ones stay (reissue keeps the history).
+    uniqueIndex("receipts_donation_live_idx")
+      .on(t.donationId)
+      .where(sql`${t.voidedAt} is null`),
+    index("receipts_donation_idx").on(t.donationId),
     uniqueIndex("receipts_number_idx").on(t.number),
     uniqueIndex("receipts_kind_fy_seq_idx").on(t.kind, t.fy, t.seq),
     check("receipts_seq_positive", sql`${t.seq} > 0`),
@@ -717,3 +727,20 @@ export const reconciliationRuns = pgTable("reconciliation_runs", {
   updated: integer("updated").default(0).notNull(),
   errors: jsonb("errors").$type<{ orderId: string; error: string }[]>().default([]).notNull(),
 });
+
+/** One-time codes emailed to an admin before full PANs are shown (owner decision, Step 8b). */
+export const panAccessCodes = pgTable(
+  "pan_access_codes",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id),
+    codeHash: text("code_hash").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    attempts: integer("attempts").default(0).notNull(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdAt: createdAt(),
+  },
+  (t) => [index("pan_access_codes_user_idx").on(t.userId, t.createdAt)],
+);

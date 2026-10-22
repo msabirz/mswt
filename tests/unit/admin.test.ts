@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { adminNav } from "@/lib/admin/nav";
+import { adminNavItems } from "@/lib/admin/nav";
 import { can, CAPABILITIES, ROLES, type Capability } from "@/lib/admin/permissions";
 import { OrganizationInput, SeoInput, AppearanceInput } from "@/lib/admin/settings/schemas";
 import { hashPassword, passwordProblem, verifyPassword } from "@/lib/auth/password";
@@ -23,6 +23,7 @@ describe("role permissions match docs/spec.md §5", () => {
     ["donations.offline", ["super_admin", "accountant"]],
     ["receipts.manage", ["super_admin", "accountant"]],
     ["reports.export", ["super_admin", "accountant"]],
+    ["donors.merge", ["super_admin"]],
     ["causes.read", ["super_admin", "accountant", "content_editor"]],
     ["causes.write", ["super_admin", "content_editor"]],
     ["cms.write", ["super_admin", "content_editor"]],
@@ -52,9 +53,16 @@ describe("role permissions match docs/spec.md §5", () => {
     expect(can(undefined, "settings.seo")).toBe(false);
   });
   it("shows each role only the sections it may open", () => {
-    expect(adminNav("content_editor").map((i) => i.key)).toEqual(["home", "seo", "audit", "account"]);
-    expect(adminNav("accountant").map((i) => i.key)).toEqual(["home", "audit", "account"]);
-    expect(adminNav("super_admin").map((i) => i.key)).toContain("payments");
+    expect(adminNavItems("content_editor").map((i) => i.key)).toEqual(["home", "seo", "audit", "account"]);
+    expect(adminNavItems("accountant").map((i) => i.key)).toEqual([
+      "home",
+      "donations",
+      "donors",
+      "reports",
+      "audit",
+      "account",
+    ]);
+    expect(adminNavItems("super_admin").map((i) => i.key)).toContain("payments");
   });
   it("every admin page and action checks a capability on the server", () => {
     const files = [
@@ -67,14 +75,35 @@ describe("role permissions match docs/spec.md §5", () => {
       "src/app/admin/(app)/settings/payments/page.tsx",
       "src/app/admin/(app)/settings/email/page.tsx",
       "src/app/admin/(app)/settings/appearance/page.tsx",
+      "src/app/admin/(app)/donations/page.tsx",
+      "src/app/admin/(app)/donations/[id]/page.tsx",
+      "src/app/admin/(app)/donations/new/page.tsx",
+      "src/app/admin/(app)/donations/export/route.ts",
+      "src/app/admin/(app)/donors/page.tsx",
+      "src/app/admin/(app)/donors/[id]/page.tsx",
+      "src/app/admin/(app)/reports/page.tsx",
+      "src/app/admin/(app)/reports/[report]/route.ts",
     ];
     for (const f of files) expect(readFileSync(f, "utf8"), f).toMatch(/requireCapability\(/);
     // Each exported action in these files starts with a guard.
-    for (const f of ["src/app/admin/(app)/users/actions.ts", "src/app/admin/(app)/settings/actions.ts"]) {
+    for (const f of [
+      "src/app/admin/(app)/users/actions.ts",
+      "src/app/admin/(app)/settings/actions.ts",
+      "src/app/admin/(app)/donations/actions.ts",
+      "src/app/admin/(app)/donors/actions.ts",
+      "src/app/admin/(app)/pan/actions.ts",
+    ]) {
       const src = readFileSync(f, "utf8");
       const actions = [...src.matchAll(/export async function (\w+)/g)].map((m) => m[1]);
       expect(actions.length, f).toBeGreaterThan(0);
-      expect(src, f).toMatch(/requireCapability\("users.manage"\)|requireCapability\(capability\)/);
+      // Every exported action calls a helper or guard that runs requireCapability first.
+      expect(src, f).toMatch(/requireCapability\(/);
+      for (const name of actions) {
+        const body = src.slice(src.indexOf(`export async function ${name}`)).split(/\nexport /)[0]!;
+        expect(body, `${f} → ${name}`).toMatch(
+          /requireCapability\(|await actor(For)?\(|return save\(\s*"settings\./,
+        );
+      }
     }
     expect(
       readFileSync("src/app/admin/(app)/account/actions.ts", "utf8").match(/requireAdmin\(\)/g),

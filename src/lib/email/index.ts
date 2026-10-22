@@ -1,3 +1,5 @@
+import { appendFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { serverEnv } from "@/env/server";
 import { isProduction } from "@/lib/secrets";
 import { BrevoProvider } from "./brevo";
@@ -12,6 +14,13 @@ class MemoryProvider implements EmailProvider {
   async send(m: EmailMessage) {
     sentEmails.push(m);
     console.info(`[email:memory] to=${m.to.email} subject="${m.subject}"`);
+    // Also kept in .data/outbox.jsonl (git-ignored) so browser tests can read codes and links.
+    const outbox = join(process.cwd(), ".data/outbox.jsonl");
+    await mkdir(join(process.cwd(), ".data"), { recursive: true }).catch(() => undefined);
+    await appendFile(
+      outbox,
+      `${JSON.stringify({ to: m.to.email, subject: m.subject, text: m.text, at: new Date().toISOString() })}\n`,
+    ).catch(() => undefined);
     return { messageId: `memory-${sentEmails.length}` };
   }
 }

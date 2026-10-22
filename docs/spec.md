@@ -179,7 +179,7 @@ Accountant enters donor, amount, mode (cash/cheque/NEFT/UPI), instrument ref & d
 | Capability | Super Admin | Accountant | Content Editor |
 |---|:-:|:-:|:-:|
 | Dashboard (financial totals) | ✓ | ✓ | — (content stats only) |
-| View donations / donors (full PAN) | ✓ | ✓ | — |
+| View donations / donors (masked PAN; full PAN after an email code) | ✓ | ✓ | — |
 | Offline donation entry | ✓ | ✓ | — |
 | Resend / void / reissue receipt | ✓ | ✓ | — |
 | Export donations / reports | ✓ | ✓ | — |
@@ -201,3 +201,12 @@ All roles: TOTP 2FA mandatory, session timeout 30 min idle, login rate-limited a
 - **Accounts:** the first Super Admin is created with `npm run admin:create` (password typed in the terminal, hidden). Super Admins invite users and create password-reset links (one-time, 72 h, only a SHA-256 stored) and send them themselves until email works. Nobody can change their own role or deactivate themselves, and the last active Super Admin can't be removed. Passwords: 12+ characters, not common, not containing the name/email (NIST 800-63B; no composition rules); argon2id.
 - **Every page and Server Action** calls `requireCapability()` (`src/lib/admin/guard.ts`) with the matrix in `src/lib/admin/permissions.ts`; a page outside the role answers 403. Every change is written through a service with an audit entry; passwords, hashes, TOTP secrets and recovery codes never go into the audit log.
 - **Settings** pages write `organization_settings`, `seo_settings`, `payment_settings`, `email_settings` and `appearance_settings` (site font on the public site) and refresh the cached values at once.
+
+### Donations, donors and reports (as built in Step 8b, 2026-10-23)
+- **Dashboard** (`/admin`): today and FY totals, by cause and by mode, pending count, last reconciliation run, newest messages. Content Editors see content counts only.
+- **Donations:** filters (FY, IST date range, cause, mode, status, 80G/acknowledgement, amount range, search over name, email, phone, order ID and receipt number), 50 per page with the sum of the filtered rows; CSV (UTF-8 with BOM, formula cells prefixed with `'`) and Excel downloads of the filtered rows. Detail page: donor snapshot, payment, receipts (voided ones keep their number), timeline from gateway events and the audit log.
+- **Receipt corrections:** *Resend* emails the same PDF. *Void* needs a reason and keeps the number. *Reissue* voids the live receipt and issues a new number in the **same FY only**; it is how the name, address or PAN on a receipt changes, and how "add PAN later → 80G" works (cash above ₹2,000 stays an acknowledgement). The database allows one live receipt per donation (partial unique index on `receipts(donation_id) WHERE voided_at IS NULL`); `receipts.replaces_receipt_id` links a reissue to what it replaced.
+- **Offline entry** (`/admin/donations/new`): warns live and asks again before saving cash above ₹2,000.
+- **Donors:** search with totals; profile with history; contact edits (audited); **merge** (Super Admin) moves donations, marks the source `merged_into_id`, and refuses two different PANs.
+- **Full PAN by email code:** PAN is masked everywhere. "Email me a code" sends a 6-digit code to the admin's own email (stored as an HMAC, 10 minutes, 5 tries, 5 codes an hour). The right code opens a 15-minute window (`users.pan_access_until`) in which donation and donor pages and exports show full PANs. Audited as `pan.otp_sent`, `pan.unlocked`, `pan.viewed`, `pan.exported`. Without working email in production, full PAN stays hidden.
+- **Reports** (`/admin/reports`): FY donation register, cause-wise summary, 80G receipt register, acknowledgement register and mode-wise summary, as CSV or Excel (PDF later). Amounts in rupees with 2 decimals, dates in IST. Every download is audited and sent with `Cache-Control: no-store`.

@@ -6,7 +6,8 @@ import { ROLE_LABELS, ROLES } from "@/lib/admin/permissions";
 import { db } from "@/lib/db/client";
 import { auditLog, users } from "@/lib/db/schema";
 import { AdminForm } from "@/components/admin/AdminForm";
-import { Alert } from "@/components/ui/Alert";
+import { Alert, Badge } from "@/components/ui/Alert";
+import { Card, PageHeader, Section } from "@/components/admin/ui";
 import { TextLink } from "@/components/ui/TextLink";
 import { activeAction, resetLinkAction, resetTwoFactorAction, roleAction } from "../actions";
 
@@ -26,18 +27,29 @@ export default async function UserPage({ params }: Props) {
     .where(eq(auditLog.entityId, id))
     .orderBy(desc(auditLog.createdAt))
     .limit(10);
+  const fmt = (d: Date) =>
+    new Intl.DateTimeFormat("en-IN", {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: "Asia/Kolkata",
+    }).format(d);
   return (
-    <div className="grid max-w-3xl gap-8">
-      <p>
-        <TextLink href="/admin/users">← All users</TextLink>
-      </p>
-      <div className="grid gap-1">
-        <h1 className="text-3xl">{user.name}</h1>
-        <p className="text-fg-muted">
-          {user.email} · {ROLE_LABELS[user.role]} · {user.isActive ? "Active" : "Deactivated"} ·{" "}
-          {user.totpSecretEnc ? "2FA on" : "2FA not set up"}
-        </p>
-      </div>
+    <>
+      <PageHeader
+        back={{ href: "/admin/users", label: "All users" }}
+        title={user.name}
+        description={`${user.email} · ${ROLE_LABELS[user.role]}`}
+        actions={
+          <>
+            <Badge tone={user.isActive ? "success" : "error"}>
+              {user.isActive ? "Active" : "Deactivated"}
+            </Badge>
+            <Badge tone={user.totpSecretEnc ? "success" : "warning"}>
+              {user.totpSecretEnc ? "2FA on" : "2FA not set up"}
+            </Badge>
+          </>
+        }
+      />
       {self ? (
         <Alert tone="info">
           <p>
@@ -46,11 +58,12 @@ export default async function UserPage({ params }: Props) {
           </p>
         </Alert>
       ) : (
-        <>
-          <section aria-labelledby="role-h" className="grid gap-3">
-            <h2 id="role-h" className="text-xl">
-              Role
-            </h2>
+        <Card>
+          <Section
+            id="role"
+            title="Role"
+            description="What they can see and change. Their sessions end when it changes."
+          >
             <AdminForm
               id="role"
               action={roleAction.bind(null, user.id)}
@@ -65,57 +78,70 @@ export default async function UserPage({ params }: Props) {
                 },
               ]}
             />
-          </section>
-          <section aria-labelledby="access-h" className="grid gap-6">
-            <h2 id="access-h" className="text-xl">
-              Access
-            </h2>
+          </Section>
+          <Section
+            id="link"
+            title={user.passwordHash ? "Password reset" : "Invite link"}
+            description="A one-time link, valid for 72 hours, that you send to them."
+          >
             <AdminForm
               id="link"
               action={resetLinkAction.bind(null, user.id)}
-              submitLabel={user.passwordHash ? "Create password-reset link" : "Create a new invite link"}
+              submitLabel={user.passwordHash ? "Create reset link" : "Create a new invite link"}
+              variant="secondary"
               fields={[]}
             />
-            {user.totpSecretEnc ? (
+          </Section>
+          {user.totpSecretEnc ? (
+            <Section
+              id="totp"
+              title="Two-step verification"
+              description="If they lost their phone and recovery codes."
+            >
               <AdminForm
                 id="totp"
                 action={resetTwoFactorAction.bind(null, user.id)}
                 submitLabel="Reset two-step verification"
+                variant="secondary"
                 confirm={`Reset two-step verification for ${user.name}? They will set it up again at next sign-in.`}
                 fields={[]}
               />
-            ) : null}
+            </Section>
+          ) : null}
+          <Section
+            id="active"
+            title={user.isActive ? "Deactivate" : "Reactivate"}
+            description={
+              user.isActive ? "They are signed out at once and can't sign in." : "They can sign in again."
+            }
+          >
             <AdminForm
               id="active"
               action={activeAction.bind(null, user.id, !user.isActive)}
               submitLabel={user.isActive ? "Deactivate account" : "Reactivate account"}
+              variant={user.isActive ? "danger" : "secondary"}
               confirm={user.isActive ? `Deactivate ${user.name}? They are signed out at once.` : undefined}
               fields={[]}
             />
-          </section>
-        </>
+          </Section>
+        </Card>
       )}
-      <section aria-labelledby="hist-h" className="grid gap-3">
-        <h2 id="hist-h" className="text-xl">
-          Recent changes
-        </h2>
-        {recent.length ? (
-          <ul className="grid gap-1">
-            {recent.map((e) => (
-              <li key={e.id}>
-                <code>{e.action}</code> –{" "}
-                {new Intl.DateTimeFormat("en-IN", {
-                  dateStyle: "medium",
-                  timeStyle: "short",
-                  timeZone: "Asia/Kolkata",
-                }).format(e.createdAt)}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-fg-muted">No changes recorded.</p>
-        )}
-      </section>
-    </div>
+      <Card>
+        <Section id="hist" title="Recent changes" description="The last 10 audit entries for this account.">
+          {recent.length ? (
+            <ul className="m-0 grid list-none gap-2 p-0 text-sm">
+              {recent.map((e) => (
+                <li key={e.id} className="flex flex-wrap justify-between gap-2">
+                  <code className="text-fg-strong">{e.action}</code>
+                  <span className="text-fg-muted">{fmt(e.createdAt)}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="m-0 text-sm text-fg-muted">No changes recorded.</p>
+          )}
+        </Section>
+      </Card>
+    </>
   );
 }

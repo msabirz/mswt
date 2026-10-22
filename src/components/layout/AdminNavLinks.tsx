@@ -2,27 +2,72 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { AdminNavItem } from "./AdminShell";
+import {
+  Building2,
+  FileBarChart2,
+  HandCoins,
+  History,
+  IndianRupee,
+  LayoutDashboard,
+  Mail,
+  Palette,
+  Search,
+  UserCircle,
+  Users,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react";
+import type { AdminNavGroup } from "./AdminShell";
 
-/** Admin sidebar links; marks the current section with aria-current. */
-export function AdminNavLinks({ nav }: { nav: AdminNavItem[] }) {
+const ICONS: Record<string, LucideIcon> = {
+  dashboard: LayoutDashboard,
+  donations: HandCoins,
+  donors: UsersRound,
+  reports: FileBarChart2,
+  organization: Building2,
+  seo: Search,
+  payments: IndianRupee,
+  email: Mail,
+  appearance: Palette,
+  users: Users,
+  audit: History,
+  account: UserCircle,
+};
+
+/** Grouped admin sidebar; marks the current section with aria-current. */
+export function AdminNavLinks({ groups, onNavigate }: { groups: AdminNavGroup[]; onNavigate?: () => void }) {
   const pathname = usePathname();
-  const current = [...nav]
+  const all = groups.flatMap((g) => g.items);
+  const current = [...all]
     .sort((a, b) => b.href.length - a.href.length)
     .find((i) => pathname === i.href || pathname.startsWith(`${i.href}/`))?.key;
   return (
-    <ul className="m-0 grid list-none gap-1 p-0">
-      {nav.map((item) => (
-        <li key={item.key}>
-          <Link
-            href={item.href}
-            aria-current={item.key === current ? "page" : undefined}
-            className="flex min-h-(--size-target-comfortable) items-center rounded-md px-3 text-fg-inverse no-underline hover:bg-neutral-900 hover:text-fg-inverse aria-[current=page]:border-l-4 aria-[current=page]:border-link-inverse aria-[current=page]:bg-neutral-900"
-          >
-            {item.label}
-          </Link>
-        </li>
+    <div className="grid gap-6">
+      {groups.map((group) => (
+        <div key={group.label} className="grid gap-1">
+          <p className="m-0 px-3 text-xs font-semibold tracking-wide text-fg-muted uppercase">
+            {group.label}
+          </p>
+          <ul className="m-0 grid list-none gap-0.5 p-0">
+            {group.items.map((item) => {
+              const Icon = ICONS[item.icon] ?? LayoutDashboard;
+              return (
+                <li key={item.key}>
+                  <Link
+                    href={item.href}
+                    onClick={onNavigate}
+                    aria-current={item.key === current ? "page" : undefined}
+                    className="flex min-h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-fg-default no-underline hover:bg-bg-subtle hover:text-fg-strong aria-[current=page]:bg-bg-brand-subtle aria-[current=page]:text-fg-brand"
+                  >
+                    <Icon aria-hidden="true" className="size-4 flex-none" strokeWidth={2} />
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 }

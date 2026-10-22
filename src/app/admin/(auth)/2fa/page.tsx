@@ -16,6 +16,7 @@ export default async function TwoFactorPage() {
       lead="Enter the 6-digit code from your authenticator app, or one of your recovery codes."
     >
       <AdminForm
+        columns={1}
         id="totp"
         action={verifyCodeAction}
         submitLabel="Sign in"

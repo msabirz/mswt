@@ -13,45 +13,57 @@ export default async function PaymentSettingsPage() {
   return (
     <SettingsPage
       title="Payments"
-      intro="Amounts on the donate form. Amounts are in rupees. The minimum must be above ₹5; show 3 or 4 suggested amounts."
+      intro="What the donate form offers."
       id="pay"
       action={savePayments}
-      fields={[
+      sections={[
         {
-          name: "min",
-          label: "Minimum donation (₹)",
-          required: true,
-          inputMode: "numeric",
-          defaultValue: s ? rupees(s.minAmountPaise) : "100",
-          group: "mm",
+          title: "Donation amounts",
+          description: "In rupees. The minimum must be above ₹5; show 3 or 4 suggested amounts.",
+          fields: [
+            {
+              name: "min",
+              label: "Minimum donation (₹)",
+              required: true,
+              inputMode: "numeric",
+              defaultValue: s ? rupees(s.minAmountPaise) : "100",
+            },
+            {
+              name: "max",
+              label: "Maximum online donation (₹)",
+              inputMode: "numeric",
+              hint: "Empty = no maximum",
+              defaultValue: s?.maxAmountPaise ? rupees(s.maxAmountPaise) : "",
+            },
+            {
+              name: "presets",
+              label: "Suggested amounts (₹)",
+              required: true,
+              span: "full",
+              hint: "Comma-separated, e.g. 500, 1000, 2500, 5000",
+              defaultValue: (s?.presetAmountsPaise ?? []).map(rupees).join(", "),
+            },
+          ],
         },
         {
-          name: "max",
-          label: "Maximum online donation (₹)",
-          inputMode: "numeric",
-          hint: "Leave empty for no maximum",
-          defaultValue: s?.maxAmountPaise ? rupees(s.maxAmountPaise) : "",
-          group: "mm",
-        },
-        {
-          name: "presets",
-          label: "Suggested amounts (₹)",
-          required: true,
-          hint: "3 or 4, comma-separated, e.g. 500, 1000, 2500, 5000",
-          defaultValue: (s?.presetAmountsPaise ?? []).map(rupees).join(", "),
-        },
-        {
-          name: "feeCoverEnabled",
-          label: "Offer donors to cover the payment charges",
-          type: "checkbox",
-          defaultValue: s?.feeCoverEnabled ? "on" : "",
-        },
-        {
-          name: "feePercent",
-          label: "Payment charges to add (%)",
-          inputMode: "numeric",
-          hint: "e.g. 2 or 1.75 (0–10)",
-          defaultValue: s ? String(s.feeCoverPercentBp / 100) : "0",
+          title: "Payment charges",
+          description: "Let donors add the gateway fee to their donation.",
+          fields: [
+            {
+              name: "feeCoverEnabled",
+              label: "Offer to cover payment charges",
+              type: "checkbox",
+              span: "full",
+              defaultValue: s?.feeCoverEnabled ? "on" : "",
+            },
+            {
+              name: "feePercent",
+              label: "Charges to add (%)",
+              inputMode: "numeric",
+              hint: "e.g. 2 or 1.75 (0–10)",
+              defaultValue: s ? String(s.feeCoverPercentBp / 100) : "0",
+            },
+          ],
         },
       ]}
     />
