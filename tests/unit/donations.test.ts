@@ -7,6 +7,7 @@ import {
   normalisePhone,
   validateDonation,
 } from "@/lib/donations/schema";
+import { cronSecret } from "@/lib/donations/cron";
 import { donationsEnabled } from "@/lib/flags";
 import { PaymentSettingsInput } from "@/lib/payment-settings";
 import { parseCashfreeWebhook } from "@/lib/payments/cashfree-events";
@@ -417,4 +418,13 @@ describe("receipt PDF", () => {
     expect(pdf.subarray(0, 5).toString()).toBe("%PDF-");
     expect(pdf.length).toBeGreaterThan(10_000);
   });
+});
+
+describe("cron secret", () => {
+  it("uses CRON_SECRET when set", () =>
+    expect(cronSecret("s3cret-value-123456", true)).toBe("s3cret-value-123456"));
+  it("is not configured in production without it (route answers 503, not 500)", () =>
+    expect(cronSecret(undefined, true)).toBeNull());
+  it("falls back to the development value elsewhere", () =>
+    expect(cronSecret(undefined, false)).toBe("development-cron-secret"));
 });
