@@ -52,6 +52,12 @@ Locales: `en` (default), `hi`, `mr`, `gu`. `{l}` = locale. Slugs are ASCII and *
 - Unknown paths return a real 404 (`[...rest]` catch-all). The error page is localised and noindex.
 - IndexNow: `pingIndexNow()` runs only in production with a key from `seo_settings`; the key is served at `/indexnow-key.txt`. Verification meta tags come from `seo_settings` when set (DNS TXT stays primary).
 
+### Structured data (as built in Step 5)
+- One `<script type="application/ld+json">` per page with an `@graph`, built by `src/lib/seo/jsonld.ts` and rendered by `<JsonLd>`.
+- **Home:** NGO (full) + WebSite + WebPage. **About** (Step 6): NGO (full) + AboutPage + BreadcrumbList. **Contact:** ContactPage + BreadcrumbList. **Lists:** CollectionPage + BreadcrumbList. **Cause detail:** WebPage + BreadcrumbList + DonateAction. **Event:** Event + WebPage + BreadcrumbList. **News:** NewsArticle + WebPage + BreadcrumbList. **Gallery:** ImageObject per image. **404/styleguide:** none.
+- The NGO node is built only from `organization_settings`, and empty fields are omitted, never invented. Until the admin exists (Step 8), the Trust's public facts live in `data/organization.json` and are written with `npm run org:sync` (`-- --check` validates in CI).
+- Logo for search engines: `/brand/mswt-logo-512.png` (512×512).
+
 ## 2. Data model (Drizzle / Postgres)
 
 Conventions: `id uuid pk`, `created_at`/`updated_at timestamptz`, money `*_paise bigint`, soft delete `deleted_at` where content is editable. Translatable content uses a `*_translations` table keyed `(parent_id, locale)` with `locale` enum `en|hi|mr|gu`.

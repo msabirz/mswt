@@ -28,7 +28,9 @@ src/components/…          feature components
 src/lib/payments/         PaymentProvider interface + cashfree adapter
 src/lib/email/            EmailProvider interface + adapters + templates
 src/lib/db/               Drizzle schema + queries
-src/lib/seo/              buildMetadata, site/host helpers, OG renderer, IndexNow (JSON-LD in Step 5)
+src/lib/seo/              buildMetadata, site/host helpers, OG renderer, IndexNow, JSON-LD builders (jsonld.ts)
+src/components/seo/       <JsonLd> — the page's single structured-data block
+data/organization.json    public Trust facts → `npm run org:sync` (until the Step 8 admin)
 src/lib/settings.ts       cached DB settings (seo, organization) — revalidate tags after admin edits
 src/lib/receipts/         numbering + PDF generation
 src/messages/{en,hi,mr,gu}.json   UI strings (CMS content lives in the DB)

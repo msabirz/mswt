@@ -29,6 +29,7 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **B12** Financial year to start the receipt series: FY 2026-27 from go-live? Any receipts already issued this FY offline (to continue the series from a number)?
 
 ## C. Organization details (CMS Settings → JSON-LD, footer, receipts)
+*Until the admin exists, confirmed answers go into `data/organization.json` and are applied with `npm run org:sync`.*
 - [ ] **C1** Founding date (registration date).
 - [ ] **C2** Registered address (street, locality, city, district, state, PIN) and, if different, the office address for visitors.
 - [ ] **C3** Public phone number(s) and hours; WhatsApp number (display only — WhatsApp integration is Phase 2).
