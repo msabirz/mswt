@@ -40,6 +40,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      // Self-hosted font files never change in place (rename them to update).
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
       { source: "/admin/:path*", headers: noindex },
       { source: "/admin", headers: noindex },
       { source: "/api/:path*", headers: noindex },

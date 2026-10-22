@@ -68,6 +68,7 @@ Every PR must satisfy every item that applies to what it touches. Slash commands
 
 ## Performance
 - [ ] **PERF-01** Lighthouse CI (mobile) on key routes: Performance ≥ 90, LCP < 2.5 s, CLS < 0.1, TBT < 200 ms (INP proxy)
+  - **Documented exception (owner decision, 2026-10-22): `/hi` and `/mr` pages have an LCP budget of 2.8 s instead of 2.5 s.** Hindi and Marathi use Poppins Devanagari, about 40 KB per weight, which is the lightest Devanagari web font available (Noto Sans 50 KB, Hind 72 KB, Mukta 100 KB). Under Lighthouse's simulated slow-4G it adds about 0.4 s. Five loading strategies were tried; the best gives ~2.6 s. The alternative, the device's own Devanagari font, was declined to keep the brand font. `/en` and `/gu` keep 2.5 s. The field target (PERF-02, p75 LCP < 2.5 s) still applies to every locale and is checked after launch.
 - [ ] **PERF-02** Field target: LCP < 2.5 s, INP < 200 ms, CLS < 0.1 at p75 (monitored post-launch via Search Console / Vercel Speed Insights)
 - [ ] **PERF-03** All images via `next/image` with sizes, AVIF/WebP, LCP image `priority`, no layout shift
 - [ ] **PERF-04** Fonts via `next/font` (self-hosted, subset, `display: swap`, size-adjusted fallback)

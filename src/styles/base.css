@@ -1,0 +1,89 @@
+/* Base element styles. Colours, sizes and fonts come only from theme.css tokens. */
+
+/* Site font: <html data-site-font="…"> picks one of the next/font variables (src/lib/fonts.ts). */
+:root,
+[data-site-font="poppins"] {
+  --font-site: var(--font-poppins);
+}
+[data-site-font="mukta"] {
+  --font-site: var(--font-mukta);
+}
+[data-site-font="hind"] {
+  --font-site: var(--font-hind);
+}
+[data-site-font="noto_sans"] {
+  --font-site: var(--font-noto-sans);
+}
+
+/* Element defaults live in the base layer so Tailwind utilities (the utilities layer) override them. */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    line-height: var(--leading-body);
+    color: var(--color-fg-default);
+    background: var(--color-bg-canvas);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Indic scripts: the site font stays first so Latin text keeps it; the script font fills in the
+     glyphs it lacks. No generic family in between, or it would swallow the Indic glyphs. */
+  :lang(hi),
+  :lang(mr) {
+    font-family: var(--font-site), var(--font-noto-devanagari), sans-serif;
+    --leading-tight: var(--leading-indic-tight);
+    --leading-snug: var(--leading-indic-snug);
+    --leading-body: var(--leading-indic-body);
+    --tracking-caps: 0;
+    line-height: var(--leading-body);
+  }
+  :lang(gu) {
+    font-family: var(--font-site), var(--font-noto-gujarati), sans-serif;
+    --leading-tight: var(--leading-indic-tight);
+    --leading-snug: var(--leading-indic-snug);
+    --leading-body: var(--leading-indic-body);
+    --tracking-caps: 0;
+    line-height: var(--leading-body);
+  }
+  :lang(en) {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-fg-strong);
+    line-height: var(--leading-tight);
+    font-weight: var(--font-weight-semibold);
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--color-link-default);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  a:hover {
+    color: var(--color-link-hover);
+  }
+
+  :focus-visible {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--size-focus-ring-offset);
+  }
+  .on-dark :focus-visible {
+    outline-color: var(--color-focus-ring-inverse);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

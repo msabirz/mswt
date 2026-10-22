@@ -14,11 +14,50 @@
   "Home": {
     "eyebrow": "Registered under 12A and 80G",
     "h1": "Help families in need, with every rupee accounted for",
-    "intro": "Our new website is being built. Online donations with instant 80G receipts are coming soon."
+    "intro": "Our new website is being built. Online donations with instant 80G receipts are coming soon.",
+    "ctaDonate": "Donate now",
+    "trust1t": "80G tax benefit",
+    "trust1": "Get a receipt for tax deduction under Section 80G when you add your PAN.",
+    "trust2t": "Open accounts",
+    "trust2": "Annual reports and audited accounts are published on our Transparency page.",
+    "trust3t": "Secure payments",
+    "trust3": "Pay by UPI, cards or net banking through a secure, RBI-regulated gateway.",
+    "whyTitle": "Why give through the Trust"
   },
   "NotFound": {
     "title": "We can't find that page",
     "body": "The link may be out of date, or the page may have moved.",
     "home": "Go to the home page"
+  },
+  "Nav": {
+    "label": "Main",
+    "menu": "Menu",
+    "about": "About",
+    "causes": "Causes",
+    "gallery": "Gallery",
+    "events": "Events",
+    "news": "News",
+    "transparency": "Transparency",
+    "contact": "Contact",
+    "donate": "Donate",
+    "donateSoon": "Donate (coming soon)"
+  },
+  "Footer": {
+    "about": "Munira Shoaib Welfare Trust is a registered charitable trust in India. Donations are eligible for tax deduction under Section 80G.",
+    "explore": "Explore",
+    "trust": "The Trust",
+    "help": "Get help",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "refund": "Refund policy",
+    "disclaimer80g": "80G disclaimer",
+    "noFcra": "We accept donations from Indian citizens only.",
+    "email": "Email"
+  },
+  "Common": {
+    "required": "required",
+    "optional": "optional",
+    "breadcrumb": "Breadcrumb",
+    "home": "Home"
   }
 }
