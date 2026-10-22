@@ -34,6 +34,8 @@ const noindex = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  // 404 for URLs that match no route, rendered as full server HTML (src/app/global-not-found.tsx).
+  experimental: { globalNotFound: true },
   async redirects() {
     // x-default is /en; the root never serves content of its own.
     return [{ source: "/", destination: "/en", permanent: true }];

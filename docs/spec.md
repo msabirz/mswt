@@ -49,7 +49,10 @@ Locales: `en` (default), `hi`, `mr`, `gu`. `{l}` = locale. Slugs are ASCII and *
 - `robots.txt`: production allows `/` and disallows `/admin` and `/api`, plus a sitemap link; every other environment disallows all. Requests on a non-canonical host get `X-Robots-Tag: noindex, nofollow` (set in `src/proxy.ts`). In Step 12 the vercel.app host gets a 308 redirect to the domain.
 - `sitemap.xml` lists only `ready` pages from `src/config/nav.ts` × 4 locales with alternates; CMS content is added in Step 6.
 - Share images: English is rendered live by `next/og`. **Hindi, Marathi and Gujarati use PNGs pre-rendered in Chromium** (`scripts/og-indic.mjs` → `public/og/*.png`) because next/og's Satori mis-shapes Indic scripts (vowel signs and conjuncts). Re-run the script when the home headline or site name changes.
-- Unknown paths return a real 404 (`[...rest]` catch-all). The error page is localised and noindex.
+- **404 pages (Next.js 16.4 behaviour, verified 2026-10-23):** when a page calls `notFound()`, Next sends the correct 404 status but only an empty client-rendered shell as HTML (`<html id="__next_error__">`), even in a stock app. URLs that match **no route** are different: they get complete server HTML. So:
+  - Unknown paths (`/en/does-not-exist`, `/fr`, `/xx/yy`) are deliberately **unmatched** (there is no catch-all route) and are rendered by `src/app/global-not-found.tsx` (`experimental.globalNotFound`): full localized page, correct `lang`/title, `noindex`, status 404. The language comes from the URL via next-intl's proxy header, with English as the fallback.
+  - Unknown **content slugs** (`/en/causes/nope`, missing translation) still call `notFound()`: status 404 and `noindex` are correct, and browsers render the localized page, but the raw HTML is Next's empty shell. The only way to make that complete is `dynamicParams = false`, which would stop newly published content appearing without a redeploy, so it is not used. Revisit if the admin triggers a deploy on publish.
+  - The error page (`error.tsx`) is localised and noindex.
 - IndexNow: `pingIndexNow()` runs only in production with a key from `seo_settings`; the key is served at `/indexnow-key.txt`. Verification meta tags come from `seo_settings` when set (DNS TXT stays primary).
 
 ### Structured data (as built in Step 5)
