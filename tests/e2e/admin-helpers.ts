@@ -11,6 +11,8 @@ export const PASSWORD = "e2e admin passphrase 2026";
 const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 export async function expectAccessible(page: Page) {
+  // The error boundary also has one h1 and passes axe: make sure we're checking the real page.
+  await expect(page.getByRole("heading", { name: "Something went wrong" })).toHaveCount(0);
   const { violations } = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
   const serious = violations.filter((v) => v.impact === "serious" || v.impact === "critical");
   expect(serious, JSON.stringify(serious, null, 2)).toEqual([]);
