@@ -24,6 +24,11 @@ const config = [
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
+  {
+    // Tests assert on loosely typed JSON (schema-dts unions, parsed responses).
+    files: ["tests/**"],
+    rules: { "@typescript-eslint/no-explicit-any": "off" },
+  },
 ];
 
 export default config;

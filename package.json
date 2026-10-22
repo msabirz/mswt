@@ -23,7 +23,8 @@
     "tokens": "node scripts/tokens-to-css.mjs",
     "tokens:check": "node scripts/tokens-to-css.mjs --check",
     "mockups": "node scripts/build-mockups.mjs",
-    "brand:lint": "node scripts/brand-lint.mjs"
+    "brand:lint": "node scripts/brand-lint.mjs",
+    "org:sync": "tsx scripts/org-sync.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "1.2.0",
@@ -54,6 +55,7 @@
     "eslint-plugin-jsx-a11y": "6.10.2",
     "jsdom": "30.1.3",
     "prettier": "3.9.10",
+    "schema-dts": "2.1.0",
     "tailwindcss": "4.3.3",
     "tsx": "4.23.15",
     "typescript": "6.0.3",

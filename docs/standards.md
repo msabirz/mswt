@@ -52,7 +52,7 @@ Every PR must satisfy every item that applies to what it touches. Slash commands
 
 ## JSON-LD
 - [ ] **LD-01** Rendered only through the typed `<JsonLd>` component (`schema-dts` types), safely serialised (`<` escaped)
-- [ ] **LD-02** One site-wide `NGO` entity with stable `@id` (`https://mswelfaretrust.org/#organization`), referenced by `@id` from every page's graph
+- [ ] **LD-02** One site-wide `NGO` entity with stable `@id` (`https://mswelfaretrust.org/#organization`): the full node is output on the home and About pages; every other page's graph references it by `@id` only
 - [ ] **LD-03** NGO has: `name`, `legalName` "Munira Shoaib Welfare Trust", `alternateName` (MS Welfare Trust, MSWT, hi/mr/gu names), `url`, `logo` (crawlable, ≥112×112), `description`, `foundingDate`, `address` (PostalAddress), `contactPoint` (telephone, email, contactType "customer support", availableLanguage en/hi/mr/gu), `areaServed`, `founder`/`member` (trustees as `Person`), `sameAs`, `taxID` (Trust PAN)
 - [ ] **LD-04** All Organization values come from `organization_settings` — none hard-coded
 - [ ] **LD-05** `WebSite` (with `@id`, `publisher` → NGO, `inLanguage`) on home only

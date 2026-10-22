@@ -58,6 +58,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 ## Step 5 — JSON-LD
 **Deliverables:** typed `<JsonLd>` (schema-dts), builders for NGO (from `organization_settings`), WebSite, WebPage/AboutPage/ContactPage/CollectionPage, BreadcrumbList, Event, NewsArticle, ImageObject, DonateAction; unit tests asserting shape; Organization settings form (minimal) in admin seeded with Trust data.
 **Exit:** `/jsonld-check` PASS; Rich Results Test + schema.org validator clean for each type (URLs recorded in PR); no SearchAction, no FAQPage.
+**Done (2026-10-22):** typed builders (NGO, WebSite, WebPage types, BreadcrumbList, Event, NewsArticle, ImageObject, DonateAction) with `compact()` (no empty fields) and a script-safe serialiser; `<JsonLd>`; home graph live; 512×512 logo PNG; `data/organization.json` + `org:sync` instead of an admin form (the admin needs auth, Step 8). Rich Results validation done by pasting code, since previews are behind login.
 
 ## Step 6 — Public pages
 **Deliverables:** Home, About, Causes list/detail, Gallery (+album), Events list/detail, News list/detail, Transparency, Contact (form + Turnstile + messages table), Privacy, Terms, Refund Policy, 80G disclaimer — all reading CMS tables, 4 locales, ISR + on-demand revalidation. Donate page shell only.

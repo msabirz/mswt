@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { ngo, pageGraph, webPage, website } from "@/lib/seo/jsonld";
+import { getOrganizationSettings } from "@/lib/settings";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Eyebrow } from "@/components/ui/Typography";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -22,10 +25,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
-  const t = await getTranslations("Home");
+  const [t, tm, org] = await Promise.all([
+    getTranslations("Home"),
+    getTranslations("Meta"),
+    getOrganizationSettings(),
+  ]);
+  const lang = locale as Locale;
+  const graph = pageGraph([
+    org ? ngo(org, lang) : null,
+    website(lang, tm("siteName")),
+    webPage({ locale: lang, path: "", name: tm("homeTitle"), description: tm("homeDescription") }),
+  ]);
 
   return (
     <>
+      <JsonLd graph={graph} />
       <section className="mx-auto max-w-(--size-container-max) px-4 py-16 lg:px-8 lg:py-24">
         <Eyebrow>{t("eyebrow")}</Eyebrow>
         <h1 className="max-w-3xl text-4xl lg:text-5xl">{t("h1")}</h1>
