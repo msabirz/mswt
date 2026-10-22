@@ -15,6 +15,15 @@ npm run dev        # http://localhost:3000 → /en
 
 Design system: components in `src/components/ui`, all states on `/en/styleguide` (local and Vercel previews only; 404 in production).
 
+## Branches and deployments
+| Branch | Deploys to | Database |
+|---|---|---|
+| `main` | Production, `mswelfaretrust.vercel.app` (later `mswelfaretrust.org`) | Neon `production` |
+| `stage` | The one preview, `mswt-git-stage-mswt.vercel.app` (behind Vercel login) | Neon `preview/stage` |
+| any other branch | nothing (CI only) | – |
+
+Work goes in a branch → PR into `stage` → check it on the stage preview → PR `stage` → `main` for production. Production builds fail on purpose if `AUTH_SECRET` or `PII_ENCRYPTION_KEY` is missing.
+
 ## Commands
 | Command | What it does |
 |---|---|

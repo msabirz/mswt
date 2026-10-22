@@ -2,6 +2,8 @@
 
 One branch and one PR per step. A step is done only when its exit criteria pass and `/done-check` is clean (see [standards.md](standards.md)).
 
+**Branches (from 2026-10-23):** step PRs merge into **`stage`**, which has the only preview deployment (`mswt-git-stage-mswt.vercel.app`, Neon branch `preview/stage`). When stage has been checked, the owner merges a **`stage` → `main`** PR, which deploys production. Feature branches get CI but no Vercel deployment or database branch, so the Neon branch limit isn't reached again.
+
 | # | Step | Branch |
 |---|---|---|
 | 0 | Foundation + brand tokens | `chore/step-0-foundation` |
