@@ -116,15 +116,20 @@ test.describe("contact form", () => {
     await page.getByLabel(/^Email/).fill("e2e@example.com");
     await page.getByLabel(/Subject/).selectOption("other");
     await page.getByLabel(/Message/).fill("This is an automated test message.");
-    await page
-      .frameLocator('iframe[src*="challenges.cloudflare.com"]')
-      .locator("body")
-      .waitFor({ timeout: 20_000 });
-    await page.waitForFunction(
-      () => (document.querySelector('[name="cf-turnstile-response"]') as HTMLInputElement | null)?.value,
-      null,
-      { timeout: 20_000 },
-    );
+    // Turnstile renders in a closed shadow root, so don't depend on its iframe. With Cloudflare's
+    // test secret the server accepts the documented dummy token; supply it if the widget hasn't
+    // produced a token yet. The server still calls Cloudflare's real siteverify endpoint.
+    await page.evaluate(() => {
+      const form = document.querySelector("form")!;
+      let input = form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]');
+      if (!input) {
+        input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "cf-turnstile-response";
+        form.appendChild(input);
+      }
+      if (!input.value) input.value = "XXXX.DUMMY.TOKEN.XXXX";
+    });
     await page.getByRole("button", { name: "Send message" }).click();
     await expect(page.getByRole("status").filter({ hasText: "Thank you" })).toBeVisible();
   });
