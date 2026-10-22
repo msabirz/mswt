@@ -17,6 +17,8 @@ export type PageMetaInput = {
   noindex?: boolean;
   /** Use the title as-is instead of applying the layout's "%s | Site" template. */
   absoluteTitle?: boolean;
+  /** Languages this page exists in (content items); defaults to all four. */
+  locales?: readonly Locale[];
 };
 
 /** Metadata for one localised page: canonical, hreflang, Open Graph, Twitter, robots (SEO-01…08). */
@@ -31,13 +33,14 @@ export function buildMetadata(input: PageMetaInput): Metadata {
     type = "website",
     noindex,
     absoluteTitle,
+    locales,
   } = input;
   const url = absoluteUrl(locale, path);
   const images = image ? [{ url: image, width: 1200, height: 630, alt: title }] : undefined;
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
-    alternates: { canonical: url, languages: noindex ? undefined : languageAlternates(path) },
+    alternates: { canonical: url, languages: noindex ? undefined : languageAlternates(path, locales) },
     openGraph: {
       type,
       url,
@@ -45,7 +48,7 @@ export function buildMetadata(input: PageMetaInput): Metadata {
       description,
       siteName,
       locale: OG_LOCALES[locale],
-      alternateLocale: routing.locales.filter((l) => l !== locale).map((l) => OG_LOCALES[l]),
+      alternateLocale: (locales ?? routing.locales).filter((l) => l !== locale).map((l) => OG_LOCALES[l]),
       ...(images ? { images } : {}),
     },
     twitter: { card: "summary_large_image", title, description, ...(images ? { images } : {}) },

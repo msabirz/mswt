@@ -59,6 +59,12 @@
     text-wrap: balance;
   }
 
+  /* Bold text uses the semibold face (already loaded) instead of downloading a 700 weight. */
+  strong,
+  b {
+    font-weight: var(--font-weight-semibold);
+  }
+
   a {
     color: var(--color-link-default);
     text-decoration: underline;

@@ -1,4 +1,5 @@
 import { sql } from "drizzle-orm";
+import type { Blocks } from "@/lib/content/blocks";
 import {
   bigint,
   bigserial,
@@ -12,6 +13,7 @@ import {
   numeric,
   pgEnum,
   pgTable,
+  primaryKey,
   smallint,
   text,
   timestamp,
@@ -209,4 +211,296 @@ export const appearanceSettings = pgTable(
     updatedAt: updatedAt(),
   },
   (t) => [check("appearance_settings_single_row", sql`${t.id} = 1`)],
+);
+
+// ── Content (Step 6a) ────────────────────────────────────────────────────────────────────────
+// Every content type has a *_translations table keyed (parent, locale). An item is published in a
+// language only when that translation row exists (no silent fallback, I18N-03).
+
+export const locale = pgEnum("locale", ["en", "hi", "mr", "gu"]);
+export const publishStatus = pgEnum("publish_status", ["draft", "published"]);
+export const causeStatus = pgEnum("cause_status", ["draft", "active", "closed"]);
+export const pageKey = pgEnum("page_key", [
+  "home",
+  "about",
+  "transparency",
+  "contact",
+  "privacy",
+  "terms",
+  "refund_policy",
+  "disclaimer_80g",
+]);
+export const eventStatus = pgEnum("event_status", [
+  "scheduled",
+  "cancelled",
+  "postponed",
+  "rescheduled",
+  "moved_online",
+]);
+export const eventAttendance = pgEnum("event_attendance", ["offline", "online", "mixed"]);
+export const reportKind = pgEnum("report_kind", ["annual_report", "audited_accounts", "other"]);
+
+const translationCols = () => ({
+  locale: locale("locale").notNull(),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  /** Set when a human has reviewed this translation; production shows only reviewed text (SEO-13). */
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+  reviewedBy: uuid("reviewed_by").references(() => users.id),
+  updatedAt: updatedAt(),
+});
+const slugCol = () => text("slug").notNull();
+const slugCheck = (name: string, col: unknown) => check(name, sql`${col} ~ '^[a-z0-9]+(-[a-z0-9]+)*$'`);
+const blocks = (name: string) => jsonb(name).$type<Blocks>().default([]).notNull();
+
+/** Images. `r2Key` stays null until uploads exist (Step 8); pages then show a placeholder. */
+export const media = pgTable("media", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  r2Key: text("r2_key"),
+  filename: text("filename").notNull(),
+  mime: text("mime").notNull(),
+  width: integer("width").notNull(),
+  height: integer("height").notNull(),
+  bytes: integer("bytes"),
+  createdAt: createdAt(),
+});
+
+export const mediaTranslations = pgTable(
+  "media_translations",
+  {
+    mediaId: uuid("media_id")
+      .notNull()
+      .references(() => media.id, { onDelete: "cascade" }),
+    locale: locale("locale").notNull(),
+    altText: text("alt_text").notNull(),
+    caption: text("caption"),
+  },
+  (t) => [primaryKey({ columns: [t.mediaId, t.locale] })],
+);
+
+export const causes = pgTable(
+  "causes",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: slugCol(),
+    status: causeStatus("status").default("draft").notNull(),
+    goalPaise: paise("goal_paise"),
+    raisedPaise: paise("raised_paise").default(0).notNull(),
+    sortOrder: integer("sort_order").default(0).notNull(),
+    coverImageId: uuid("cover_image_id").references(() => media.id),
+    is80gEligible: boolean("is_80g_eligible").default(true).notNull(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    uniqueIndex("causes_slug_idx").on(t.slug),
+    slugCheck("causes_slug_format", t.slug),
+    check("causes_goal_positive", sql`${t.goalPaise} is null or ${t.goalPaise} > 0`),
+    check("causes_raised_non_negative", sql`${t.raisedPaise} >= 0`),
+  ],
+);
+
+export const causeTranslations = pgTable(
+  "cause_translations",
+  {
+    causeId: uuid("cause_id")
+      .notNull()
+      .references(() => causes.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    summary: text("summary").notNull(),
+    body: blocks("body"),
+    ...translationCols(),
+  },
+  (t) => [primaryKey({ columns: [t.causeId, t.locale] })],
+);
+
+/** Fixed pages (about, legal…) keyed by page_key; their content is blocks per language. */
+export const pages = pgTable("pages", {
+  key: pageKey("key").primaryKey(),
+  updatedAt: updatedAt(),
+});
+
+export const pageTranslations = pgTable(
+  "page_translations",
+  {
+    pageKey: pageKey("page_key")
+      .notNull()
+      .references(() => pages.key, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    h1: text("h1").notNull(),
+    intro: text("intro"),
+    sections: blocks("sections"),
+    ...translationCols(),
+  },
+  (t) => [primaryKey({ columns: [t.pageKey, t.locale] })],
+);
+
+export const galleryAlbums = pgTable(
+  "gallery_albums",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: slugCol(),
+    status: publishStatus("status").default("draft").notNull(),
+    coverImageId: uuid("cover_image_id").references(() => media.id),
+    sortOrder: integer("sort_order").default(0).notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [uniqueIndex("gallery_albums_slug_idx").on(t.slug), slugCheck("gallery_albums_slug_format", t.slug)],
+);
+
+export const galleryAlbumTranslations = pgTable(
+  "gallery_album_translations",
+  {
+    albumId: uuid("album_id")
+      .notNull()
+      .references(() => galleryAlbums.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    description: text("description"),
+    ...translationCols(),
+  },
+  (t) => [primaryKey({ columns: [t.albumId, t.locale] })],
+);
+
+export const galleryItems = pgTable(
+  "gallery_items",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    albumId: uuid("album_id")
+      .notNull()
+      .references(() => galleryAlbums.id, { onDelete: "cascade" }),
+    mediaId: uuid("media_id")
+      .notNull()
+      .references(() => media.id),
+    sortOrder: integer("sort_order").default(0).notNull(),
+  },
+  (t) => [index("gallery_items_album_idx").on(t.albumId, t.sortOrder)],
+);
+
+export const events = pgTable(
+  "events",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: slugCol(),
+    status: publishStatus("status").default("draft").notNull(),
+    eventStatus: eventStatus("event_status").default("scheduled").notNull(),
+    attendance: eventAttendance("attendance").default("offline").notNull(),
+    startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+    endsAt: timestamp("ends_at", { withTimezone: true }),
+    venueName: text("venue_name"),
+    venueStreet: text("venue_street"),
+    venueCity: text("venue_city"),
+    venueRegion: text("venue_region"),
+    venuePostalCode: text("venue_postal_code"),
+    onlineUrl: text("online_url"),
+    coverImageId: uuid("cover_image_id").references(() => media.id),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    uniqueIndex("events_slug_idx").on(t.slug),
+    slugCheck("events_slug_format", t.slug),
+    check("events_end_after_start", sql`${t.endsAt} is null or ${t.endsAt} >= ${t.startsAt}`),
+    index("events_starts_idx").on(t.startsAt),
+  ],
+);
+
+export const eventTranslations = pgTable(
+  "event_translations",
+  {
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => events.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    summary: text("summary").notNull(),
+    body: blocks("body"),
+    ...translationCols(),
+  },
+  (t) => [primaryKey({ columns: [t.eventId, t.locale] })],
+);
+
+export const newsPosts = pgTable(
+  "news_posts",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: slugCol(),
+    status: publishStatus("status").default("draft").notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    authorName: text("author_name"),
+    coverImageId: uuid("cover_image_id").references(() => media.id),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    uniqueIndex("news_posts_slug_idx").on(t.slug),
+    slugCheck("news_posts_slug_format", t.slug),
+    check("news_posts_published_has_date", sql`${t.status} <> 'published' or ${t.publishedAt} is not null`),
+    index("news_posts_published_idx").on(t.publishedAt),
+  ],
+);
+
+export const newsTranslations = pgTable(
+  "news_translations",
+  {
+    postId: uuid("post_id")
+      .notNull()
+      .references(() => newsPosts.id, { onDelete: "cascade" }),
+    headline: text("headline").notNull(),
+    excerpt: text("excerpt").notNull(),
+    body: blocks("body"),
+    ...translationCols(),
+  },
+  (t) => [primaryKey({ columns: [t.postId, t.locale] })],
+);
+
+/** Transparency documents. The PDF lives in R2 (Step 8); until then pdf_r2_key is null. */
+export const reports = pgTable(
+  "reports",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    fy: text("fy").notNull(),
+    kind: reportKind("kind").notNull(),
+    status: publishStatus("status").default("draft").notNull(),
+    pdfR2Key: text("pdf_r2_key"),
+    publishedAt: timestamp("published_at", { withTimezone: true }),
+    createdAt: createdAt(),
+  },
+  (t) => [check("reports_fy_format", sql`${t.fy} ~ '^[0-9]{4}-[0-9]{2}$'`)],
+);
+
+export const reportTranslations = pgTable(
+  "report_translations",
+  {
+    reportId: uuid("report_id")
+      .notNull()
+      .references(() => reports.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    ...translationCols(),
+  },
+  (t) => [primaryKey({ columns: [t.reportId, t.locale] })],
+);
+
+export const messageStatus = pgEnum("message_status", ["new", "read", "replied", "spam"]);
+
+/** Contact form submissions. The sender's IP is stored only as a salted hash (DPDP minimisation). */
+export const messages = pgTable(
+  "messages",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone"),
+    subject: text("subject").notNull(),
+    body: text("body").notNull(),
+    locale: locale("locale").notNull(),
+    ipHash: text("ip_hash").notNull(),
+    status: messageStatus("status").default("new").notNull(),
+    assignedTo: uuid("assigned_to").references(() => users.id),
+    createdAt: createdAt(),
+  },
+  (t) => [
+    index("messages_created_idx").on(t.createdAt),
+    index("messages_ip_recent_idx").on(t.ipHash, t.createdAt),
+  ],
 );

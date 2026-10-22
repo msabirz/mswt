@@ -3,16 +3,17 @@ import { routing, type Locale } from "@/i18n/routing";
 /**
  * Every public page in the sitemap (docs/spec.md §1). `ready` turns a page on in the header/footer;
  * pages that don't exist yet are never linked, so the live site has no links to 404s.
+ * Legal pages stay not-ready until the Trust's CA approves them (they 404 in production till then).
  */
 export const PAGES = {
   home: { path: "", ready: true },
-  about: { path: "/about", ready: false },
-  causes: { path: "/causes", ready: false },
-  gallery: { path: "/gallery", ready: false },
-  events: { path: "/events", ready: false },
-  news: { path: "/news", ready: false },
-  transparency: { path: "/transparency", ready: false },
-  contact: { path: "/contact", ready: false },
+  about: { path: "/about", ready: true },
+  causes: { path: "/causes", ready: true },
+  gallery: { path: "/gallery", ready: true },
+  events: { path: "/events", ready: true },
+  news: { path: "/news", ready: true },
+  transparency: { path: "/transparency", ready: true },
+  contact: { path: "/contact", ready: true },
   donate: { path: "/donate", ready: false },
   privacy: { path: "/privacy", ready: false },
   terms: { path: "/terms", ready: false },

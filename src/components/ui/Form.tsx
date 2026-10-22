@@ -239,7 +239,7 @@ export function ErrorSummary({
       tabIndex={-1}
       className="grid grid-cols-[auto_1fr] gap-3 rounded-md border-l-4 border-status-error-icon bg-status-error-bg p-4 text-status-error-fg"
     >
-      <span aria-hidden="true" className="font-bold">
+      <span aria-hidden="true" className="font-semibold">
         !
       </span>
       <div>

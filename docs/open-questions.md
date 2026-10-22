@@ -10,6 +10,7 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **A5** Is there a Hindi / Marathi / Gujarati version of the logo or wordmark?
 - [ ] **A6** Who designed the logo, and is there a brand guideline document? (Rules in `docs/brand.md` §5 are proposed until confirmed.)
 - [ ] **A7** Photography: do you have real photos of the Trust's work (with consent from the people pictured, especially children)? Any images we must not use?
+  *Photos are placeholders until R2 uploads arrive with the admin (Step 8).*
 - [ ] **A8** The logo has no accent colour. Is green + slate enough, or should a warm accent (for highlights only, never text) be chosen and approved?
 - [x] **A9** Site font. *Owner decision 2026-10-21: **Poppins everywhere** (English, Hindi, Marathi), configurable by Super Admins in Settings → Appearance. Gujarati uses Noto Sans Gujarati.*
 - [x] **A10** Devanagari font. *Decided with A9: Poppins, with Noto Sans Devanagari as glyph fallback.*
@@ -25,7 +26,9 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **B8** Authorised signatory for receipts (name, designation) and a scanned signature/stamp image, if wanted on the PDF.
 - [ ] **B9** Cashfree account: already approved (KYC done) or to be opened? Business/settlement account in the Trust's name?
 - [ ] **B10** Refund policy terms (window, process) and who approves refunds.
+  *2026-10-22: draft refund policy written (data/content/content.json); window and timings marked [to be confirmed].*
 - [ ] **B11** Legal texts (Privacy, Terms, Refund, 80G disclaimer): will the Trust's CA/lawyer provide or review drafts we write? DPDP Act 2023 grievance officer name and email.
+  *2026-10-22: English drafts of privacy, terms, refund and 80G pages written; they stay off production until the CA reviews them and translations are done.*
 - [ ] **B12** Financial year to start the receipt series: FY 2026-27 from go-live? Any receipts already issued this FY offline (to continue the series from a number)?
 
 ## C. Organization details (CMS Settings → JSON-LD, footer, receipts)
@@ -38,6 +41,7 @@ Answer inline (or tick and add the value). IDs are referenced from `spec.md` and
 - [ ] **C6** Trust name in Hindi, Marathi and Gujarati script (for `alternateName` and localised headers) — exact spelling approved by the Trust.
 - [ ] **C7** Description / mission statement (1–2 sentences) in all 4 languages; areas served (cities/districts/states).
 - [ ] **C8** Initial causes (names, descriptions, goals), and any annual reports / audited accounts to publish on Transparency.
+  *Add confirmed causes, events, news and reports to data/content/content.json, then run npm run content:sync.*
 
 ## D. Operations & accounts
 - [x] **D1** GitHub repository: **`mswtorg/mswt`**, owned by the Trust's own GitHub account `mswtorg` (moved from `msabirz/mswt` on 2026-10-22). Developers are added as collaborators.

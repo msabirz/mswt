@@ -28,6 +28,7 @@ Design system: components in `src/components/ui`, all states on `/en/styleguide`
 | `npm run tokens` · `tokens:check` | Regenerate / verify `src/styles/theme.css` (Tailwind theme) and `design/tokens.css` from `tokens/design-tokens.json` |
 | `node scripts/og-indic.mjs` | Re-render the Hindi/Marathi/Gujarati share images (`public/og/*.png`) in Chromium |
 | `npm run org:sync` | Write `data/organization.json` to `organization_settings` (`-- --check` only validates) |
+| `npm run content:sync` | Write `data/content/content.json` to the database and refresh the site (`-- --check` only validates) |
 | `npm run brand:lint` | Fail on colour, font, radius or shadow literals in `src/` (use token classes) |
 | `npm run mockups` | Rebuild the Step 1 HTML mockups in `design/mockups/` |
 

@@ -23,6 +23,9 @@ import {
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { Logo } from "@/components/ui/Logo";
 import { TextLink } from "@/components/ui/TextLink";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { Pagination } from "@/components/ui/Pagination";
+import { RichText } from "@/components/ui/RichText";
 import { Eyebrow, HeadingRule, Rule } from "@/components/ui/Typography";
 import { DialogDemo } from "./DialogDemo";
 
@@ -279,6 +282,24 @@ export default async function StyleguidePage({ params }: { params: Promise<{ loc
           </div>
         </div>
         <Rule />
+      </Section>
+
+      <Section id="sg-rich" title="Rich text, empty state, pagination">
+        <RichText
+          blocks={[
+            { type: "heading", level: 2, text: "Heading from content" },
+            { type: "paragraph", text: "Paragraph with **bold text** and a [safe link](/en/causes)." },
+            { type: "list", items: ["First item", "Second item"] },
+            { type: "callout", tone: "info", text: "Callout block for notes." },
+          ]}
+        />
+        <EmptyState>No events yet.</EmptyState>
+        <Pagination
+          page={2}
+          total={3}
+          hrefFor={(n) => `#page-${n}`}
+          labels={{ nav: "Pages", previous: "Previous", next: "Next", pageOf: "Page 2 of 3" }}
+        />
       </Section>
 
       <Section id="sg-logo" title="Logo">

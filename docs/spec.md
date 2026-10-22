@@ -58,6 +58,16 @@ Locales: `en` (default), `hi`, `mr`, `gu`. `{l}` = locale. Slugs are ASCII and *
 - The NGO node is built only from `organization_settings`, and empty fields are omitted, never invented. Until the admin exists (Step 8), the Trust's public facts live in `data/organization.json` and are written with `npm run org:sync` (`-- --check` validates in CI).
 - Logo for search engines: `/brand/mswt-logo-512.png` (512×512).
 
+### Content rules (as built in Step 6)
+- **Language rule:** an item exists in a language only if it has a translation for that language; in **production that translation must also be reviewed** (`reviewed_at` set). Otherwise the page is a 404 in that language and is left out of lists, hreflang and the sitemap. There is no fallback to English.
+- **Where content comes from:** production reads only the database. Local builds and Vercel previews fall back to `data/content/content.json` (real drafts, such as the legal pages) and then `data/sample/content.json` (sample content, shown with a "Sample content" banner) for any part the database doesn't have yet. Sample content is never written to the database.
+- **Loading real content before the admin exists:** add it to `data/content/content.json` and run `npm run content:sync`. Translations marked `"reviewed": true` go live; the rest stay preview-only. The script then calls `POST /api/revalidate` (`REVALIDATE_SECRET`) to refresh the site.
+- **Rich text** is stored as typed blocks (heading, paragraph, list, callout) with `**bold**` and `[links](…)`. Links are limited to site paths, https, mailto and tel. No HTML is stored.
+- **Legal pages** (privacy, terms, refund, 80G) are English drafts marked unreviewed. They stay off production (404, not in navigation) until the Trust's CA approves them.
+- **Images** are placeholders until Cloudflare R2 uploads exist (Step 8); gallery `ImageObject` and article images arrive then.
+- **Contact form:** zod validation, Cloudflare Turnstile (test keys outside production), and a limit of 5 messages per IP per hour using a salted IP hash (the IP itself is never stored). Messages are saved to `messages`; the email notification comes in Step 9.
+- **Migrations on Vercel:** the build runs `npm run db:migrate` before `next build`, so previews (Neon branch per preview) and production get new tables automatically. Migrations must stay additive and reviewed.
+
 ## 2. Data model (Drizzle / Postgres)
 
 Conventions: `id uuid pk`, `created_at`/`updated_at timestamptz`, money `*_paise bigint`, soft delete `deleted_at` where content is editable. Translatable content uses a `*_translations` table keyed `(parent_id, locale)` with `locale` enum `en|hi|mr|gu`.

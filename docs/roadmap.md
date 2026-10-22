@@ -63,6 +63,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 ## Step 6 — Public pages
 **Deliverables:** Home, About, Causes list/detail, Gallery (+album), Events list/detail, News list/detail, Transparency, Contact (form + Turnstile + messages table), Privacy, Terms, Refund Policy, 80G disclaimer — all reading CMS tables, 4 locales, ISR + on-demand revalidation. Donate page shell only.
 **Exit:** every route × 4 locales passes axe, Lighthouse budgets, `/seo-check`, `/jsonld-check`; legal texts reviewed by Trust *(manual)*.
+**Done (2026-10-22):** content schema (migration 0002); content layer with the language/review rule; sample content for previews; `content:sync` + `/api/revalidate`; About, Causes (+detail), Gallery (+album), Events (+detail), News (+detail, paginated), Transparency, Contact (Turnstile, rate limit) and legal drafts (off production until reviewed); sitemap includes content; Vercel build runs migrations. Real photos/R2, per-item share images and the donate flow come later.
 
 ## Step 7 — Donation flow
 **Deliverables:** `PaymentProvider` interface + Cashfree adapter (sandbox), donate form (presets, custom amount, cause, fee-cover, anonymous display, 80G + PAN, Indian-citizen declaration), order route, webhook with signature verification + idempotency, receipt numbering service (gapless per FY), receipt PDF (logo header, Indic-capable font) → R2, thank-you page with status polling, daily reconciliation cron, offline-donation service (used by admin in Step 8).
