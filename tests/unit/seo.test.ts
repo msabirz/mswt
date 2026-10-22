@@ -3,7 +3,8 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { crawlAllowed, isCanonicalHost, languageAlternates } from "@/lib/seo/site";
 import { pingIndexNow } from "@/lib/seo/indexnow";
 import { robotsFor } from "@/app/robots";
-import { sitemapEntries } from "@/app/sitemap";
+import { contentEntries, sitemapEntries } from "@/app/sitemap";
+import { ContentFileSchema } from "@/lib/content/format";
 
 beforeEach(() => vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://mswelfaretrust.org"));
 afterEach(() => vi.unstubAllEnvs());
@@ -73,15 +74,35 @@ describe("robots", () => {
 });
 
 describe("sitemap", () => {
-  it("lists only ready pages, once per locale, with alternates", () => {
+  it("lists every ready page once per locale, with alternates", () => {
     const entries = sitemapEntries(new Date("2026-10-22T00:00:00Z"));
-    expect(entries.map((e) => e.url)).toEqual([
-      "https://mswelfaretrust.org/en",
-      "https://mswelfaretrust.org/hi",
-      "https://mswelfaretrust.org/mr",
-      "https://mswelfaretrust.org/gu",
-    ]);
+    const urls = entries.map((e) => e.url);
+    expect(urls).toContain("https://mswelfaretrust.org/en");
+    expect(urls).toContain("https://mswelfaretrust.org/gu/causes");
+    expect(urls).toContain("https://mswelfaretrust.org/mr/contact");
+    expect(urls.some((u) => u.includes("/donate") || u.includes("/privacy"))).toBe(false);
+    expect(urls.length % 4).toBe(0);
     expect(entries[0]?.alternates?.languages?.["x-default" as "en"]).toBe("https://mswelfaretrust.org/en");
+  });
+
+  it("lists content items only in the languages they exist in", () => {
+    const content = {
+      ...ContentFileSchema.parse({
+        causes: [
+          {
+            slug: "x",
+            status: "active",
+            translations: { en: { title: "X", summary: "s" }, hi: { title: "X", summary: "s" } },
+          },
+        ],
+      }),
+      sampleParts: [],
+    };
+    const urls = contentEntries(content).map((e) => e.url);
+    expect(urls).toEqual([
+      "https://mswelfaretrust.org/en/causes/x",
+      "https://mswelfaretrust.org/hi/causes/x",
+    ]);
   });
 });
 

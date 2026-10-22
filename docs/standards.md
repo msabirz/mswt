@@ -95,7 +95,7 @@ Every PR must satisfy every item that applies to what it touches. Slash commands
 ## i18n
 - [ ] **I18N-01** next-intl with locales `en`, `hi`, `mr`, `gu`; default `en`; every public route locale-prefixed
 - [ ] **I18N-02** All UI strings in `src/messages/*.json`; no hard-coded user-facing text; missing-key check in CI
-- [ ] **I18N-03** CMS content has all 4 translations or the locale page is not published (no silent English fallback in a Hindi page without `lang`)
+- [ ] **I18N-03** CMS content appears in a language only when that translation exists and, in production, has been reviewed (`reviewed_at`); otherwise it is a 404 in that language. No silent English fallback
 - [ ] **I18N-04** Numbers/currency formatted `en-IN` style (₹1,00,000) per locale; dates in Asia/Kolkata via `Intl`
 - [ ] **I18N-05** Language switcher keeps the current page, uses native language names with `lang`/`hreflang` attributes
 - [ ] **I18N-06** Indic scripts render with correct fonts and line-height (no tofu, no clipped matras)

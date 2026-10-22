@@ -33,7 +33,7 @@ export function Alert({
       role={role}
       className={cn("grid grid-cols-[auto_1fr] gap-3 rounded-md border-l-4 p-4", tones[tone].box, className)}
     >
-      <span aria-hidden="true" className="font-bold">
+      <span aria-hidden="true" className="font-semibold">
         {tones[tone].icon}
       </span>
       <div className="grid gap-1 [&_a]:text-inherit">

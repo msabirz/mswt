@@ -31,6 +31,9 @@ src/lib/db/               Drizzle schema + queries
 src/lib/seo/              buildMetadata, site/host helpers, OG renderer, IndexNow, JSON-LD builders (jsonld.ts)
 src/components/seo/       <JsonLd> — the page's single structured-data block
 data/organization.json    public Trust facts → `npm run org:sync` (until the Step 8 admin)
+data/content/content.json real content (legal drafts, causes…) → `npm run content:sync`; `reviewed: true` goes live
+data/sample/content.json  sample content for local/preview builds only (never in production)
+src/lib/content/          block format, content file schema, loaders (language + review rule)
 src/lib/settings.ts       cached DB settings (seo, organization) — revalidate tags after admin edits
 src/lib/receipts/         numbering + PDF generation
 src/messages/{en,hi,mr,gu}.json   UI strings (CMS content lives in the DB)
@@ -50,6 +53,7 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Server components by default; `"use client"` only where interaction needs it.
 - Every user-facing string goes through next-intl; every page has `generateMetadata` built with `buildMetadata()`.
 - The build reads settings from the database: run `npm run db:migrate` before `npm run build` on a fresh DB.
+- Content appears in a language only if translated (and reviewed, in production) — never fall back to English inside another language.
 - Changing the home headline or site name? Re-run `node scripts/og-indic.mjs` (Indic share images).
 - Secrets only in env vars (`.env.local`, Vercel env); `.env.example` lists names, never values.
 - Validate all input on the server (zod); never trust client-sent amounts, fees or status.

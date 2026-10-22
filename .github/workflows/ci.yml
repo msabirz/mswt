@@ -29,8 +29,10 @@ jobs:
       - run: npm ci
       - name: Design tokens are up to date
         run: npm run tokens:check
-      - name: Organization data is valid
-        run: npm run org:sync -- --check
+      - name: Organization and content data are valid
+        run: |
+          npm run org:sync -- --check
+          npm run content:sync -- --check
       - name: Brand lint (only token classes, no colour/font literals)
         run: npm run brand:lint
       - run: npm run format:check

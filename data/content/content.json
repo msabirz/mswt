@@ -1,4 +1,323 @@
 {
   "$comment": "REAL content for the database (npm run content:sync). Translations with \"reviewed\": true appear in production; others only in previews.",
-  "pages": {}
+  "pages": {
+    "privacy": {
+      "en": {
+        "title": "Privacy policy",
+        "h1": "Privacy policy",
+        "intro": "How Munira Shoaib Welfare Trust collects, uses and protects your personal data.",
+        "reviewed": false,
+        "sections": [
+          {
+            "type": "callout",
+            "tone": "warning",
+            "text": "Draft for review by the Trust and its chartered accountant/lawyer. Items in square brackets must be confirmed before this page goes live."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Who we are"
+          },
+          {
+            "type": "paragraph",
+            "text": "Munira Shoaib Welfare Trust (\"the Trust\", \"we\") is a charitable trust registered in India. We are the data fiduciary for the personal data described here, under the Digital Personal Data Protection Act, 2023 (\"DPDP Act\"). Registered address: [to be confirmed: registered address]."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What we collect"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**When you donate:** your name, email, mobile number, and — if you ask for an 80G receipt — your PAN and postal address. Payment card, UPI and bank details are handled by our payment provider, Cashfree; we never see or store them.",
+              "**When you contact us:** your name, email, optional phone number and your message.",
+              "**Technical data:** to protect the contact form from abuse we store a one-way hash of your IP address, not the address itself. We use Cloudflare Turnstile to tell people from bots."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Why we use it"
+          },
+          {
+            "type": "list",
+            "items": [
+              "To process your donation and send your receipt.",
+              "To issue 80G receipts and to report donations to the Income-tax Department as the law requires (Form 10BD), which needs your PAN and address.",
+              "To reply to your message.",
+              "To keep our website secure and prevent fraud.",
+              "We do not sell your data, and we do not use it for advertising."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How long we keep it"
+          },
+          {
+            "type": "paragraph",
+            "text": "We keep donation records, including PAN, for as long as income-tax law requires us to keep the Trust's accounts [to be confirmed: retention period confirmed by the Trust’s CA]. Contact-form messages are deleted [to be confirmed: e.g. 2 years] after we last reply."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Who we share it with"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**Cashfree Payments** – to process payments.",
+              "**Our email provider** – to send receipts and replies.",
+              "**Our hosting and database providers** – to run this website.",
+              "**The Income-tax Department** – donation details we are legally required to report."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Your rights"
+          },
+          {
+            "type": "paragraph",
+            "text": "Under the DPDP Act you can ask us for a summary of your personal data, ask us to correct or update it, ask us to erase data we no longer need to keep by law, and nominate someone to exercise these rights for you. You can also withdraw consent for any use based on consent."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Grievances"
+          },
+          {
+            "type": "paragraph",
+            "text": "Contact our grievance officer: [to be confirmed: name], [info@mswelfaretrust.org](mailto:info@mswelfaretrust.org). We will respond within [to be confirmed: number of days]. If you are not satisfied, you can complain to the Data Protection Board of India."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Changes"
+          },
+          {
+            "type": "paragraph",
+            "text": "We will post any changes to this policy on this page with a new date."
+          }
+        ]
+      }
+    },
+    "terms": {
+      "en": {
+        "title": "Terms of use",
+        "h1": "Terms of use",
+        "intro": "The terms for using this website and donating to Munira Shoaib Welfare Trust.",
+        "reviewed": false,
+        "sections": [
+          {
+            "type": "callout",
+            "tone": "warning",
+            "text": "Draft for review by the Trust and its chartered accountant/lawyer. Items in square brackets must be confirmed before this page goes live."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "About these terms"
+          },
+          {
+            "type": "paragraph",
+            "text": "By using mswelfaretrust.org you agree to these terms. If you do not agree, please do not use the website."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Donations"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Donations are voluntary contributions to Munira Shoaib Welfare Trust for its charitable objects.",
+              "The Trust is **not registered under the Foreign Contribution (Regulation) Act (FCRA)**. We can only accept donations from Indian citizens, paid from their own Indian bank account, card or UPI. By donating you confirm that this applies to you.",
+              "Donations made for a specific cause are used for that cause. If the cause is fully funded or closes, the Trust may use the donation for its other charitable work.",
+              "Refunds are covered by our [refund policy](/en/refund-policy).",
+              "Tax deduction under Section 80G is subject to the conditions on our [80G page](/en/80g-disclaimer)."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Using the website"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Please do not misuse the website, try to break its security or send spam through the contact form.",
+              "Content on this website belongs to the Trust unless stated otherwise. You may share it for non-commercial purposes with credit to the Trust.",
+              "We try to keep information accurate and up to date, but we cannot guarantee that it is always complete."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Links"
+          },
+          {
+            "type": "paragraph",
+            "text": "We are not responsible for the content of other websites we link to."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Governing law"
+          },
+          {
+            "type": "paragraph",
+            "text": "These terms are governed by the laws of India. Disputes are subject to the courts of [to be confirmed: city]."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Contact"
+          },
+          {
+            "type": "paragraph",
+            "text": "Questions about these terms: [info@mswelfaretrust.org](mailto:info@mswelfaretrust.org)."
+          }
+        ]
+      }
+    },
+    "refund_policy": {
+      "en": {
+        "title": "Refund policy",
+        "h1": "Refund policy",
+        "intro": "When and how you can get a refund for a donation to Munira Shoaib Welfare Trust.",
+        "reviewed": false,
+        "sections": [
+          {
+            "type": "callout",
+            "tone": "warning",
+            "text": "Draft for review by the Trust and its chartered accountant/lawyer. Items in square brackets must be confirmed before this page goes live."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Our approach"
+          },
+          {
+            "type": "paragraph",
+            "text": "Donations are generally not refundable, because they are used for charitable work soon after they are received. We will refund a donation that was made by mistake."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "When we refund"
+          },
+          {
+            "type": "list",
+            "items": [
+              "You donated twice by mistake (a duplicate payment).",
+              "You entered the wrong amount.",
+              "Money was taken from your account but the payment was not completed.",
+              "Your payment was unauthorised (please also contact your bank)."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How to ask"
+          },
+          {
+            "type": "paragraph",
+            "text": "Email [info@mswelfaretrust.org](mailto:info@mswelfaretrust.org) within [to be confirmed: number of days, e.g. 7] days of the donation, with your name, the date, the amount and the transaction or receipt number."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What happens next"
+          },
+          {
+            "type": "list",
+            "items": [
+              "We reply within [to be confirmed: number of working days] working days.",
+              "Approved refunds are paid back to the original payment method through Cashfree, usually within [to be confirmed: 5–7] working days after approval, depending on your bank.",
+              "Any 80G receipt issued for the refunded amount is cancelled, and the donation is removed from our tax reporting."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Failed payments"
+          },
+          {
+            "type": "paragraph",
+            "text": "If money was debited but your payment failed, it is normally reversed automatically by your bank within 5–7 working days. If it is not, contact us with the transaction details."
+          }
+        ]
+      }
+    },
+    "disclaimer_80g": {
+      "en": {
+        "title": "80G tax deduction",
+        "h1": "Tax deduction under Section 80G",
+        "intro": "What you need to know to claim tax deduction for your donation.",
+        "reviewed": false,
+        "sections": [
+          {
+            "type": "callout",
+            "tone": "warning",
+            "text": "Draft for review by the Trust and its chartered accountant/lawyer. Items in square brackets must be confirmed before this page goes live."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Our registration"
+          },
+          {
+            "type": "paragraph",
+            "text": "Munira Shoaib Welfare Trust is approved under Section 80G of the Income-tax Act, 1961. Registration number: [to be confirmed: 80G number], valid from [to be confirmed: date] to [to be confirmed: date]. Trust PAN: [to be confirmed: PAN]."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Who can claim"
+          },
+          {
+            "type": "list",
+            "items": [
+              "Donors who pay tax in India and file under the **old tax regime**. Deductions under Section 80G are not available under the new tax regime (Section 115BAC).",
+              "You need to give your **PAN** when you donate. Without a PAN we can only send an acknowledgement, not an 80G receipt.",
+              "How much you can deduct depends on the Trust's 80G category and your income. [to be confirmed: deduction rate and qualifying limit as per the Trust’s 80G approval]."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Cash donations"
+          },
+          {
+            "type": "paragraph",
+            "text": "**Cash donations above ₹2,000 are not eligible for 80G deduction.** Please donate online, by cheque, NEFT or UPI if you want to claim a deduction."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Your receipt and Form 10BE"
+          },
+          {
+            "type": "list",
+            "items": [
+              "After your donation is confirmed you get a receipt by email.",
+              "Every year the Trust reports donations to the Income-tax Department in Form 10BD (due by 31 May after the financial year ends).",
+              "You then receive a certificate in **Form 10BE** for the donations reported. Keep it with your tax records; your deduction is checked against what the Trust reports."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Need help?"
+          },
+          {
+            "type": "paragraph",
+            "text": "Email [info@mswelfaretrust.org](mailto:info@mswelfaretrust.org). For advice about your own taxes, please consult your tax adviser."
+          }
+        ]
+      }
+    }
+  }
 }

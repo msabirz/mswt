@@ -114,10 +114,10 @@ export function ContactForm({
   return (
     <form ref={form} action={action} className="grid gap-6" noValidate>
       <input type="hidden" name="locale" value={locale} />
-      <div ref={summary}>
+      <div ref={summary} className="empty:hidden">
         {summaryItems.length > 0 ? <ErrorSummary title={t.errorSummary} errors={summaryItems} /> : null}
       </div>
-      <div ref={status} tabIndex={-1}>
+      <div ref={status} tabIndex={-1} className="empty:hidden">
         {state.status === "sent" ? (
           <Alert tone="success" live="polite">
             <p>{t.sent}</p>

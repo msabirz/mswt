@@ -22,7 +22,16 @@
     "trust2": "Annual reports and audited accounts are published on our Transparency page.",
     "trust3t": "Secure payments",
     "trust3": "Pay by UPI, cards or net banking through a secure, RBI-regulated gateway.",
-    "whyTitle": "Why give through the Trust"
+    "whyTitle": "Why give through the Trust",
+    "causesH": "Where your donation goes",
+    "causesLead": "Choose a cause, or give to the general fund and we'll direct it where it's needed most.",
+    "allCauses": "View all causes",
+    "eventsH": "Upcoming events",
+    "allEvents": "All events",
+    "newsH": "News and updates",
+    "allNews": "All news",
+    "bandH": "Every donation is receipted the moment it is received",
+    "bandP": "You get an email with your receipt number. Your PAN is used only for your 80G receipt and the Trust's tax filings."
   },
   "NotFound": {
     "title": "We can't find that page",
