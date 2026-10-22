@@ -31,6 +31,7 @@ Design system: components in `src/components/ui`, all states on `/en/styleguide`
 | `node scripts/og-indic.mjs` | Re-render the Hindi/Marathi/Gujarati share images (`public/og/*.png`) in Chromium |
 | `npm run org:sync` | Write `data/organization.json` to `organization_settings` (`-- --check` only validates) |
 | `npm run content:sync` | Write `data/content/content.json` to the database and refresh the site (`-- --check` only validates) |
+| `npm run admin:create` | Create a Super Admin (asks for name, email and a hidden password); they set up 2FA at first sign-in. Refuses if one exists, unless `-- --force` |
 | `npm run settings:sync` | Write `data/payment-settings.json` (donate amounts, fee cover) through the audited settings service (`-- --check` only validates) |
 | `npm run brand:lint` | Fail on colour, font, radius or shadow literals in `src/` (use token classes) |
 | `npm run mockups` | Rebuild the Step 1 HTML mockups in `design/mockups/` |

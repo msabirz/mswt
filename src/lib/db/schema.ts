@@ -38,10 +38,15 @@ export const users = pgTable(
     id: uuid("id").primaryKey().defaultRandom(),
     email: text("email").notNull(),
     name: text("name").notNull(),
-    passwordHash: text("password_hash").notNull(),
+    // Null until an invited user sets their password (invite link).
+    passwordHash: text("password_hash"),
     role: userRole("role").notNull(),
     totpSecretEnc: text("totp_secret_enc"),
     totpEnabledAt: timestamp("totp_enabled_at", { withTimezone: true }),
+    // Last accepted TOTP time step: a code can't be used twice.
+    totpLastStep: bigint("totp_last_step", { mode: "number" }),
+    // Bumped on deactivation, password reset or 2FA reset: every existing session ends.
+    sessionVersion: integer("session_version").default(1).notNull(),
     recoveryCodesHash: text("recovery_codes_hash").array(),
     failedLogins: integer("failed_logins").default(0).notNull(),
     lockedUntil: timestamp("locked_until", { withTimezone: true }),
@@ -51,6 +56,26 @@ export const users = pgTable(
     updatedAt: updatedAt(),
   },
   (t) => [uniqueIndex("users_email_lower_idx").on(sql`lower(${t.email})`)],
+);
+
+export const userTokenKind = pgEnum("user_token_kind", ["invite", "reset"]);
+
+/** One-time invite / password-reset links. Only a SHA-256 of the token is stored. */
+export const userTokens = pgTable(
+  "user_tokens",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id),
+    kind: userTokenKind("kind").notNull(),
+    tokenHash: text("token_hash").notNull(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    usedAt: timestamp("used_at", { withTimezone: true }),
+    createdBy: uuid("created_by").references(() => users.id),
+    createdAt: createdAt(),
+  },
+  (t) => [uniqueIndex("user_tokens_hash_idx").on(t.tokenHash), index("user_tokens_user_idx").on(t.userId)],
 );
 
 // Append-only: a trigger in drizzle/0001 rejects UPDATE and DELETE.

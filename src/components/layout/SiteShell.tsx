@@ -3,6 +3,7 @@ import { preload } from "react-dom";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { DEFAULT_SITE_FONT, fontVariables, poppinsPreloads } from "@/lib/fonts";
+import { getAppearanceSettings } from "@/lib/settings";
 import { SkipLink } from "@/components/ui/SkipLink";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
@@ -14,13 +15,18 @@ import "@/app/globals.css";
  */
 export async function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   setRequestLocale(locale);
-  const [t, messages] = await Promise.all([getTranslations("Layout"), getMessages()]);
-  for (const href of poppinsPreloads(locale))
+  const [t, messages, appearance] = await Promise.all([
+    getTranslations("Layout"),
+    getMessages(),
+    getAppearanceSettings().catch(() => null),
+  ]);
+  const siteFont = appearance?.siteFont ?? DEFAULT_SITE_FONT;
+  for (const href of poppinsPreloads(locale, siteFont))
     preload(href, { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
 
   return (
-    // The site font becomes admin-configurable in Step 8 (appearance_settings.site_font).
-    <html lang={locale} className={fontVariables} data-site-font={DEFAULT_SITE_FONT}>
+    // Site font: Settings → Appearance (appearance_settings.site_font).
+    <html lang={locale} className={fontVariables} data-site-font={siteFont}>
       <body className="min-h-screen bg-bg-canvas text-fg-default">
         <SkipLink label={t("skip")} />
         <SiteHeader locale={locale} />

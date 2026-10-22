@@ -39,8 +39,9 @@ const noindex = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
-  // 404 for URLs that match no route, rendered as full server HTML (src/app/global-not-found.tsx).
-  experimental: { globalNotFound: true },
+  // globalNotFound: 404 for unmatched URLs as full server HTML (src/app/global-not-found.tsx).
+  // authInterrupts: forbidden() → 403 for admin pages a role may not open (src/app/admin/forbidden.tsx).
+  experimental: { globalNotFound: true, authInterrupts: true },
   // pdfkit reads font files at runtime; keep it out of the bundle.
   serverExternalPackages: ["pdfkit"],
   // Files read with fs at runtime by the receipt routes (PDF fonts and the logo).

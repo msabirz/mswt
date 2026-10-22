@@ -17,7 +17,9 @@ for (const locale of LOCALES) {
     expect(res?.status()).toBe(200);
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator('input[name="preset"]')).toHaveCount(4);
+    // 3 or 4 suggested amounts (payment_settings rule).
+    expect(await page.locator('input[name="preset"]').count()).toBeGreaterThanOrEqual(3);
+    expect(await page.locator('input[name="preset"]').count()).toBeLessThanOrEqual(4);
     const ld = await page.locator('script[type="application/ld+json"]').textContent();
     expect(ld).toContain('"DonateAction"');
     await page.locator("#donate-wants80g").check();
