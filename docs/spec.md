@@ -133,6 +133,19 @@ Thank-you page polls GET /api/donations/{id}/status → shows receipt number / d
 - **Daily reconciliation** (Vercel Cron, `Asia/Kolkata` 03:00): for donations `pending` > 30 min, call `getOrder`; apply the same confirmation path (idempotent) or mark `expired/failed`. Also retries un-emailed receipts. Summary row in `reconciliation_runs` and email to Super Admin if anything changed.
 - **Failure/refund:** refunds are processed in Cashfree dashboard; webhook `refund` → donation `refunded`, receipt voided (number kept, void reason recorded).
 
+#### As built in Step 7 (2026-10-23)
+- **Form** (`/{l}/donate`): 3–4 preset amounts + a typed amount, cause (active DB causes translated into the page language; `?cause=` preselects), fee cover (only when enabled), name, email, **mobile (required: Cashfree needs it)**, optional 80G receipt (then PAN + postal address required), "don't show my name publicly", Indian-citizen declaration, Turnstile. All errors are reported at once, server-side.
+- **Limits:** minimum above ₹5 (DB check), 3–4 presets, max optional — `payment_settings`, edited through `updatePaymentSettings()` (validated + audited; `npm run settings:sync` until the admin). Provisional values: min ₹100, presets ₹500/1,000/2,500/5,000, no max, fee cover off (B3/B7).
+- **Rate limits:** 30 orders per IP and 10 per email per hour (Indian mobile networks share IPs). Unsigned webhooks are rejected with 401 and are **not** stored (so they can't fill the database); every signed delivery is stored in `payment_events`.
+- **Transactions:** confirmation, receipt numbering, refunds and offline entry run in `withTx()`; numbers come from an `INSERT … ON CONFLICT DO UPDATE … RETURNING` on `receipt_sequences`, which holds the row lock until commit (gapless; tested with 20 concurrent confirmations).
+- **Statuses:** a failed attempt can still be followed by a successful one (`failed → paid`); `paid` is never downgraded. Orders unpaid after 3 days become `expired`.
+- **Amount check:** the webhook re-fetches the order; a different amount or currency is recorded as an error and never marks the donation paid.
+- **PAN at rest:** AES-256-GCM (`PII_ENCRYPTION_KEY`) + last 4 + HMAC lookup (donor de-duplication). Receipts print the PAN masked (`XXXXXX234F`).
+- **Receipt PDF:** English, pdfkit, Poppins + Noto Sans Gujarati TTF (Devanagari/Gujarati names shape correctly). Missing Trust facts print `[to be confirmed: …]`; in production a receipt is not issued until B1/B8 are filled (the number is kept; reconciliation retries).
+- **Delivery:** PDF → private R2 bucket → email via Brevo with the PDF attached and a signed link (`/api/receipts/{order}?e=…&t=…`, 30 days) that redirects to a 10-minute R2 URL. Failures never undo the payment; the daily run retries (max 5 email attempts).
+- **Switch:** online donations are on locally and on previews (Cashfree sandbox) and off in production until `NEXT_PUBLIC_DONATIONS_LIVE=true` (go-live, Step 12).
+- **Tests:** unit (`tests/unit/donations.test.ts`), Postgres (`tests/integration`, CI job "Migrations"), e2e with the fake gateway (`tests/e2e/donate.spec.ts`, CI only for flows that write).
+
 ### Offline donations (admin)
 Accountant enters donor, amount, mode (cash/cheque/NEFT/UPI), instrument ref & date, received date → same receipt service. Cash > ₹2,000 → acknowledgement only (see §4).
 

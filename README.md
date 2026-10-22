@@ -21,6 +21,8 @@ Design system: components in `src/components/ui`, all states on `/en/styleguide`
 | `npm run dev` / `build` / `start` | Next.js dev server, production build, production server |
 | `npm run lint` · `typecheck` · `format:check` | ESLint (incl. jsx-a11y strict), `tsc --noEmit`, Prettier |
 | `npm test` | Vitest unit tests (`tests/unit`) |
+| `npm run db:local` | Start a throwaway Postgres 17 on port 5433 (data in `.data/pg`) for tests that write to the database |
+| `npm run test:db` | Donation tests on a real Postgres (`tests/integration`): set `DATABASE_URL` to the `db:local` URL, never Neon |
 | `npm run test:e2e` | Playwright + axe against the production build (run `npm run build` first) |
 | `npm run lhci` | Lighthouse CI with the budgets in `lighthouserc.json` (run `npm run build` first) |
 | `npm run db:generate` | Write a new SQL migration from `src/lib/db/schema.ts` into `drizzle/` (review it before committing) |
@@ -29,7 +31,12 @@ Design system: components in `src/components/ui`, all states on `/en/styleguide`
 | `node scripts/og-indic.mjs` | Re-render the Hindi/Marathi/Gujarati share images (`public/og/*.png`) in Chromium |
 | `npm run org:sync` | Write `data/organization.json` to `organization_settings` (`-- --check` only validates) |
 | `npm run content:sync` | Write `data/content/content.json` to the database and refresh the site (`-- --check` only validates) |
+| `npm run settings:sync` | Write `data/payment-settings.json` (donate amounts, fee cover) through the audited settings service (`-- --check` only validates) |
 | `npm run brand:lint` | Fail on colour, font, radius or shadow literals in `src/` (use token classes) |
 | `npm run mockups` | Rebuild the Step 1 HTML mockups in `design/mockups/` |
+
+**Testing donations locally** (never against the Neon database):
+`npm run db:local` in one terminal, then in another
+`DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5433/postgres npm run db:migrate`, the same prefix with `npm run test:db`, and with `PAYMENT_PROVIDER=fake` for `npm run build && CI=1 npm run test:e2e`. The fake gateway (`/api/dev/fake-pay`) replaces Cashfree's checkout and sends signed webhooks; it never runs in production. Without R2/Brevo keys, receipts are written to `.data/receipts` and emails are logged instead of sent.
 
 CI (`.github/workflows/ci.yml`) runs all of these on every pull request. It applies the migrations to a throwaway Postgres 17 and runs Lighthouse against the build.

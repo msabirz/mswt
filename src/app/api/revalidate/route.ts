@@ -2,11 +2,17 @@ import { timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
 import { CONTENT_TAG } from "@/lib/content/source";
+import { PAYMENT_SETTINGS_TAG } from "@/lib/payment-settings";
 import { SETTINGS_TAGS } from "@/lib/settings";
 import { pingIndexNow } from "@/lib/seo/indexnow";
 import { getSeoSettings } from "@/lib/settings";
 
-const ALLOWED_TAGS = [CONTENT_TAG, SETTINGS_TAGS.seo, SETTINGS_TAGS.organization] as const;
+const ALLOWED_TAGS = [
+  CONTENT_TAG,
+  SETTINGS_TAGS.seo,
+  SETTINGS_TAGS.organization,
+  PAYMENT_SETTINGS_TAG,
+] as const;
 const Body = z.object({
   tags: z.array(z.enum(ALLOWED_TAGS)).min(1),
   urls: z.array(z.url()).max(1000).optional(),

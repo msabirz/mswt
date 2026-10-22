@@ -175,7 +175,10 @@ export const paymentSettings = pgTable(
   },
   (t) => [
     check("payment_settings_single_row", sql`${t.id} = 1`),
-    check("payment_settings_min_positive", sql`${t.minAmountPaise} > 0`),
+    // Above ₹5 (owner decision, 2026-10-22); the exact minimum is set in the admin.
+    check("payment_settings_min_above_5_rupees", sql`${t.minAmountPaise} > 500`),
+    // 3–4 suggested amounts shown as buttons on the donate form.
+    check("payment_settings_presets_count", sql`cardinality(${t.presetAmountsPaise}) between 3 and 4`),
     check(
       "payment_settings_max_gte_min",
       sql`${t.maxAmountPaise} is null or ${t.maxAmountPaise} >= ${t.minAmountPaise}`,
@@ -504,3 +507,188 @@ export const messages = pgTable(
     index("messages_ip_recent_idx").on(t.ipHash, t.createdAt),
   ],
 );
+
+// ── Donations (Step 7) ───────────────────────────────────────────────────────────────────────
+// docs/spec.md §2–4. PAN is never stored in clear (SEC-11): AES-256-GCM ciphertext + last 4
+// characters for display + keyed HMAC for de-duplication (src/lib/crypto/pii.ts).
+
+export const donationMode = pgEnum("donation_mode", ["online", "cash", "cheque", "neft", "upi_offline"]);
+export const donationStatus = pgEnum("donation_status", [
+  "created",
+  "pending",
+  "paid",
+  "failed",
+  "expired",
+  "refunded",
+]);
+export const receiptKind = pgEnum("receipt_kind", ["80g", "acknowledgement"]);
+export const donorCreatedVia = pgEnum("donor_created_via", ["online", "offline"]);
+
+export type PostalAddress = {
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  pincode: string;
+};
+
+export const donors = pgTable(
+  "donors",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    fullName: text("full_name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone").notNull(),
+    panEnc: text("pan_enc"),
+    panLast4: text("pan_last4"),
+    panHmac: text("pan_hmac"),
+    addressLine1: text("address_line1"),
+    addressLine2: text("address_line2"),
+    city: text("city"),
+    state: text("state"),
+    pincode: text("pincode"),
+    isIndianCitizenDeclared: boolean("is_indian_citizen_declared").notNull(),
+    declaredAt: timestamp("declared_at", { withTimezone: true }).notNull(),
+    consentMarketing: boolean("consent_marketing").default(false).notNull(),
+    createdVia: donorCreatedVia("created_via").notNull(),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    uniqueIndex("donors_pan_hmac_idx")
+      .on(t.panHmac)
+      .where(sql`${t.panHmac} is not null`),
+    index("donors_email_phone_idx").on(sql`lower(${t.email})`, t.phone),
+    check("donors_indian_citizen", sql`${t.isIndianCitizenDeclared}`),
+    check("donors_pincode_format", sql`${t.pincode} is null or ${t.pincode} ~ '^[1-9][0-9]{5}$'`),
+  ],
+);
+
+export const donations = pgTable(
+  "donations",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    /** Random, URL-safe; the id the donor and Cashfree see (never the uuid). */
+    publicOrderId: text("public_order_id").notNull(),
+    donorId: uuid("donor_id")
+      .notNull()
+      .references(() => donors.id),
+    causeId: uuid("cause_id").references(() => causes.id),
+    amountPaise: paise("amount_paise").notNull(),
+    feeCoverPaise: paise("fee_cover_paise").default(0).notNull(),
+    totalPaise: paise("total_paise").notNull(),
+    currency: text("currency").default("INR").notNull(),
+    mode: donationMode("mode").notNull(),
+    status: donationStatus("status").default("created").notNull(),
+    provider: text("provider"),
+    providerOrderId: text("provider_order_id"),
+    providerPaymentId: text("provider_payment_id"),
+    providerPaymentMethod: text("provider_payment_method"),
+    paymentSessionId: text("payment_session_id"),
+    instrumentRef: text("instrument_ref"),
+    instrumentDate: date("instrument_date"),
+    bankName: text("bank_name"),
+    isAnonymous: boolean("is_anonymous").default(false).notNull(),
+    wants80g: boolean("wants_80g").default(false).notNull(),
+    // Snapshots frozen when the donation is made, so a receipt never changes with the donor record.
+    nameSnapshot: text("name_snapshot").notNull(),
+    emailSnapshot: text("email_snapshot").notNull(),
+    panEncSnapshot: text("pan_enc_snapshot"),
+    panLast4Snapshot: text("pan_last4_snapshot"),
+    addressSnapshot: jsonb("address_snapshot").$type<PostalAddress>(),
+    receivedAt: timestamp("received_at", { withTimezone: true }),
+    fy: text("fy"),
+    enteredByUserId: uuid("entered_by_user_id").references(() => users.id),
+    notes: text("notes"),
+    locale: locale("locale").default("en").notNull(),
+    ipHash: text("ip_hash"),
+    createdAt: createdAt(),
+    updatedAt: updatedAt(),
+  },
+  (t) => [
+    uniqueIndex("donations_public_order_id_idx").on(t.publicOrderId),
+    index("donations_status_created_idx").on(t.status, t.createdAt),
+    index("donations_donor_idx").on(t.donorId),
+    index("donations_cause_idx").on(t.causeId),
+    index("donations_ip_recent_idx").on(t.ipHash, t.createdAt),
+    index("donations_fy_idx").on(t.fy),
+    check("donations_inr_only", sql`${t.currency} = 'INR'`),
+    check("donations_amount_positive", sql`${t.amountPaise} > 0`),
+    check("donations_fee_non_negative", sql`${t.feeCoverPaise} >= 0`),
+    check("donations_total", sql`${t.totalPaise} = ${t.amountPaise} + ${t.feeCoverPaise}`),
+    check(
+      "donations_paid_has_date",
+      sql`${t.status} not in ('paid', 'refunded') or (${t.receivedAt} is not null and ${t.fy} is not null)`,
+    ),
+    check("donations_fy_format", sql`${t.fy} is null or ${t.fy} ~ '^[0-9]{4}-[0-9]{2}$'`),
+  ],
+);
+
+/** Every webhook delivery, valid or not. (provider, provider_event_id) unique → idempotency. */
+export const paymentEvents = pgTable(
+  "payment_events",
+  {
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    provider: text("provider").notNull(),
+    eventType: text("event_type").notNull(),
+    providerEventId: text("provider_event_id").notNull(),
+    donationId: uuid("donation_id").references(() => donations.id),
+    signatureValid: boolean("signature_valid").notNull(),
+    payload: jsonb("payload").notNull(),
+    receivedAt: timestamp("received_at", { withTimezone: true }).defaultNow().notNull(),
+    processedAt: timestamp("processed_at", { withTimezone: true }),
+    error: text("error"),
+  },
+  (t) => [
+    uniqueIndex("payment_events_provider_event_idx").on(t.provider, t.providerEventId),
+    index("payment_events_donation_idx").on(t.donationId),
+  ],
+);
+
+export const receipts = pgTable(
+  "receipts",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    donationId: uuid("donation_id")
+      .notNull()
+      .references(() => donations.id),
+    kind: receiptKind("kind").notNull(),
+    number: text("number").notNull(),
+    fy: text("fy").notNull(),
+    seq: integer("seq").notNull(),
+    pdfR2Key: text("pdf_r2_key"),
+    issuedAt: timestamp("issued_at", { withTimezone: true }).defaultNow().notNull(),
+    emailedAt: timestamp("emailed_at", { withTimezone: true }),
+    emailMessageId: text("email_message_id"),
+    emailAttempts: integer("email_attempts").default(0).notNull(),
+    voidedAt: timestamp("voided_at", { withTimezone: true }),
+    voidReason: text("void_reason"),
+    voidedByUserId: uuid("voided_by_user_id").references(() => users.id),
+  },
+  (t) => [
+    uniqueIndex("receipts_donation_idx").on(t.donationId),
+    uniqueIndex("receipts_number_idx").on(t.number),
+    uniqueIndex("receipts_kind_fy_seq_idx").on(t.kind, t.fy, t.seq),
+    check("receipts_seq_positive", sql`${t.seq} > 0`),
+  ],
+);
+
+/** Gapless receipt counters per (kind, FY): incremented inside the confirming transaction. */
+export const receiptSequences = pgTable(
+  "receipt_sequences",
+  {
+    kind: receiptKind("kind").notNull(),
+    fy: text("fy").notNull(),
+    lastSeq: integer("last_seq").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.kind, t.fy] }), check("receipt_sequences_seq", sql`${t.lastSeq} >= 0`)],
+);
+
+export const reconciliationRuns = pgTable("reconciliation_runs", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
+  finishedAt: timestamp("finished_at", { withTimezone: true }),
+  checked: integer("checked").default(0).notNull(),
+  updated: integer("updated").default(0).notNull(),
+  errors: jsonb("errors").$type<{ orderId: string; error: string }[]>().default([]).notNull(),
+});

@@ -5,6 +5,16 @@ export function siteUrl(): URL {
   return new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000");
 }
 
+/**
+ * Origin of this deployment, for links that must come back to the same database (receipt links in
+ * emails): the branch URL on Vercel previews, the canonical origin everywhere else.
+ */
+export function appOrigin(): string {
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_BRANCH_URL)
+    return `https://${process.env.VERCEL_BRANCH_URL}`;
+  return siteUrl().origin;
+}
+
 /** Absolute URL for a locale + path ("" for the locale home). */
 export function absoluteUrl(locale: Locale, path = ""): string {
   return new URL(`/${locale}${path}`, siteUrl()).toString();

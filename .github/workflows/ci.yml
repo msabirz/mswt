@@ -29,10 +29,11 @@ jobs:
       - run: npm ci
       - name: Design tokens are up to date
         run: npm run tokens:check
-      - name: Organization and content data are valid
+      - name: Organization, content and payment-settings data are valid
         run: |
           npm run org:sync -- --check
           npm run content:sync -- --check
+          npm run settings:sync -- --check
       - name: Brand lint (only token classes, no colour/font literals)
         run: npm run brand:lint
       - run: npm run format:check
@@ -71,6 +72,8 @@ jobs:
         run: npm run db:migrate
       - name: Re-run is a no-op
         run: npm run db:migrate
+      - name: Donation tests on Postgres (receipt numbering, webhooks, reconciliation)
+        run: npm run test:db
       - name: Audit log is append-only
         run: |
           psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "insert into audit_log (action, entity_type) values ('ci.test', 'ci')"
@@ -93,6 +96,8 @@ jobs:
           --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+      # Donation e2e flows use the in-process fake gateway (never available in production).
+      PAYMENT_PROVIDER: fake
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5

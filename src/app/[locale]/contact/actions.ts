@@ -6,8 +6,8 @@ import { routing, type Locale } from "@/i18n/routing";
 import { db } from "@/lib/db/client";
 import { messages } from "@/lib/db/schema";
 import { ContactSchema, type ContactErrorCode, type ContactField } from "@/lib/contact/schema";
-import { clientIp, hashIp, isRateLimited } from "@/lib/contact/rate-limit";
-import { verifyTurnstile } from "@/lib/contact/turnstile";
+import { clientIp, hashIp, isRateLimited } from "@/lib/security/rate-limit";
+import { verifyTurnstile } from "@/lib/security/turnstile";
 
 export type ContactState =
   | { status: "idle" }

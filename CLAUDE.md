@@ -25,7 +25,8 @@ src/styles/               theme.css (GENERATED from tokens), fonts.css (self-hos
 src/lib/fonts.ts          font registry, admin font options, per-locale preloads
 public/fonts/poppins/     self-hosted Poppins (OFL) — fixed URLs for preloading
 src/components/…          feature components
-src/lib/payments/         PaymentProvider interface + cashfree adapter
+src/lib/payments/         PaymentProvider interface + cashfree adapter + fake gateway (tests only, never production)
+src/lib/donations/        donate validation, order creation, confirmation (webhook/reconcile/offline), receipt delivery
 src/lib/email/            EmailProvider interface + adapters + templates
 src/lib/db/               Drizzle schema + queries
 src/lib/seo/              buildMetadata, site/host helpers, OG renderer, IndexNow, JSON-LD builders (jsonld.ts)
@@ -35,7 +36,12 @@ data/content/content.json real content (legal drafts, causes…) → `npm run co
 data/sample/content.json  sample content for local/preview builds only (never in production)
 src/lib/content/          block format, content file schema, loaders (language + review rule)
 src/lib/settings.ts       cached DB settings (seo, organization) — revalidate tags after admin edits
-src/lib/receipts/         numbering + PDF generation
+src/lib/receipts/         numbering, receipt rules, amount in words, PDF (pdfkit; TTF fonts in src/assets/receipt), signed links
+src/lib/storage/          receipt storage: R2 (private), local .data/ outside production
+src/lib/security/         Turnstile + rate-limit helpers (contact, donate)
+src/lib/crypto/pii.ts     AES-256-GCM for PAN at rest (+ HMAC lookup, masking)
+src/lib/db/tx.ts          withTx(): real transactions (Neon WebSocket pool / postgres.js)
+data/payment-settings.json donate amounts + fee cover → `npm run settings:sync` (until the Step 8 admin)
 src/messages/{en,hi,mr,gu}.json   UI strings (CMS content lives in the DB)
 drizzle/                  SQL migrations
 tokens/                   design tokens (source of truth for Figma + Tailwind)
@@ -60,9 +66,12 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Validate all input on the server (zod); never trust client-sent amounts, fees or status.
 - Every admin write goes through a service that records an audit-log entry.
 - Webhook handlers: verify signature on the raw body, be idempotent, return 200 only after commit.
+- Anything that must be atomic (receipt numbers, payment confirmation, audited writes) uses `withTx()`; the Neon HTTP `db` cannot hold a transaction.
+- PAN is stored only encrypted (`encryptPii`) + last 4 + HMAC; show it masked. Never log it.
+- Online donations are off in production until `NEXT_PUBLIC_DONATIONS_LIVE=true` (`src/lib/flags.ts`). Tests that write donations run against `npm run db:local` or CI, never Neon.
 
 ## Commands
-`nvm use` (Node 24) · `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` · `npm run build && npm run test:e2e && npm run lhci` · `npm run db:generate` (then review the SQL) · `npm run db:migrate` · `npm run tokens` · `npm run brand:lint`. Full list in README.md.
+`nvm use` (Node 24) · `npm run dev` · `npm run lint` · `npm run typecheck` · `npm test` · `npm run build && npm run test:e2e && npm run lhci` · `npm run db:generate` (then review the SQL) · `npm run db:migrate` · `npm run db:local` + `npm run test:db` (DB tests on a throwaway Postgres) · `npm run tokens` · `npm run brand:lint`. Full list in README.md.
 
 ## Workflow
 1. **Plan mode first** for every step: propose, wait for approval, then write.
@@ -76,3 +85,4 @@ tests/{unit,e2e}/         Vitest, Playwright
 - [docs/brand.md](docs/brand.md) + [tokens/design-tokens.json](tokens/design-tokens.json) — brand & tokens
 - [docs/roadmap.md](docs/roadmap.md) — Steps 0–13 with branches and exit criteria
 - [docs/open-questions.md](docs/open-questions.md) — what we still need from the Trust
+- [docs/manual-checks.md](docs/manual-checks.md) — manual tests still to do (accounts, devices, screen readers)

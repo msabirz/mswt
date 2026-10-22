@@ -18,6 +18,17 @@ describe("buildMetadata", () => {
     siteName: "S",
   };
 
+  it("gives every page the locale share card unless it has its own image", () => {
+    const og = buildMetadata(base).openGraph as { images: { url: string }[] };
+    expect(og.images[0]!.url).toBe("https://mswelfaretrust.org/hi/opengraph-image");
+    const tw = buildMetadata(base).twitter as { images: { url: string }[] };
+    expect(tw.images[0]!.url).toBe("https://mswelfaretrust.org/hi/twitter-image");
+    const own = buildMetadata({ ...base, image: "https://cdn.example/x.jpg" }).openGraph as {
+      images: { url: string }[];
+    };
+    expect(own.images[0]!.url).toBe("https://cdn.example/x.jpg");
+  });
+
   it("sets an absolute canonical and hreflang for all locales plus x-default", () => {
     const m = buildMetadata(base);
     expect(m.alternates?.canonical).toBe("https://mswelfaretrust.org/hi/causes");
@@ -80,7 +91,9 @@ describe("sitemap", () => {
     expect(urls).toContain("https://mswelfaretrust.org/en");
     expect(urls).toContain("https://mswelfaretrust.org/gu/causes");
     expect(urls).toContain("https://mswelfaretrust.org/mr/contact");
-    expect(urls.some((u) => u.includes("/donate") || u.includes("/privacy"))).toBe(false);
+    // Donate is listed once donations are on (always outside production; see src/lib/flags.ts).
+    expect(urls).toContain("https://mswelfaretrust.org/hi/donate");
+    expect(urls.some((u) => u.includes("/privacy") || u.includes("/thank-you"))).toBe(false);
     expect(urls.length % 4).toBe(0);
     expect(entries[0]?.alternates?.languages?.["x-default" as "en"]).toBe("https://mswelfaretrust.org/en");
   });
