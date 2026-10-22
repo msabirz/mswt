@@ -52,3 +52,10 @@ Open the preview in a browser where you are signed in to Vercel.
 - [ ] **M8-4 Invite a second person** as a Content Editor. They open the link, set a password and set up 2FA. Check they see only Home, SEO, Audit log and My account.
 - [ ] **M8-5 Screen reader** (VoiceOver/NVDA): sign in, 2FA, one settings save and the audit log, with every field and message announced.
 - [ ] **M8-6 Idle timeout.** Leave the admin open for 31 minutes; the next click goes to the sign-in page.
+
+## Workflow setup (stage → main)
+
+- [ ] **MW-1 Production secrets.** In Vercel → Settings → Environment Variables → **Production**, add `PII_ENCRYPTION_KEY` (the **same** value as in `.env.local`, which points at the production database) and `AUTH_SECRET` (a new `openssl rand -base64 32`). Redeploy production. Production builds now fail without them.
+- [ ] **MW-2 Default branch.** GitHub → mswtorg/mswt → Settings → General → Default branch → **stage**, so new PRs target stage.
+- [ ] **MW-3 Auto-delete merged branches.** Same page → turn on **Automatically delete head branches**. Neon then removes preview databases automatically.
+- [ ] **MW-4 Preview secrets for stage.** Vercel → Environment Variables → **Preview**, branch `stage`: `AUTH_SECRET`, `PII_ENCRYPTION_KEY` (any values; not the production ones), plus R2/Brevo/Cashfree test keys when you have them.

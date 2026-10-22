@@ -79,7 +79,10 @@ tests/{unit,e2e}/         Vitest, Playwright
 
 ## Workflow
 1. **Plan mode first** for every step: propose, wait for approval, then write.
-2. **One branch + one PR per roadmap step** (names in `docs/roadmap.md`). Conventional commits.
+2. **One branch + one PR per roadmap step, into `stage`** (names in `docs/roadmap.md`). Conventional commits.
+   - `stage` is the shared test environment: its one Vercel preview (`mswt-git-stage-mswt.vercel.app`) and one Neon database branch (`preview/stage`). Feature branches don't deploy (`vercel.json` → `git.deploymentEnabled`); CI still runs on their PRs.
+   - **Release** = a PR from `stage` into `main`, merged by the owner after checking stage. Only `main` deploys to production.
+   - Hotfixes branch from `main`, merge into `main`, then `main` is merged back into `stage`.
 3. **Never mark a step done without running the checks**: lint, typecheck, unit + e2e tests, build, and `/done-check` (plus the relevant `/a11y-audit`, `/seo-check`, `/jsonld-check`, `/pwa-check`, `/brand-check`). Report failures honestly.
 4. Anything unknown goes in `docs/open-questions.md` — don't invent brand values, legal text or Trust details.
 

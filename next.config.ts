@@ -3,6 +3,17 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+// Secrets production can't run without (admin sessions; encrypted PAN and 2FA secrets). Fail the
+// production build instead of deploying a site whose admin breaks at the first sign-in.
+const REQUIRED_IN_PRODUCTION = ["AUTH_SECRET", "PII_ENCRYPTION_KEY"];
+if (process.env.VERCEL_ENV === "production") {
+  const missing = REQUIRED_IN_PRODUCTION.filter((name) => !process.env[name]);
+  if (missing.length)
+    throw new Error(
+      `Missing in Vercel Production environment variables: ${missing.join(", ")} (see .env.example)`,
+    );
+}
+
 // Baseline security headers. CSP is report-only; it is enforced and tightened in Step 10.
 // Cashfree: the checkout SDK (sdk.cashfree.com) and its payment pages/APIs (*.cashfree.com).
 const cspReportOnly = [
