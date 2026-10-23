@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { getReports } from "@/lib/content/queries";
+import { getPage, getReports } from "@/lib/content/queries";
 import { breadcrumbList, pageGraph, webPage } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/page";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ContentBody } from "@/components/content/ContentBody";
 import { PageHeader } from "@/components/content/PageHeader";
 import { SampleBanner } from "@/components/content/Banners";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -15,17 +16,27 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = (await params).locale as Locale;
-  const t = await getTranslations({ locale, namespace: "Transparency" });
-  return pageMetadata({ locale, path: "/transparency", title: t("title"), description: t("description") });
+  const [t, page] = await Promise.all([
+    getTranslations({ locale, namespace: "Transparency" }),
+    getPage("transparency", locale),
+  ]);
+  // Text edited under Content → Pages wins; the built-in text is used until a language is written.
+  return pageMetadata({
+    locale,
+    path: "/transparency",
+    title: page?.seoTitle ?? page?.title ?? t("title"),
+    description: page?.seoDescription ?? page?.intro ?? t("description"),
+  });
 }
 
 export default async function TransparencyPage({ params }: Props) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
-  const [t, tc, reports] = await Promise.all([
+  const [t, tc, reports, page] = await Promise.all([
     getTranslations("Transparency"),
     getTranslations("Common"),
     getReports(locale),
+    getPage("transparency", locale),
   ]);
   const crumbs = [
     { name: tc("home"), path: "" },
@@ -50,9 +61,14 @@ export default async function TransparencyPage({ params }: Props) {
       <PageHeader
         crumbs={[{ label: tc("home"), href: `/${locale}` }, { label: t("title") }]}
         crumbLabel={tc("breadcrumb")}
-        title={t("title")}
-        lead={t("lead")}
+        title={page?.h1 ?? t("title")}
+        lead={page?.intro ?? t("lead")}
       />
+      {page?.sections.length ? (
+        <div className="mb-10">
+          <ContentBody blocks={page.sections} locale={locale} />
+        </div>
+      ) : null}
       <SampleBanner show={reports.some((r) => r.isSample)} />
       {byYear.length === 0 ? (
         <EmptyState>{t("empty")}</EmptyState>

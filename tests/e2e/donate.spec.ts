@@ -6,6 +6,8 @@ const LOCALES = ["en", "hi", "mr", "gu"] as const;
 const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 async function expectAccessible(page: Page) {
+  // Let entrance animations finish: mid-fade text would be measured with reduced contrast.
+  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running"));
   const { violations } = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze();
   const serious = violations.filter((v) => v.impact === "serious" || v.impact === "critical");
   expect(serious, JSON.stringify(serious, null, 2)).toEqual([]);
@@ -30,7 +32,9 @@ for (const locale of LOCALES) {
   test(`/${locale}/donate/thank-you is noindex and handles an unknown order`, async ({ page }) => {
     await page.goto(`/${locale}/donate/thank-you?order=MSWT-AAAAAAAAAAAAAAAA`);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-    await expect(page.locator("h2[tabindex='-1']")).toBeVisible();
+    // The outcome heading replaces "Confirming…" and takes focus (it's localised, so not matched by text).
+    await expect(page.locator("h1[tabindex='-1']")).toBeFocused();
+    await expect(page.locator("h1")).toHaveCount(1);
     await expectAccessible(page);
   });
 }
@@ -90,7 +94,15 @@ test.describe("payment flows", () => {
     await startDonation(page);
     await page.getByRole("button", { name: "Pay (webhook now)" }).click();
     await expect(page.getByRole("heading", { name: "Thank you for your donation" })).toBeVisible();
-    await expect(page.getByText(/Your receipt number is MSWT\/ACK\/\d{4}-\d{2}\/\d{6}\./)).toBeVisible();
+    const receipt = page.getByRole("region", { name: "Your receipt" });
+    await expect(receipt.getByText(/^MSWT\/ACK\/\d{4}-\d{2}\/\d{6}$/)).toBeVisible();
+    await expect(receipt.getByText("Acknowledgement", { exact: true })).toBeVisible();
+    await expect(receipt.getByText("General fund")).toBeVisible();
+    await expect(page.getByRole("region", { name: "What happens next" }).getByRole("listitem")).toHaveCount(
+      3,
+    );
+    await expect(page.locator("h1")).toHaveCount(1);
+    await expectAccessible(page);
     const href = await page.getByRole("link", { name: "Download receipt (PDF)" }).getAttribute("href");
     const pdf = await request.get(href!);
     expect(pdf.status()).toBe(200);
@@ -126,7 +138,7 @@ test.describe("payment flows", () => {
     expect(new URL(page.url()).searchParams.get("order")).toBe(order);
     await page.getByRole("button", { name: "Pay (webhook now)" }).click();
     await expect(page.getByRole("heading", { name: "Thank you for your donation" })).toBeVisible();
-    await expect(page.getByRole("status")).toContainText(/Your receipt number is/);
+    await expect(page.getByRole("region", { name: "Your receipt" })).toContainText(/MSWT\/ACK\//);
   });
 
   test("no webhook: the redirect alone never confirms; reconciliation does", async ({ page, request }) => {

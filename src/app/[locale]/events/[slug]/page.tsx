@@ -13,7 +13,7 @@ import { PageHeader } from "@/components/content/PageHeader";
 import { SampleBanner } from "@/components/content/Banners";
 import { Badge } from "@/components/ui/Alert";
 import { Panel } from "@/components/ui/Card";
-import { RichText } from "@/components/ui/RichText";
+import { ContentBody } from "@/components/content/ContentBody";
 import { TextLink } from "@/components/ui/TextLink";
 
 export const revalidate = 3600;
@@ -100,7 +100,7 @@ export default async function EventPage({ params }: Props) {
       </PageHeader>
       <SampleBanner show={e.isSample} />
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <RichText blocks={e.body} />
+        <ContentBody blocks={e.body} locale={locale as Locale} />
         <Panel>
           <dl className="m-0 grid gap-4">
             <div>

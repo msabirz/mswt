@@ -1,9 +1,17 @@
 import { can, type AdminRole, type Capability } from "./permissions";
 import type { AdminNavGroup } from "@/components/layout/AdminShell";
+import { CONTENT_PAGES } from "./content-pages";
 
 // Sidebar, grouped. Each entry is shown only to roles with one of its capabilities; pages check again.
-// 8c adds Causes, Content and Messages.
-type Item = { key: string; label: string; href: string; icon: string; anyOf: Capability[] };
+// 8c-2 adds Events, News, Gallery, Documents and Menus to Content.
+type Item = {
+  key: string;
+  label: string;
+  href: string;
+  icon: string;
+  anyOf: Capability[];
+  children?: { key: string; label: string; href: string }[];
+};
 const GROUPS: { label: string; items: Item[] }[] = [
   {
     label: "Overview",
@@ -28,6 +36,38 @@ const GROUPS: { label: string; items: Item[] }[] = [
         href: "/admin/reports",
         icon: "reports",
         anyOf: ["reports.export"],
+      },
+    ],
+  },
+  {
+    label: "Content",
+    items: [
+      {
+        key: "pages",
+        label: "Pages",
+        href: "/admin/content/pages",
+        icon: "pages",
+        anyOf: ["cms.write"],
+        children: CONTENT_PAGES.map((p) => ({
+          key: `page-${p.key}`,
+          label: p.label,
+          href: `/admin/content/pages/${p.key}`,
+        })),
+      },
+      {
+        key: "causes",
+        label: "Causes",
+        href: "/admin/content/causes",
+        icon: "causes",
+        anyOf: ["causes.read"],
+      },
+      { key: "media", label: "Media", href: "/admin/content/media", icon: "media", anyOf: ["cms.write"] },
+      {
+        key: "messages",
+        label: "Messages",
+        href: "/admin/content/messages",
+        icon: "messages",
+        anyOf: ["messages.read"],
       },
     ],
   },
@@ -87,10 +127,15 @@ const GROUPS: { label: string; items: Item[] }[] = [
   },
 ];
 
-export function adminNav(role: AdminRole): AdminNavGroup[] {
+/** The sidebar for a role. `newMessages` shows as a count on Messages. */
+export function adminNav(role: AdminRole, counts: { newMessages?: number } = {}): AdminNavGroup[] {
   return GROUPS.map((g) => ({
     label: g.label,
-    items: g.items.filter((i) => i.anyOf.some((c) => can(role, c))).map(({ anyOf: _, ...i }) => i),
+    items: g.items
+      .filter((i) => i.anyOf.some((c) => can(role, c)))
+      .map(({ anyOf: _, ...i }) =>
+        i.key === "messages" && counts.newMessages ? { ...i, badge: counts.newMessages } : i,
+      ),
   })).filter((g) => g.items.length > 0);
 }
 

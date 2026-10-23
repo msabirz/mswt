@@ -1,5 +1,6 @@
 // Writes data/content/content.json (real content, e.g. the legal pages) to the database, then asks
-// the site to refresh its content cache. Used until the admin CMS exists (Step 8).
+// the site to refresh its content cache. Since Step 8c content is edited in Admin → Content: this
+// script OVERWRITES admin edits of the same pages/causes, so use it only for a first load or tests.
 // Usage: npm run content:sync              (validate + write to DATABASE_URL)
 //        npm run content:sync -- --check   (validate only; runs in CI)
 // Translations marked "reviewed": true are published in production; others stay preview-only.

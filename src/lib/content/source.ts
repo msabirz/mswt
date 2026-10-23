@@ -76,6 +76,7 @@ async function databaseContent(): Promise<ContentFile> {
         raisedPaise: c.raisedPaise,
         sortOrder: c.sortOrder,
         is80gEligible: c.is80gEligible,
+        coverImageId: c.coverImageId,
         translations: map(by(causeTr, "causeId", c.id), (r) => ({
           title: r.title,
           summary: r.summary,

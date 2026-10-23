@@ -14,8 +14,8 @@ import { SampleBanner } from "@/components/content/Banners";
 import { Badge } from "@/components/ui/Alert";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Panel, Progress } from "@/components/ui/Card";
-import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
-import { RichText } from "@/components/ui/RichText";
+import { CoverImage } from "@/components/content/CoverImage";
+import { ContentBody } from "@/components/content/ContentBody";
 
 export const revalidate = 3600;
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -88,8 +88,14 @@ export default async function CausePage({ params }: Props) {
       <SampleBanner show={cause.isSample} />
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <article className="grid gap-8">
-          <ImagePlaceholder description={cause.title} ratio="wide" />
-          <RichText blocks={cause.body} />
+          <CoverImage
+            mediaId={cause.coverImageId}
+            locale={locale as Locale}
+            fallback={cause.title}
+            ratio="wide"
+            priority
+          />
+          <ContentBody blocks={cause.body} locale={locale as Locale} />
         </article>
         <aside aria-labelledby="support-h" className="lg:sticky lg:top-6">
           <Panel className="grid gap-4">

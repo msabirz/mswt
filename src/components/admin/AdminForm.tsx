@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef, useState, type ReactNode } from "rea
 import { cn } from "@/lib/cn";
 import { Alert } from "@/components/ui/Alert";
 import { ErrorSummary, FieldError, Hint, fieldControlProps } from "@/components/ui/Form";
+import { BlocksEditor } from "./BlocksEditor";
 import { compactControl } from "./ui";
 import type { FieldSpec, FormSectionSpec, FormState } from "./form-state";
 
@@ -16,7 +17,7 @@ const secondaryButton =
 
 function Field({ f, formId, error, value }: { f: FieldSpec; formId: string; error?: string; value: string }) {
   const id = fieldId(formId, f.name);
-  const full = f.span === "full" || f.type === "textarea";
+  const full = f.span === "full" || f.type === "textarea" || f.type === "blocks";
   if (f.type === "checkbox")
     return (
       <div className={cn("grid gap-1", full && "sm:col-span-2")}>
@@ -50,7 +51,18 @@ function Field({ f, formId, error, value }: { f: FieldSpec; formId: string; erro
         {f.label}
         {f.required ? <span className="ml-1 text-xs font-normal text-fg-muted">(required)</span> : null}
       </label>
-      {f.type === "textarea" ? (
+      {f.type === "blocks" ? (
+        <BlocksEditor
+          id={id}
+          name={f.name}
+          defaultValue={value}
+          lang={f.lang}
+          error={error}
+          describedBy={error ? `${id}-error` : f.hint ? `${id}-hint` : undefined}
+          media={f.editor?.media ?? {}}
+          library={f.editor?.library ?? []}
+        />
+      ) : f.type === "textarea" ? (
         <textarea
           {...p}
           name={f.name}

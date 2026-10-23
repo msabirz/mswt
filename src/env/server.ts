@@ -18,6 +18,12 @@ export const serverEnv = createEnv({
     R2_ACCESS_KEY_ID: z.string().min(1).optional(),
     R2_SECRET_ACCESS_KEY: z.string().min(1).optional(),
     R2_RECEIPTS_BUCKET: z.string().min(1).optional(),
+    // Public bucket for website photos (Step 8c) and the URL it is served from (r2.dev or a domain).
+    R2_MEDIA_BUCKET: z.string().min(1).optional(),
+    R2_MEDIA_PUBLIC_URL: z
+      .url()
+      .refine((v) => v.startsWith("https://") && !v.endsWith("/"), "must be https:// with no trailing slash")
+      .optional(),
     // Outbound email (Brevo).
     BREVO_API_KEY: z.string().min(1).optional(),
     EMAIL_FROM_ADDRESS: z.email().optional(),

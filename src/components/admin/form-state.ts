@@ -1,3 +1,6 @@
+import type { ImageView } from "@/lib/media/view";
+import type { LibraryItem } from "./BlocksEditor";
+
 /** What every admin Server Action returns to its form. */
 export type FormState = {
   status: "idle" | "error" | "saved";
@@ -14,7 +17,18 @@ export type FieldSpec = {
   name: string;
   label: string;
   type?:
-    "text" | "email" | "password" | "date" | "number" | "textarea" | "select" | "checkbox" | "url" | "tel";
+    | "text"
+    | "email"
+    | "password"
+    | "date"
+    | "number"
+    | "textarea"
+    | "select"
+    | "checkbox"
+    | "url"
+    | "tel"
+    /** Content text with toolbar and preview (BlocksEditor); needs `editor`. */
+    | "blocks";
   hint?: string;
   required?: boolean;
   defaultValue?: string;
@@ -27,6 +41,8 @@ export type FieldSpec = {
   maxLength?: number;
   /** "full" spans both columns of the form grid (textareas do by default). */
   span?: "full";
+  /** For type "blocks": photos for the preview and the "Insert image" picker. */
+  editor?: { media: Record<string, ImageView>; library: LibraryItem[] };
 };
 
 /** Everything a form posted, as strings (checkboxes "on"). */

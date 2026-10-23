@@ -25,6 +25,7 @@ export const ContentFileSchema = z.object({
         raisedPaise: z.number().int().nonnegative().default(0),
         sortOrder: z.number().int().default(0),
         is80gEligible: z.boolean().default(true),
+        coverImageId: z.uuid().nullable().default(null),
         translations: per(
           z.object({
             title: z.string().min(1),

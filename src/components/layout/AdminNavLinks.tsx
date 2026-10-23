@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import {
   Building2,
   FileBarChart2,
+  FileText,
+  HandHeart,
+  Image as ImageIcon,
+  Inbox,
   HandCoins,
   History,
   IndianRupee,
@@ -32,12 +36,16 @@ const ICONS: Record<string, LucideIcon> = {
   users: Users,
   audit: History,
   account: UserCircle,
+  pages: FileText,
+  causes: HandHeart,
+  media: ImageIcon,
+  messages: Inbox,
 };
 
 /** Grouped admin sidebar; marks the current section with aria-current. */
 export function AdminNavLinks({ groups, onNavigate }: { groups: AdminNavGroup[]; onNavigate?: () => void }) {
   const pathname = usePathname();
-  const all = groups.flatMap((g) => g.items);
+  const all = groups.flatMap((g) => g.items.flatMap((i) => [i, ...(i.children ?? [])]));
   const current = [...all]
     .sort((a, b) => b.href.length - a.href.length)
     .find((i) => pathname === i.href || pathname.startsWith(`${i.href}/`))?.key;
@@ -60,8 +68,30 @@ export function AdminNavLinks({ groups, onNavigate }: { groups: AdminNavGroup[];
                     className="flex min-h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-fg-default no-underline hover:bg-bg-subtle hover:text-fg-strong aria-[current=page]:bg-bg-brand-subtle aria-[current=page]:text-fg-brand"
                   >
                     <Icon aria-hidden="true" className="size-4 flex-none" strokeWidth={2} />
-                    {item.label}
+                    <span className="flex-1">{item.label}</span>
+                    {item.badge ? (
+                      <span className="rounded-full bg-bg-brand px-2 text-xs font-semibold text-fg-on-brand">
+                        {item.badge}
+                        <span className="sr-only"> new</span>
+                      </span>
+                    ) : null}
                   </Link>
+                  {item.children ? (
+                    <ul className="m-0 ml-7 grid list-none gap-0.5 border-l border-border-decorative p-0 pl-2">
+                      {item.children.map((c) => (
+                        <li key={c.key}>
+                          <Link
+                            href={c.href}
+                            onClick={onNavigate}
+                            aria-current={c.key === current ? "page" : undefined}
+                            className="flex min-h-8 items-center rounded-md px-2 text-sm text-fg-muted no-underline hover:bg-bg-subtle hover:text-fg-strong aria-[current=page]:bg-bg-brand-subtle aria-[current=page]:text-fg-brand"
+                          >
+                            {c.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                 </li>
               );
             })}

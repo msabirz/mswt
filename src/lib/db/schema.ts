@@ -283,7 +283,10 @@ const slugCol = () => text("slug").notNull();
 const slugCheck = (name: string, col: unknown) => check(name, sql`${col} ~ '^[a-z0-9]+(-[a-z0-9]+)*$'`);
 const blocks = (name: string) => jsonb(name).$type<Blocks>().default([]).notNull();
 
-/** Images. `r2Key` stays null until uploads exist (Step 8); pages then show a placeholder. */
+/**
+ * Images. `r2Key` is the folder prefix of the stored WebP copies (`media/{id}/{name}`), one per
+ * width in `variants`; null for rows without a file (sample content), which show a placeholder.
+ */
 export const media = pgTable("media", {
   id: uuid("id").primaryKey().defaultRandom(),
   r2Key: text("r2_key"),
@@ -292,6 +295,10 @@ export const media = pgTable("media", {
   width: integer("width").notNull(),
   height: integer("height").notNull(),
   bytes: integer("bytes"),
+  variants: jsonb("variants").$type<number[]>().default([]).notNull(),
+  /** Tiny base64 WebP shown while the image loads. */
+  blur: text("blur"),
+  uploadedBy: uuid("uploaded_by").references(() => users.id),
   createdAt: createdAt(),
 });
 
@@ -360,6 +367,8 @@ export const pageTranslations = pgTable(
     h1: text("h1").notNull(),
     intro: text("intro"),
     sections: blocks("sections"),
+    /** Page-specific fields (home: eyebrow and the three points), validated per page key. */
+    extras: jsonb("extras").$type<Record<string, unknown>>(),
     ...translationCols(),
   },
   (t) => [primaryKey({ columns: [t.pageKey, t.locale] })],
@@ -528,9 +537,11 @@ export const messages = pgTable(
     status: messageStatus("status").default("new").notNull(),
     assignedTo: uuid("assigned_to").references(() => users.id),
     createdAt: createdAt(),
+    updatedAt: updatedAt(),
   },
   (t) => [
     index("messages_created_idx").on(t.createdAt),
+    index("messages_status_idx").on(t.status, t.createdAt),
     index("messages_ip_recent_idx").on(t.ipHash, t.createdAt),
   ],
 );
