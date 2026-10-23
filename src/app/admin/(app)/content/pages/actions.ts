@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/routing";
 import { actorFor } from "@/lib/admin/actor";
 import { ContentError, deletePageTranslation, PageInput, savePageTranslation } from "@/lib/admin/content";
 import type { ContentPageKey } from "@/lib/admin/content-pages";
+import { parsePhotoIds } from "@/lib/admin/photo-ids";
 import { CONTENT_TAG } from "@/lib/content/source";
 import { formValues, issuesToErrors, type FormState } from "@/components/admin/form-state";
 
@@ -38,7 +39,7 @@ export async function savePageAction(
         }
       : null;
   try {
-    await savePageTranslation(key, locale, parsed.data, extras, actor);
+    await savePageTranslation(key, locale, parsed.data, extras, actor, parsePhotoIds(v.heroMediaIds, 8));
   } catch (error) {
     if (error instanceof ContentError)
       return { status: "error", errors: { [error.field]: error.message }, values: v };

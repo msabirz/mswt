@@ -7,6 +7,11 @@ import { ContentFileSchema, type ContentFile } from "./format";
 
 /** Cache tag for all public content; the sync script and the admin revalidate it after writes. */
 export const CONTENT_TAG = "content";
+/**
+ * Saves refresh content at once (updateTag). This is only a safety net: if a page render that
+ * started before a save writes older data back into the cache, it heals within 5 minutes.
+ */
+export const CONTENT_SAFETY_REVALIDATE = 300;
 
 export function isProduction(vercelEnv: string | undefined = process.env.VERCEL_ENV): boolean {
   return vercelEnv === "production";
@@ -77,6 +82,7 @@ async function databaseContent(): Promise<ContentFile> {
         sortOrder: c.sortOrder,
         is80gEligible: c.is80gEligible,
         coverImageId: c.coverImageId,
+        photoIds: c.photoIds,
         translations: map(by(causeTr, "causeId", c.id), (r) => ({
           title: r.title,
           summary: r.summary,
@@ -101,6 +107,8 @@ async function databaseContent(): Promise<ContentFile> {
           }
         : null,
       onlineUrl: e.onlineUrl,
+      coverImageId: e.coverImageId,
+      photoIds: e.photoIds,
       translations: map(by(eventTr, "eventId", e.id), (r) => ({
         title: r.title,
         summary: r.summary,
@@ -115,6 +123,8 @@ async function databaseContent(): Promise<ContentFile> {
         status: n.status,
         publishedAt: n.publishedAt!.toISOString(),
         authorName: n.authorName,
+        coverImageId: n.coverImageId,
+        photoIds: n.photoIds,
         translations: map(by(newsTr, "postId", n.id), (r) => ({
           headline: r.headline,
           excerpt: r.excerpt,
@@ -128,6 +138,8 @@ async function databaseContent(): Promise<ContentFile> {
         slug: a.slug,
         status: a.status,
         publishedAt: iso(a.publishedAt),
+        albumDate: a.albumDate,
+        coverImageId: a.coverImageId,
         translations: map(by(albumTr, "albumId", a.id), (r) => ({
           title: r.title,
           description: r.description ?? undefined,
@@ -140,6 +152,7 @@ async function databaseContent(): Promise<ContentFile> {
             const m = media.find((x) => x.id === i.mediaId);
             const tr = mediaTr.filter((x) => x.mediaId === i.mediaId);
             return {
+              mediaId: i.mediaId,
               width: m?.width ?? 4,
               height: m?.height ?? 3,
               alt: Object.fromEntries(tr.map((x) => [x.locale, x.altText])),
@@ -151,6 +164,8 @@ async function databaseContent(): Promise<ContentFile> {
       fy: r.fy,
       kind: r.kind,
       status: r.status,
+      pdfKey: r.pdfR2Key,
+      pdfBytes: r.pdfBytes,
       translations: map(by(reportTr, "reportId", r.id), (x) => ({ title: x.title, ...rev(x) })),
     })),
     pages: pageTr.reduce<Record<string, Record<string, unknown>>>((acc, r) => {
@@ -213,5 +228,5 @@ export const getSiteContent = unstable_cache(
     return mergeContent(mergeContent(fromDb, drafts), sample);
   },
   ["site-content"],
-  { tags: [CONTENT_TAG] },
+  { tags: [CONTENT_TAG], revalidate: CONTENT_SAFETY_REVALIDATE },
 );

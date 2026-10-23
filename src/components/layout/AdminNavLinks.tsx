@@ -4,6 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Building2,
+  CalendarDays,
+  FileArchive,
+  Images,
+  Menu as MenuIcon,
+  Newspaper,
   FileBarChart2,
   FileText,
   HandHeart,
@@ -39,6 +44,11 @@ const ICONS: Record<string, LucideIcon> = {
   pages: FileText,
   causes: HandHeart,
   media: ImageIcon,
+  events: CalendarDays,
+  news: Newspaper,
+  gallery: Images,
+  documents: FileArchive,
+  menus: MenuIcon,
   messages: Inbox,
 };
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { pageTranslationsFor } from "@/lib/admin/content";
+import { pageHeroIds, pageTranslationsFor } from "@/lib/admin/content";
 import { contentPage, type ContentPageKey } from "@/lib/admin/content-pages";
 import { pageDraft } from "@/lib/admin/drafts";
 import { requireCapability } from "@/lib/admin/guard";
@@ -37,7 +37,12 @@ export default async function EditPagePage({ params, searchParams }: Props) {
   const key = page.key as ContentPageKey;
   const q = await searchParams;
   const locale = pickLocale(q.lang);
-  const [rows, editor] = await Promise.all([pageTranslationsFor(key), editorMedia(locale)]);
+  const [rows, editor, heroIds, { library: englishLibrary }] = await Promise.all([
+    pageTranslationsFor(key),
+    editorMedia(locale),
+    pageHeroIds(key),
+    editorMedia("en"),
+  ]);
   const row = rows.find((r) => r.locale === locale);
   const draft = row ? null : pageDraft(key, locale);
   // Home: the built-in text (src/messages) is the starting point in each language.
@@ -184,6 +189,22 @@ export default async function EditPagePage({ params, searchParams }: Props) {
         submitLabel="Save"
         sticky
         sections={[
+          {
+            title: "Header photos",
+            description:
+              key === "home"
+                ? "Shown above the headline: one photo, or several as a slider. The same in every language."
+                : "Optional: one photo, or several as a slider, above the heading. The same in every language.",
+            fields: [
+              {
+                name: "heroMediaIds",
+                label: "Photos",
+                type: "photos",
+                defaultValue: heroIds.join(","),
+                photos: { library: englishLibrary, max: 8 },
+              },
+            ],
+          },
           heading,
           body,
           {

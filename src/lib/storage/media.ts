@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, open, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { AwsClient } from "aws4fetch";
 import { serverEnv } from "@/env/server";
@@ -14,6 +14,13 @@ export interface MediaStorage {
   readonly publicBase: string;
   put(key: string, body: Uint8Array, contentType: string): Promise<void>;
   remove(key: string): Promise<void>;
+  /**
+   * A short-lived URL the browser can PUT a file to directly (large PDFs skip Vercel's 4.5 MB
+   * request limit). Null for local storage, where files go through the server instead.
+   */
+  presignPut(key: string, ttlSeconds?: number): Promise<string | null>;
+  /** Size and first bytes of a stored file (to check an upload), or null if it isn't there. */
+  inspect(key: string, firstBytes: number): Promise<{ bytes: number; start: Uint8Array } | null>;
 }
 
 class R2MediaStorage implements MediaStorage {
@@ -49,6 +56,24 @@ class R2MediaStorage implements MediaStorage {
     const res = await this.client.fetch(this.url(key), { method: "DELETE" });
     if (!res.ok && res.status !== 404) throw new Error(`R2 DELETE ${key} failed (${res.status})`);
   }
+
+  async presignPut(key: string, ttlSeconds = 300) {
+    const url = new URL(this.url(key));
+    url.searchParams.set("X-Amz-Expires", String(ttlSeconds));
+    const signed = await this.client.sign(url.toString(), { method: "PUT", aws: { signQuery: true } });
+    return signed.url;
+  }
+
+  async inspect(key: string, firstBytes: number) {
+    const res = await this.client.fetch(this.url(key), { headers: { range: `bytes=0-${firstBytes - 1}` } });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`R2 GET ${key} failed (${res.status})`);
+    // "bytes 0-4/1234567": the total size after the slash.
+    const total = Number(
+      res.headers.get("content-range")?.split("/")[1] ?? res.headers.get("content-length"),
+    );
+    return { bytes: total, start: new Uint8Array(await res.arrayBuffer()).slice(0, firstBytes) };
+  }
 }
 
 export const LOCAL_MEDIA_DIR = ".data/media";
@@ -66,6 +91,21 @@ class LocalMediaStorage implements MediaStorage {
   }
   async remove(key: string) {
     await rm(this.path(key), { force: true });
+  }
+  async presignPut() {
+    return null;
+  }
+  async inspect(key: string, firstBytes: number) {
+    try {
+      const { size } = await stat(this.path(key));
+      const file = await open(this.path(key));
+      const start = new Uint8Array(firstBytes);
+      await file.read(start, 0, firstBytes, 0);
+      await file.close();
+      return { bytes: size, start };
+    } catch {
+      return null;
+    }
   }
 }
 

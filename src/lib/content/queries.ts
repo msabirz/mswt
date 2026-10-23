@@ -38,6 +38,7 @@ export type CauseView = Meta & {
   raisedPaise: number;
   is80gEligible: boolean;
   coverImageId: string | null;
+  photoIds: string[];
   title: string;
   summary: string;
   body: Blocks;
@@ -51,6 +52,8 @@ export type EventView = Meta & {
   endsAt: Date | null;
   venue: { name: string; street?: string; city?: string; region?: string; postalCode?: string } | null;
   onlineUrl: string | null;
+  coverImageId: string | null;
+  photoIds: string[];
   title: string;
   summary: string;
   body: Blocks;
@@ -60,6 +63,8 @@ export type NewsView = Meta & {
   slug: string;
   publishedAt: Date;
   authorName: string | null;
+  coverImageId: string | null;
+  photoIds: string[];
   headline: string;
   excerpt: string;
   body: Blocks;
@@ -68,15 +73,20 @@ export type NewsView = Meta & {
 export type AlbumView = Meta & {
   slug: string;
   publishedAt: Date | null;
+  albumDate: string | null;
+  coverImageId: string | null;
   title: string;
   description?: string;
-  items: { width: number; height: number; alt: string; caption?: string }[];
+  items: { mediaId?: string; width: number; height: number; alt: string; caption?: string }[];
 };
 
 export type ReportView = {
   fy: string;
   kind: "annual_report" | "audited_accounts" | "other";
   title: string;
+  /** Key in the public media bucket and size, once the PDF is uploaded. */
+  pdfKey: string | null;
+  pdfBytes: number | null;
   isSample: boolean;
 };
 
@@ -111,6 +121,7 @@ export function causesFrom(c: SiteContent, locale: Locale): CauseView[] {
         raisedPaise: x.raisedPaise,
         is80gEligible: x.is80gEligible,
         coverImageId: x.coverImageId,
+        photoIds: x.photoIds,
         title: tr.title,
         summary: tr.summary,
         body: tr.body,
@@ -136,6 +147,8 @@ export function eventsFrom(c: SiteContent, locale: Locale): EventView[] {
           endsAt: x.endsAt ? new Date(x.endsAt) : null,
           venue: x.venue,
           onlineUrl: x.onlineUrl,
+          coverImageId: x.coverImageId,
+          photoIds: x.photoIds,
           title: tr.title,
           summary: tr.summary,
           body: tr.body,
@@ -158,6 +171,8 @@ export function newsFrom(c: SiteContent, locale: Locale): NewsView[] {
           slug: x.slug,
           publishedAt: new Date(x.publishedAt),
           authorName: x.authorName,
+          coverImageId: x.coverImageId,
+          photoIds: x.photoIds,
           headline: tr.headline,
           excerpt: tr.excerpt,
           body: tr.body,
@@ -178,12 +193,22 @@ export function albumsFrom(c: SiteContent, locale: Locale): AlbumView[] {
         ...meta(x.translations, tr, sample),
         slug: x.slug,
         publishedAt: x.publishedAt ? new Date(x.publishedAt) : null,
+        albumDate: x.albumDate,
+        coverImageId: x.coverImageId,
         title: tr.title,
         description: tr.description,
         // Images without alt text in this language are left out rather than shown unlabelled.
         items: x.items.flatMap((i) =>
           i.alt[locale]
-            ? [{ width: i.width, height: i.height, alt: i.alt[locale]!, caption: i.caption?.[locale] }]
+            ? [
+                {
+                  mediaId: i.mediaId,
+                  width: i.width,
+                  height: i.height,
+                  alt: i.alt[locale]!,
+                  caption: i.caption?.[locale],
+                },
+              ]
             : [],
         ),
       },
@@ -197,7 +222,18 @@ export function reportsFrom(c: SiteContent, locale: Locale): ReportView[] {
     .flatMap((x) => {
       if (x.status !== "published") return [];
       const tr = visible(x.translations, locale);
-      return tr ? [{ fy: x.fy, kind: x.kind, title: tr.title, isSample: sample }] : [];
+      return tr
+        ? [
+            {
+              fy: x.fy,
+              kind: x.kind,
+              title: tr.title,
+              pdfKey: x.pdfKey,
+              pdfBytes: x.pdfBytes,
+              isSample: sample,
+            },
+          ]
+        : [];
     })
     .sort((a, b) => b.fy.localeCompare(a.fy));
 }
