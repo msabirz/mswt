@@ -39,8 +39,9 @@ export default async function OrganizationSettingsPage() {
       ],
     },
     {
-      title: "About",
-      description: "A short description in each language.",
+      title: "Short description",
+      description:
+        "One or two sentences per language for search engines and link previews. Page text is edited under Content → Pages.",
       fields: localised("description", "Description", true),
     },
     {

@@ -53,12 +53,23 @@ describe("role permissions match docs/spec.md §5", () => {
     expect(can(undefined, "settings.seo")).toBe(false);
   });
   it("shows each role only the sections it may open", () => {
-    expect(adminNavItems("content_editor").map((i) => i.key)).toEqual(["home", "seo", "audit", "account"]);
+    expect(adminNavItems("content_editor").map((i) => i.key)).toEqual([
+      "home",
+      "pages",
+      "causes",
+      "media",
+      "messages",
+      "seo",
+      "audit",
+      "account",
+    ]);
     expect(adminNavItems("accountant").map((i) => i.key)).toEqual([
       "home",
       "donations",
       "donors",
       "reports",
+      "causes",
+      "messages",
       "audit",
       "account",
     ]);
@@ -83,8 +94,18 @@ describe("role permissions match docs/spec.md §5", () => {
       "src/app/admin/(app)/donors/[id]/page.tsx",
       "src/app/admin/(app)/reports/page.tsx",
       "src/app/admin/(app)/reports/[report]/route.ts",
+      "src/app/admin/(app)/content/pages/page.tsx",
+      "src/app/admin/(app)/content/pages/[key]/page.tsx",
+      "src/app/admin/(app)/content/causes/page.tsx",
+      "src/app/admin/(app)/content/causes/new/page.tsx",
+      "src/app/admin/(app)/content/causes/[id]/page.tsx",
+      "src/app/admin/(app)/content/media/page.tsx",
+      "src/app/admin/(app)/content/media/[id]/page.tsx",
+      "src/app/admin/(app)/content/messages/page.tsx",
+      "src/app/admin/(app)/content/messages/[id]/page.tsx",
     ];
-    for (const f of files) expect(readFileSync(f, "utf8"), f).toMatch(/requireCapability\(/);
+    // actorFor() (src/lib/admin/actor.ts) runs requireCapability first.
+    for (const f of files) expect(readFileSync(f, "utf8"), f).toMatch(/requireCapability\(|actorFor\(/);
     // Each exported action in these files starts with a guard.
     for (const f of [
       "src/app/admin/(app)/users/actions.ts",
@@ -92,12 +113,16 @@ describe("role permissions match docs/spec.md §5", () => {
       "src/app/admin/(app)/donations/actions.ts",
       "src/app/admin/(app)/donors/actions.ts",
       "src/app/admin/(app)/pan/actions.ts",
+      "src/app/admin/(app)/content/actions.ts",
+      "src/app/admin/(app)/content/pages/actions.ts",
+      "src/app/admin/(app)/content/causes/actions.ts",
+      "src/app/admin/(app)/content/messages/actions.ts",
     ]) {
       const src = readFileSync(f, "utf8");
       const actions = [...src.matchAll(/export async function (\w+)/g)].map((m) => m[1]);
       expect(actions.length, f).toBeGreaterThan(0);
       // Every exported action calls a helper or guard that runs requireCapability first.
-      expect(src, f).toMatch(/requireCapability\(/);
+      expect(src, f).toMatch(/requireCapability\(|actorFor\(/);
       for (const name of actions) {
         const body = src.slice(src.indexOf(`export async function ${name}`)).split(/\nexport /)[0]!;
         expect(body, `${f} → ${name}`).toMatch(

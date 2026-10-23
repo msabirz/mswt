@@ -37,6 +37,7 @@ export type CauseView = Meta & {
   goalPaise: number | null;
   raisedPaise: number;
   is80gEligible: boolean;
+  coverImageId: string | null;
   title: string;
   summary: string;
   body: Blocks;
@@ -109,6 +110,7 @@ export function causesFrom(c: SiteContent, locale: Locale): CauseView[] {
         goalPaise: x.goalPaise,
         raisedPaise: x.raisedPaise,
         is80gEligible: x.is80gEligible,
+        coverImageId: x.coverImageId,
         title: tr.title,
         summary: tr.summary,
         body: tr.body,

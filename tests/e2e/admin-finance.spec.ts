@@ -41,6 +41,8 @@ test.describe("admin finance", () => {
       "Donations",
       "Donors",
       "Reports",
+      "Causes",
+      /^Messages\s*(\d+ new)?$/,
       "Audit log",
       "My account",
     ]);

@@ -34,12 +34,14 @@ src/lib/db/               Drizzle schema + queries
 src/lib/seo/              buildMetadata, site/host helpers, OG renderer, IndexNow, JSON-LD builders (jsonld.ts)
 src/components/seo/       <JsonLd> — the page's single structured-data block
 data/organization.json    public Trust facts → `npm run org:sync` (until the Step 8 admin)
-data/content/content.json real content (legal drafts, causes…) → `npm run content:sync`; `reviewed: true` goes live
+data/content/content.json first-load content and legal drafts (`npm run content:sync`); since Step 8c content is edited in Admin → Content
 data/sample/content.json  sample content for local/preview builds only (never in production)
 src/lib/content/          block format, content file schema, loaders (language + review rule)
 src/lib/settings.ts       cached DB settings (seo, organization) — revalidate tags after admin edits
 src/lib/receipts/         numbering, receipt rules, amount in words, PDF (pdfkit; TTF fonts in src/assets/receipt), signed links
-src/lib/storage/          receipt storage: R2 (private), local .data/ outside production
+src/lib/storage/          receipt storage (private R2) and media storage (public R2 bucket); local .data/ outside Vercel
+src/lib/media/            photo processing (sharp: WebP copies, EXIF removed) and srcset views
+src/lib/content/markup.ts the admin text format ↔ content blocks
 src/lib/security/         Turnstile + rate-limit helpers (contact, donate)
 src/lib/crypto/pii.ts     AES-256-GCM for PAN at rest (+ HMAC lookup, masking)
 src/lib/db/tx.ts          withTx(): real transactions (Neon WebSocket pool / postgres.js)

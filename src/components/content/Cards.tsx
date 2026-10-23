@@ -6,6 +6,7 @@ import { formatRupees } from "@/lib/money";
 import { Badge } from "@/components/ui/Alert";
 import { Card, CardBody, Progress } from "@/components/ui/Card";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
+import { CoverImage } from "./CoverImage";
 
 const titleLink = "text-fg-strong no-underline hover:underline";
 
@@ -23,7 +24,13 @@ export async function CauseCard({
   const pct = cause.goalPaise ? Math.round((cause.raisedPaise / cause.goalPaise) * 100) : null;
   return (
     <Card>
-      <ImagePlaceholder description={cause.title} className="rounded-none border-0" />
+      <CoverImage
+        mediaId={cause.coverImageId}
+        locale={locale}
+        fallback={cause.title}
+        sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+        className="rounded-none border-0"
+      />
       <CardBody>
         <H className="text-xl">
           <a href={`/${locale}/causes/${cause.slug}`} className={titleLink}>

@@ -134,7 +134,26 @@ test.describe("admin flows", () => {
     await signInFirstTime(other, editor, "editor passphrase for e2e");
 
     const nav = other.getByRole("navigation", { name: "Admin" });
-    await expect(nav.getByRole("link")).toHaveText(["Dashboard", "SEO", "Audit log", "My account"]);
+    await expect(nav.getByRole("link")).toHaveText([
+      "Dashboard",
+      "Pages",
+      ...[
+        "Home",
+        "About",
+        "Contact",
+        "Transparency",
+        "Privacy policy",
+        "Terms",
+        "Refund policy",
+        "80G disclaimer",
+      ],
+      "Causes",
+      "Media",
+      /^Messages\s*(\d+ new)?$/,
+      "SEO",
+      "Audit log",
+      "My account",
+    ]);
     for (const path of ["/admin/settings/payments", "/admin/settings/organization", "/admin/users"]) {
       await other.goto(path);
       await expect(other.getByRole("heading", { name: /don’t have access/ }), path).toBeVisible();

@@ -8,7 +8,7 @@ import { pageMetadata } from "@/lib/seo/page";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DraftBanner } from "@/components/content/Banners";
 import { PageHeader } from "@/components/content/PageHeader";
-import { RichText } from "@/components/ui/RichText";
+import { ContentBody } from "@/components/content/ContentBody";
 
 type LegalKey = "privacy" | "terms" | "refund_policy" | "disclaimer_80g";
 
@@ -61,7 +61,7 @@ export async function LegalPage({
         lead={page.intro}
       />
       <DraftBanner show={!page.reviewed} />
-      <RichText blocks={page.sections} />
+      <ContentBody blocks={page.sections} locale={locale} />
     </div>
   );
 }

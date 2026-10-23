@@ -166,7 +166,12 @@ export default async function Dashboard() {
         </>
       ) : null}
       <Card className="grid gap-3 p-5">
-        <h2 className="text-base font-semibold text-fg-strong">Latest messages</h2>
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-base font-semibold text-fg-strong">Latest messages</h2>
+          <Link href="/admin/content/messages" className="text-sm text-link-default">
+            All messages
+          </Link>
+        </div>
         {recentMessages.length ? (
           <ul className="m-0 grid list-none gap-3 p-0 text-sm">
             {recentMessages.map((m) => (
@@ -175,14 +180,17 @@ export default async function Dashboard() {
                 className="flex flex-wrap justify-between gap-2 border-b border-border-decorative pb-3 last:border-0 last:pb-0"
               >
                 <span>
-                  <span className="font-semibold text-fg-strong">{m.name}</span> · {m.subject}
+                  <Link href={`/admin/content/messages/${m.id}`} className="font-semibold text-link-default">
+                    {m.name}
+                  </Link>{" "}
+                  · {m.subject}
                 </span>
                 <span className="text-fg-muted">{istDateTime(m.createdAt)}</span>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="m-0 text-sm text-fg-muted">No messages yet. The inbox arrives in the next update.</p>
+          <p className="m-0 text-sm text-fg-muted">No messages yet.</p>
         )}
       </Card>
       {!finance ? (

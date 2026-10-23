@@ -17,6 +17,8 @@ export const BlockSchema = z.discriminatedUnion("type", [
     items: z.array(z.string().min(1)).min(1),
   }),
   z.object({ type: z.literal("callout"), tone: z.enum(["info", "warning"]), text: z.string().min(1) }),
+  /** A photo from the media library; its alt text comes from the media item, per language. */
+  z.object({ type: z.literal("image"), mediaId: z.uuid(), caption: z.string().min(1).optional() }),
 ]);
 export const BlocksSchema = z.array(BlockSchema);
 
