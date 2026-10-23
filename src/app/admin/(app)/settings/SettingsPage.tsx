@@ -1,32 +1,30 @@
 import type { ReactNode } from "react";
 import { AdminForm } from "@/components/admin/AdminForm";
-import type { FieldSpec, FormState } from "@/components/admin/form-state";
+import { PageHeader } from "@/components/admin/ui";
+import type { FormSectionSpec, FormState } from "@/components/admin/form-state";
 
-/** Shared frame for the settings pages: heading, explanation, form. */
+/** Shared frame for the settings pages: header, then the form in settings-style sections. */
 export function SettingsPage({
   title,
   intro,
   id,
   action,
-  fields,
+  sections,
   aside,
 }: {
   title: string;
   intro: ReactNode;
   id: string;
   action: (prev: FormState, form: FormData) => Promise<FormState>;
-  fields: FieldSpec[];
+  sections: FormSectionSpec[];
   aside?: ReactNode;
 }) {
   return (
-    <div className="grid max-w-4xl gap-8">
-      <div className="grid gap-2">
-        <h1 className="text-3xl">{title}</h1>
-        <div className="text-fg-muted">{intro}</div>
-      </div>
+    <>
+      <PageHeader title={title} description={intro} />
       {aside}
-      <AdminForm id={id} action={action} fields={fields} submitLabel="Save" />
-    </div>
+      <AdminForm id={id} action={action} sections={sections} submitLabel="Save changes" sticky />
+    </>
   );
 }
 

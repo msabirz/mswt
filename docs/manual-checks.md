@@ -49,9 +49,16 @@ Open the preview in a browser where you are signed in to Vercel.
 - [ ] **M8-1 First Super Admin on production.** After merging, with `AUTH_SECRET` in Vercel (Production and Preview), run `npm run admin:create` with `DATABASE_URL` pointing at the production Neon database. Sign in at `/admin/login` and set up 2FA with your phone's authenticator app. Print or store the 10 recovery codes.
 - [ ] **M8-2 Authenticator apps.** Check that setup works with Google Authenticator, Microsoft Authenticator and 1Password (scan the QR code, and also type the key by hand).
 - [ ] **M8-3 Password managers.** Your password manager offers to save the password on the invite page and fills it on the sign-in page. Pasting works in every field (A11Y-16).
-- [ ] **M8-4 Invite a second person** as a Content Editor. They open the link, set a password and set up 2FA. Check they see only Home, SEO, Audit log and My account.
+- [ ] **M8-4 Invite a second person** as a Content Editor. They open the link, set a password and set up 2FA. Check they see only Dashboard, SEO, Audit log and My account.
 - [ ] **M8-5 Screen reader** (VoiceOver/NVDA): sign in, 2FA, one settings save and the audit log, with every field and message announced.
 - [ ] **M8-6 Idle timeout.** Leave the admin open for 31 minutes; the next click goes to the sign-in page.
+
+## Step 8b: Donations, donors and reports
+
+- [ ] **M8b-1 PAN code email.** Needs Brevo working in the environment (M7-2). On the stage preview, open a donation with a PAN, click **Email me a code**, and check the code arrives at your admin email within a minute. Enter it: full PANs show for 15 minutes, and the audit log has `pan.otp_sent`, `pan.unlocked` and `pan.viewed`.
+- [ ] **M8b-2 Excel and CSV open correctly.** Download the donations export and each report as CSV and Excel. Open them in Excel (and Google Sheets): Hindi, Marathi and Gujarati names show correctly, amounts are numbers with 2 decimals, dates are IST.
+- [ ] **M8b-3 Offline entry with real numbers.** Record one cheque and one cash donation on the stage preview, then reissue the cheque one with a PAN. The receipt PDFs show the right series (`MSWT/ACK/…` and `MSWT/2026-27/…`) and the void receipt keeps its number.
+- [ ] **M8b-4 Accountant's view.** Invite an Accountant: they see Dashboard, Donations, Donors, Reports, Audit log and My account, and cannot merge donors.
 
 ## Workflow setup (stage → main)
 

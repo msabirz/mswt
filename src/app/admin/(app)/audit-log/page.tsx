@@ -4,8 +4,17 @@ import { requireCapability } from "@/lib/admin/guard";
 import { can } from "@/lib/admin/permissions";
 import { db } from "@/lib/db/client";
 import { auditLog, users } from "@/lib/db/schema";
-import { Button, ButtonLink } from "@/components/ui/Button";
-import { FormField, Input, Select } from "@/components/ui/Form";
+import { ButtonLink } from "@/components/ui/Button";
+import {
+  compactControl,
+  DataTable,
+  FilterBar,
+  FilterField,
+  PageHeader,
+  Td,
+  Th,
+  Tr,
+} from "@/components/admin/ui";
 
 export const metadata: Metadata = { title: "Audit log" };
 const PAGE_SIZE = 50;
@@ -55,119 +64,108 @@ export default async function AuditLogPage({ searchParams }: Props) {
     `?${new URLSearchParams({ ...Object.fromEntries(Object.entries(q).filter(([, v]) => v) as [string, string][]), page: String(p) })}`;
 
   return (
-    <div className="grid gap-8">
-      <div className="grid gap-2">
-        <h1 className="text-3xl">Audit log</h1>
-        <p className="text-fg-muted">
-          {all ? "Every change made in the admin." : "Changes you made."} Entries can’t be edited or deleted.
-        </p>
-      </div>
-      <form
-        method="get"
-        className="grid items-end gap-4 rounded-lg border border-border-decorative bg-bg-canvas p-4 md:grid-cols-5"
-      >
+    <>
+      <PageHeader
+        title="Audit log"
+        description={`${all ? "Every change made in the admin." : "Changes you made."} Entries can’t be edited or deleted.`}
+      />
+      <FilterBar resetHref="/admin/audit-log">
         {all ? (
-          <FormField id="f-actor" label="Person">
-            {(p) => (
-              <Select {...p} name="actor" defaultValue={q.actor ?? ""}>
-                <option value="">Everyone</option>
-                {people.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name}
-                  </option>
-                ))}
-              </Select>
-            )}
-          </FormField>
-        ) : null}
-        <FormField id="f-entity" label="Record type">
-          {(p) => (
-            <Select {...p} name="entity" defaultValue={q.entity ?? ""}>
-              <option value="">All</option>
-              {entities.map(({ e }) => (
-                <option key={e} value={e}>
-                  {e.replaceAll("_", " ")}
+          <FilterField id="f-actor" label="Person" wide>
+            <select id="f-actor" name="actor" defaultValue={q.actor ?? ""} className={compactControl}>
+              <option value="">Everyone</option>
+              {people.map((u) => (
+                <option key={u.id} value={u.id}>
+                  {u.name}
                 </option>
               ))}
-            </Select>
-          )}
-        </FormField>
-        <FormField id="f-from" label="From (IST)">
-          {(p) => <Input {...p} type="date" name="from" defaultValue={q.from} />}
-        </FormField>
-        <FormField id="f-to" label="To (IST)">
-          {(p) => <Input {...p} type="date" name="to" defaultValue={q.to} />}
-        </FormField>
-        <div>
-          <Button type="submit">Filter</Button>
-        </div>
-      </form>
-      <div className="overflow-x-auto rounded-lg border border-border-decorative bg-bg-canvas">
-        <table className="w-full text-left text-sm">
-          <caption className="sr-only">Audit entries, newest first</caption>
-          <thead>
-            <tr className="border-b border-border-decorative">
-              {["When (IST)", "Who", "Action", "Record", "Details"].map((h) => (
-                <th key={h} scope="col" className="px-4 py-3 font-semibold">
-                  {h}
-                </th>
-              ))}
+            </select>
+          </FilterField>
+        ) : null}
+        <FilterField id="f-entity" label="Record type" wide>
+          <select id="f-entity" name="entity" defaultValue={q.entity ?? ""} className={compactControl}>
+            <option value="">All</option>
+            {entities.map(({ e }) => (
+              <option key={e} value={e}>
+                {e.replaceAll("_", " ")}
+              </option>
+            ))}
+          </select>
+        </FilterField>
+        <FilterField id="f-from" label="From (IST)">
+          <input id="f-from" type="date" name="from" defaultValue={q.from} className={compactControl} />
+        </FilterField>
+        <FilterField id="f-to" label="To (IST)">
+          <input id="f-to" type="date" name="to" defaultValue={q.to} className={compactControl} />
+        </FilterField>
+      </FilterBar>
+      <DataTable
+        caption="Audit entries, newest first"
+        footer={
+          <nav aria-label="Audit log pages" className="flex items-center justify-between gap-4">
+            <span className="text-fg-muted">
+              Page {page} of {pages} · {total?.n ?? 0} entries
+            </span>
+            <span className="flex gap-2">
+              {page > 1 ? (
+                <ButtonLink variant="secondary" href={link(page - 1)}>
+                  Newer
+                </ButtonLink>
+              ) : null}
+              {page < pages ? (
+                <ButtonLink variant="secondary" href={link(page + 1)}>
+                  Older
+                </ButtonLink>
+              ) : null}
+            </span>
+          </nav>
+        }
+      >
+        <thead>
+          <tr>
+            <Th>When (IST)</Th>
+            <Th>Who</Th>
+            <Th>Action</Th>
+            <Th>Record</Th>
+            <Th>Details</Th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.length === 0 ? (
+            <tr>
+              <td colSpan={5} className="px-4 py-8 text-center text-fg-muted">
+                No entries match.
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {rows.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="px-4 py-6 text-fg-muted">
-                  No entries match.
-                </td>
-              </tr>
-            ) : (
-              rows.map(({ log, actor }) => (
-                <tr key={log.id} className="border-b border-border-decorative align-top last:border-0">
-                  <td className="px-4 py-3 whitespace-nowrap">{fmt(log.createdAt)}</td>
-                  <td className="px-4 py-3">
-                    {actor ?? (log.userAgent ? `System (${log.userAgent})` : "System")}
-                  </td>
-                  <td className="px-4 py-3">
-                    <code>{log.action}</code>
-                  </td>
-                  <td className="px-4 py-3">
-                    {log.entityType}
-                    {log.entityId ? <span className="block text-fg-muted">{log.entityId}</span> : null}
-                  </td>
-                  <td className="px-4 py-3">
-                    {log.before || log.after ? (
-                      <details>
-                        <summary className="cursor-pointer">Show</summary>
-                        <pre className="mt-2 max-w-xl overflow-x-auto text-xs whitespace-pre-wrap">
-                          {JSON.stringify({ before: log.before, after: log.after }, null, 2)}
-                        </pre>
-                      </details>
-                    ) : (
-                      "–"
-                    )}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-      <nav aria-label="Audit log pages" className="flex items-center gap-4">
-        {page > 1 ? (
-          <ButtonLink variant="secondary" href={link(page - 1)}>
-            Newer
-          </ButtonLink>
-        ) : null}
-        <span>
-          Page {page} of {pages}
-        </span>
-        {page < pages ? (
-          <ButtonLink variant="secondary" href={link(page + 1)}>
-            Older
-          </ButtonLink>
-        ) : null}
-      </nav>
-    </div>
+          ) : (
+            rows.map(({ log, actor }) => (
+              <Tr key={log.id}>
+                <Td className="whitespace-nowrap">{fmt(log.createdAt)}</Td>
+                <Td>{actor ?? (log.userAgent ? `System (${log.userAgent})` : "System")}</Td>
+                <Td>
+                  <code className="text-fg-strong">{log.action}</code>
+                </Td>
+                <Td>
+                  {log.entityType.replaceAll("_", " ")}
+                  {log.entityId ? <span className="block text-xs text-fg-muted">{log.entityId}</span> : null}
+                </Td>
+                <Td>
+                  {log.before || log.after ? (
+                    <details>
+                      <summary className="cursor-pointer text-link-default">Show</summary>
+                      <pre className="mt-2 max-w-xl overflow-x-auto rounded-md bg-bg-subtle p-3 text-xs whitespace-pre-wrap">
+                        {JSON.stringify({ before: log.before, after: log.after }, null, 2)}
+                      </pre>
+                    </details>
+                  ) : (
+                    "–"
+                  )}
+                </Td>
+              </Tr>
+            ))
+          )}
+        </tbody>
+      </DataTable>
+    </>
   );
 }

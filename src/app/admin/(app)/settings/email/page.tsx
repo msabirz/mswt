@@ -14,26 +14,37 @@ export default async function EmailSettingsPage() {
   return (
     <SettingsPage
       title="Email"
-      intro="How emails from the site are signed and who gets admin alerts. The sending service and its keys are set by the developer."
+      intro="Emails sent by the site. The sending service and its keys are set by the developer."
       id="email"
       action={saveEmail}
-      fields={[
-        { name: "fromName", label: "Sender name", defaultValue: s?.fromName ?? "", group: "from" },
+      sections={[
         {
-          name: "fromAddress",
-          label: "Sender address",
-          type: "email",
-          defaultValue: s?.fromAddress ?? "",
-          group: "from",
+          title: "Sender",
+          description: "How receipts and notices are signed. Replies go to the reply-to address.",
+          fields: [
+            { name: "fromName", label: "Sender name", defaultValue: s?.fromName ?? "" },
+            {
+              name: "fromAddress",
+              label: "Sender address",
+              type: "email",
+              defaultValue: s?.fromAddress ?? "",
+            },
+            { name: "replyTo", label: "Replies go to", type: "email", defaultValue: s?.replyTo ?? "" },
+          ],
         },
-        { name: "replyTo", label: "Replies go to", type: "email", defaultValue: s?.replyTo ?? "" },
         {
-          name: "adminAlertRecipients",
-          label: "Admin alert recipients",
-          type: "textarea",
-          rows: 3,
-          hint: "One email per line",
-          defaultValue: (s?.adminAlertRecipients ?? []).join("\n"),
+          title: "Admin alerts",
+          description: "Who is told about new donations and messages.",
+          fields: [
+            {
+              name: "adminAlertRecipients",
+              label: "Recipients",
+              type: "textarea",
+              rows: 3,
+              hint: "One email per line",
+              defaultValue: (s?.adminAlertRecipients ?? []).join("\n"),
+            },
+          ],
         },
       ]}
     />

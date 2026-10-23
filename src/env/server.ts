@@ -23,11 +23,20 @@ export const serverEnv = createEnv({
     EMAIL_FROM_ADDRESS: z.email().optional(),
     EMAIL_FROM_NAME: z.string().min(1).default("MS Welfare Trust"),
     // Security.
-    PII_ENCRYPTION_KEY: z.base64().optional(),
-    RECEIPT_LINK_SECRET: z.string().min(32).optional(),
-    CRON_SECRET: z.string().min(16).optional(),
+    PII_ENCRYPTION_KEY: z
+      .string()
+      .refine((v) => /^[A-Za-z0-9+/]{43}=$/.test(v), {
+        message: `must be exactly 44 base64 characters ending in "=" (output of \`openssl rand -base64 32\`), with no quotes, spaces or "# comment"`,
+      })
+      .optional(),
+    RECEIPT_LINK_SECRET: z.string().min(32, "must be at least 32 characters").optional(),
+    CRON_SECRET: z.string().min(16, "must be at least 16 characters").optional(),
     // Signs admin sessions (Auth.js) and login challenges: 32+ random characters.
-    AUTH_SECRET: z.string().min(32).optional(),
+    AUTH_SECRET: z
+      .string()
+      .min(32, "must be at least 32 characters (e.g. `openssl rand -base64 32`)")
+      .refine((v) => !/\s#|^["']|["']$/.test(v), 'must not contain quotes or a "# comment"')
+      .optional(),
   },
   experimental__runtimeEnv: {},
   emptyStringAsUndefined: true,
