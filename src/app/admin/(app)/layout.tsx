@@ -2,7 +2,8 @@ import type { ReactNode } from "react";
 import { LogOut } from "lucide-react";
 import { requireAdmin } from "@/lib/admin/guard";
 import { adminNav } from "@/lib/admin/nav";
-import { ROLE_LABELS } from "@/lib/admin/permissions";
+import { can, ROLE_LABELS } from "@/lib/admin/permissions";
+import { newMessageCount } from "@/lib/admin/messages";
 import { AdminShell } from "@/components/layout/AdminShell";
 import { logoutAction } from "../(auth)/actions";
 
@@ -17,9 +18,10 @@ const initials = (name: string) =>
 // Everything below requires a signed-in admin; each page also checks its own capability.
 export default async function AdminAppLayout({ children }: { children: ReactNode }) {
   const admin = await requireAdmin();
+  const newMessages = can(admin.role, "messages.read") ? await newMessageCount() : 0;
   return (
     <AdminShell
-      nav={adminNav(admin.role)}
+      nav={adminNav(admin.role, { newMessages })}
       account={
         <div className="flex items-center gap-3 rounded-lg border border-border-decorative p-3">
           <span

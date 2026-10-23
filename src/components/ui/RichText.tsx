@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import { parseInline, type Blocks } from "@/lib/content/blocks";
+import type { ImageView } from "@/lib/media/view";
+import { ResponsiveImage } from "@/components/content/ResponsiveImage";
 import { Alert } from "./Alert";
 
 function InlineText({ text }: { text: string }) {
@@ -24,8 +26,20 @@ function InlineText({ text }: { text: string }) {
   );
 }
 
-/** Renders stored content blocks. Text is always escaped by React; only safe links are allowed. */
-export function RichText({ blocks }: { blocks: Blocks }) {
+/**
+ * Renders stored content blocks. Text is always escaped by React; only safe links are allowed.
+ * Image blocks need `media` (from getMediaViews); an image without alt text in this language is
+ * left out, or shown as a marked placeholder when `markMissing` (previews and the admin editor).
+ */
+export function RichText({
+  blocks,
+  media = {},
+  markMissing = false,
+}: {
+  blocks: Blocks;
+  media?: Record<string, ImageView>;
+  markMissing?: boolean;
+}) {
   return (
     <div className="grid max-w-prose gap-4">
       {blocks.map((b, i) => {
@@ -66,6 +80,27 @@ export function RichText({ blocks }: { blocks: Blocks }) {
                 </p>
               </Alert>
             );
+          case "image": {
+            const image = media[b.mediaId];
+            if (!image?.alt) {
+              if (!markMissing) return null;
+              return (
+                <Alert key={i} tone="warning">
+                  <p>{image ? "Photo hidden: alt text missing in this language." : "Photo not found."}</p>
+                </Alert>
+              );
+            }
+            return (
+              <figure key={i} className="m-0 grid gap-2">
+                <ResponsiveImage image={image} alt={image.alt} />
+                {b.caption ? (
+                  <figcaption className="text-sm text-fg-muted">
+                    <InlineText text={b.caption} />
+                  </figcaption>
+                ) : null}
+              </figure>
+            );
+          }
         }
       })}
     </div>

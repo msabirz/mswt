@@ -14,13 +14,22 @@ if (process.env.VERCEL_ENV === "production") {
     );
 }
 
+// Website photos are served from the public R2 bucket (Step 8c).
+const mediaOrigin = (() => {
+  try {
+    return process.env.R2_MEDIA_PUBLIC_URL ? new URL(process.env.R2_MEDIA_PUBLIC_URL).origin : "";
+  } catch {
+    return "";
+  }
+})();
+
 // Baseline security headers. CSP is report-only; it is enforced and tightened in Step 10.
 // Cashfree: the checkout SDK (sdk.cashfree.com) and its payment pages/APIs (*.cashfree.com).
 const cspReportOnly = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://sdk.cashfree.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  `img-src 'self' data: blob:${mediaOrigin ? ` ${mediaOrigin}` : ""}`,
   "font-src 'self'",
   "connect-src 'self' https://challenges.cloudflare.com https://*.cashfree.com",
   "frame-src https://challenges.cloudflare.com https://*.cashfree.com",
@@ -52,9 +61,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // globalNotFound: 404 for unmatched URLs as full server HTML (src/app/global-not-found.tsx).
   // authInterrupts: forbidden() → 403 for admin pages a role may not open (src/app/admin/forbidden.tsx).
-  experimental: { globalNotFound: true, authInterrupts: true },
+  // serverActions.bodySizeLimit: photo uploads (the browser shrinks them first; Vercel caps at 4.5 MB).
+  experimental: {
+    globalNotFound: true,
+    authInterrupts: true,
+    serverActions: { bodySizeLimit: "4mb" },
+  },
   // pdfkit reads font files at runtime; keep it out of the bundle.
-  serverExternalPackages: ["pdfkit"],
+  serverExternalPackages: ["pdfkit", "sharp"],
   // Files read with fs at runtime by the receipt routes (PDF fonts and the logo).
   outputFileTracingIncludes: {
     "/api/**/*": ["./src/assets/receipt/**", "./public/brand/mswt-logo-horizontal.svg"],

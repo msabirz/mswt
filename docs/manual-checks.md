@@ -60,6 +60,14 @@ Open the preview in a browser where you are signed in to Vercel.
 - [ ] **M8b-3 Offline entry with real numbers.** Record one cheque and one cash donation on the stage preview, then reissue the cheque one with a PAN. The receipt PDFs show the right series (`MSWT/ACK/…` and `MSWT/2026-27/…`) and the void receipt keeps its number.
 - [ ] **M8b-4 Accountant's view.** Invite an Accountant: they see Dashboard, Donations, Donors, Reports, Audit log and My account, and cannot merge donors.
 
+## Step 8c-1: Content
+
+- [ ] **M8c-1 Public media bucket.** Cloudflare → R2 → create a bucket (e.g. `mswt-media`) → Settings → **Public access**: allow the r2.dev URL (or connect a domain such as `media.mswelfaretrust.org`). Give the existing R2 API token Object Read & Write on this bucket too. In Vercel (Preview for `stage`, then Production) add `R2_MEDIA_BUCKET` and `R2_MEDIA_PUBLIC_URL` (https, no trailing slash) and redeploy. Until then the Media page says storage isn't set up.
+- [ ] **M8c-2 Photo from a phone.** On stage, upload a photo taken on an Android phone and one on an iPhone (Safari sends HEIC photos as JPEG). Check it appears upright, and download a copy from the bucket: it has no location data (e.g. `exiftool` shows no GPS).
+- [ ] **M8c-3 Write a page in Hindi, Marathi and Gujarati** with the phone's keyboard (Gboard / iOS). The preview and the public page show the text correctly.
+- [ ] **M8c-4 Screen reader** (VoiceOver/NVDA): the editor toolbar, the photo picker dialog (Esc closes it) and the language tabs are announced; error messages are read on save.
+- [ ] **M8c-5 Move the legal drafts in.** For each legal page, open it in English, check the draft text with the Trust (B11), save, and mark reviewed only when approved.
+
 ## Workflow setup (stage → main)
 
 - [ ] **MW-1 Production secrets.** In Vercel → Settings → Environment Variables → **Production**, add `PII_ENCRYPTION_KEY` (the **same** value as in `.env.local`, which points at the production database) and `AUTH_SECRET` (a new `openssl rand -base64 32`). Redeploy production. Production builds now fail without them.

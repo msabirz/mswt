@@ -43,6 +43,13 @@
       "when": 1792698403988,
       "tag": "0005_admin_finance",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792727519610,
+      "tag": "0006_admin_content",
+      "breakpoints": true
     }
   ]
 }

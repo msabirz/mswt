@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { getPage } from "@/lib/content/queries";
 import { turnstileSiteKey } from "@/lib/security/turnstile";
 import { breadcrumbList, pageGraph, webPage } from "@/lib/seo/jsonld";
 import { pageMetadata } from "@/lib/seo/page";
 import { getOrganizationSettings } from "@/lib/settings";
 import { PAGES } from "@/config/nav";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { ContentBody } from "@/components/content/ContentBody";
 import { PageHeader } from "@/components/content/PageHeader";
 import { Panel } from "@/components/ui/Card";
 import { TextLink } from "@/components/ui/TextLink";
@@ -17,17 +19,27 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = (await params).locale as Locale;
-  const t = await getTranslations({ locale, namespace: "Contact" });
-  return pageMetadata({ locale, path: "/contact", title: t("title"), description: t("description") });
+  const [t, page] = await Promise.all([
+    getTranslations({ locale, namespace: "Contact" }),
+    getPage("contact", locale),
+  ]);
+  // Text edited under Content → Pages wins; the built-in text is used until a language is written.
+  return pageMetadata({
+    locale,
+    path: "/contact",
+    title: page?.seoTitle ?? page?.title ?? t("title"),
+    description: page?.seoDescription ?? page?.intro ?? t("description"),
+  });
 }
 
 export default async function ContactPage({ params }: Props) {
   const locale = (await params).locale as Locale;
   setRequestLocale(locale);
-  const [t, tc, org] = await Promise.all([
+  const [t, tc, org, page] = await Promise.all([
     getTranslations("Contact"),
     getTranslations("Common"),
     getOrganizationSettings(),
+    getPage("contact", locale),
   ]);
   const crumbs = [
     { name: tc("home"), path: "" },
@@ -85,9 +97,14 @@ export default async function ContactPage({ params }: Props) {
       <PageHeader
         crumbs={[{ label: tc("home"), href: `/${locale}` }, { label: t("title") }]}
         crumbLabel={tc("breadcrumb")}
-        title={t("title")}
-        lead={t("description")}
+        title={page?.h1 ?? t("title")}
+        lead={page?.intro ?? t("description")}
       />
+      {page?.sections.length ? (
+        <div className="mb-10">
+          <ContentBody blocks={page.sections} locale={locale} />
+        </div>
+      ) : null}
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <section aria-labelledby="form-h">
           <h2 id="form-h" className="mb-6 text-2xl">

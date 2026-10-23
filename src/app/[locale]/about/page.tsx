@@ -10,7 +10,7 @@ import { getOrganizationSettings } from "@/lib/settings";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/content/PageHeader";
 import { SampleBanner } from "@/components/content/Banners";
-import { RichText } from "@/components/ui/RichText";
+import { ContentBody } from "@/components/content/ContentBody";
 import { HeadingRule } from "@/components/ui/Typography";
 import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
 import { TextLink } from "@/components/ui/TextLink";
@@ -98,7 +98,7 @@ export default async function AboutPage({ params }: Props) {
         lead={page?.intro}
       />
       <SampleBanner show={page?.isSample ?? false} />
-      {page ? <RichText blocks={page.sections} /> : null}
+      {page ? <ContentBody blocks={page.sections} locale={locale} /> : null}
 
       {trustees.length > 0 ? (
         <section aria-labelledby="trustees-h" className="mt-16">

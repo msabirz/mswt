@@ -1,0 +1,117 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { HomeExtras } from "@/lib/content/home";
+import { blocksToMarkup, imageIds, markupToBlocks } from "@/lib/content/markup";
+import { mediaSlug } from "@/lib/media/process";
+import { imageView } from "@/lib/media/view";
+
+const ID = "d6a00170-1303-480e-b894-efd1e93e4af2";
+
+describe("content text format (markup ↔ blocks)", () => {
+  it("turns every mark into its block", () => {
+    const { blocks, errors } = markupToBlocks(
+      [
+        "## Our work",
+        "### Camps",
+        "We run free camps in **Pune**,",
+        "every month.",
+        "",
+        "- Medical camps",
+        "- School kits",
+        "1. First",
+        "2. Second",
+        "> A note",
+        "> continues here",
+        ">! A warning",
+        `![The last camp](media:${ID})`,
+        "Read [80G](/en/80g-disclaimer).",
+      ].join("\n"),
+    );
+    expect(errors).toEqual([]);
+    expect(blocks).toEqual([
+      { type: "heading", level: 2, text: "Our work" },
+      { type: "heading", level: 3, text: "Camps" },
+      { type: "paragraph", text: "We run free camps in **Pune**, every month." },
+      { type: "list", items: ["Medical camps", "School kits"] },
+      { type: "list", ordered: true, items: ["First", "Second"] },
+      { type: "callout", tone: "info", text: "A note continues here" },
+      { type: "callout", tone: "warning", text: "A warning" },
+      { type: "image", mediaId: ID, caption: "The last camp" },
+      { type: "paragraph", text: "Read [80G](/en/80g-disclaimer)." },
+    ]);
+    expect(imageIds(blocks)).toEqual([ID]);
+  });
+
+  it("keeps Indian scripts as typed", () => {
+    const text = "## हमारा काम\n\nहर महीने **मुफ़्त** जाँच।\n\n- ગુજરાતી યાદી";
+    expect(blocksToMarkup(markupToBlocks(text).blocks)).toBe(text);
+  });
+
+  it("reports problems by line", () => {
+    const { errors } = markupToBlocks(
+      "Hello\n\n# Too big\n\nSee [this](javascript:alert(1))\n\n![x](media:nope)",
+    );
+    expect(errors.map((e) => e.line)).toEqual([3, 5, 7]);
+    expect(errors[0]!.message).toMatch(/Line 3: use ##/);
+    expect(errors[1]!.message).toMatch(/Line 5: the link “this” must start with https/);
+  });
+
+  it("an image line is not mistaken for a link", () => {
+    expect(markupToBlocks(`![](media:${ID})`)).toEqual({
+      blocks: [{ type: "image", mediaId: ID }],
+      errors: [],
+    });
+  });
+
+  it("round-trips all real and sample content exactly", () => {
+    let checked = 0;
+    const walk = (o: unknown) => {
+      if (Array.isArray(o) && o.length && typeof o[0] === "object" && o[0] && "type" in o[0]) {
+        checked++;
+        expect(markupToBlocks(blocksToMarkup(o as never))).toEqual({ blocks: o, errors: [] });
+      } else if (o && typeof o === "object") Object.values(o).forEach(walk);
+    };
+    for (const f of ["data/content/content.json", "data/sample/content.json"])
+      walk(JSON.parse(readFileSync(f, "utf8")));
+    expect(checked).toBeGreaterThan(20);
+  });
+});
+
+describe("library photos", () => {
+  const row = {
+    id: ID,
+    r2Key: `media/${ID}/camp`,
+    variants: [640, 1280, 1600],
+    width: 1600,
+    height: 1200,
+    blur: null,
+  };
+
+  it("builds srcset from the stored widths", () => {
+    const v = imageView(row, "https://media.example.org", "Camp");
+    expect(v.src).toBe(`https://media.example.org/media/${ID}/camp-1600.webp`);
+    expect(v.srcset).toBe(
+      [640, 1280, 1600].map((w) => `https://media.example.org/media/${ID}/camp-${w}.webp ${w}w`).join(", "),
+    );
+  });
+
+  it("has no source without a stored file or storage (placeholder)", () => {
+    expect(imageView({ ...row, r2Key: null }, "https://m.example.org", "x").src).toBeNull();
+    expect(imageView(row, null, "x").srcset).toBeNull();
+  });
+
+  it("names files descriptively in kebab case", () => {
+    expect(mediaSlug("Health Camp – Pune 2026.JPG")).toBe("health-camp-pune-2026");
+    expect(mediaSlug("स्वास्थ्य शिविर.jpg")).toBe("photo");
+    expect(mediaSlug("Café.png")).toBe("cafe");
+  });
+});
+
+describe("home page fields", () => {
+  it("needs exactly three points with title and text", () => {
+    const point = { title: "80G", text: "Tax benefit" };
+    expect(HomeExtras.safeParse({ eyebrow: "", points: [point, point, point] }).success).toBe(true);
+    expect(HomeExtras.safeParse({ points: [point, point] }).success).toBe(false);
+    expect(HomeExtras.safeParse({ points: [point, point, { title: "", text: "x" }] }).success).toBe(false);
+  });
+});

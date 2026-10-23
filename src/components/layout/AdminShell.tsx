@@ -5,7 +5,16 @@ import { SkipLink } from "@/components/ui/SkipLink";
 import { AdminMobileNav } from "./AdminMobileNav";
 import { AdminNavLinks } from "./AdminNavLinks";
 
-export type AdminNavItem = { key: string; label: string; href: string; icon: string };
+export type AdminNavItem = {
+  key: string;
+  label: string;
+  href: string;
+  icon: string;
+  /** Sub-pages listed under the item (Content → Pages). */
+  children?: { key: string; label: string; href: string }[];
+  /** A count shown after the label (new messages). */
+  badge?: number;
+};
 export type AdminNavGroup = { label: string; items: AdminNavItem[] };
 
 /**

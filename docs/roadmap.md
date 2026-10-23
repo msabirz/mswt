@@ -14,7 +14,7 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 | 5 | JSON-LD | `feat/step-5-jsonld` |
 | 6 | Public pages | `feat/step-6-public-pages` |
 | 7 | Donation flow | `feat/step-7-donations` |
-| 8 | Admin, in 3 PRs: 8a auth + users + audit + settings, 8b donations + donors + reports, 8c causes + CMS + media + messages | `feat/step-8a-admin-auth`, `feat/step-8b-admin-donations`, `feat/step-8c-admin-content` |
+| 8 | Admin, in 4 PRs: 8a auth + users + audit + settings, 8b donations + donors + reports, 8c-1 pages + causes + media + messages, 8c-2 events + news + gallery + documents + menus | `feat/step-8a-admin-auth`, `feat/step-8b-admin-donations`, `feat/step-8c1-admin-content`, `feat/step-8c2-admin-content` |
 | 9 | PWA + email | `feat/step-9-pwa-email` |
 | 10 | QA audit | `chore/step-10-qa` |
 | 11 | Staging review | `chore/step-11-staging` |
@@ -78,7 +78,9 @@ One branch and one PR per step. A step is done only when its exit criteria pass 
 **Split (owner decision, 2026-10-23):** three PRs.
 - **8a (built 2026-10-23):** Auth.js + mandatory TOTP (setup, recovery codes, no reuse), argon2id, 5-failure lockout, 30-min idle sessions ended at once on deactivate/role change/2FA reset; one-time invite and reset links (72 h, hash stored) handed out by a Super Admin; Users, Audit log, My account; Settings (organization, SEO, payments, email, appearance → public site font); `npm run admin:create`.
 - **8b (built 2026-10-23):** dashboard; donations (filters, detail with timeline, offline entry with the cash warning, resend, void, reissue in the same FY, CSV + Excel export); donors (search, profile, contact edit, merge); reports (5 registers/summaries, CSV + Excel); full PAN only after a code emailed to the admin (15-minute window, audited). Admin UI redesigned: grouped sidebar with icons, page headers, sectioned two-column forms with a sticky Save bar, compact tables and filters.
-- **8c:** causes, CMS (pages, events, news, gallery, menus), media uploads to a public R2 bucket, messages.
+- **8c** is split in two (owner decision, 2026-10-23):
+  - **8c-1 (built 2026-10-23):** Content group in the sidebar with one entry per public page (Home, About, Contact, Transparency, the four legal pages), each edited per language in a sectioned form with a text editor (`## heading`, `- list`, `**bold**`, links, notes, photos) and live preview, plus a "reviewed by a person" switch; Causes (settings, cover photo, text per language); Media library (photos resized to WebP at upload, EXIF/GPS removed, alt text per language); Messages inbox (status, assignee, mailto reply, 12-month deletion). Organization settings keep only the Trust's facts.
+  - **8c-2:** Events, News, Gallery albums, Transparency documents (PDF), header/footer menus.
   - **Owner request (2026-10-23):** a **Content (CMS)** group in the admin sidebar with one entry per public page (Home, About, Causes, Contact, Transparency, legal pages…), each editing that page's content in its own sectioned form. Today that content is managed as a single block under Settings → Organization. Organization settings keep only the Trust's facts (name, address, registrations, contact).
 
 ## Step 9 — PWA + email

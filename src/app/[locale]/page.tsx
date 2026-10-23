@@ -5,6 +5,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { ngo, pageGraph, webPage, website } from "@/lib/seo/jsonld";
 import { getOrganizationSettings } from "@/lib/settings";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { getHomeContent } from "@/lib/content/home";
 import { getCauses, getEvents, getNews, splitEvents } from "@/lib/content/queries";
 import { formatDate } from "@/lib/dates/format";
 import { CauseCard, EventCard, NewsCard } from "@/components/content/Cards";
@@ -17,12 +18,15 @@ type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale: locale as Locale, namespace: "Meta" });
+  const [t, home] = await Promise.all([
+    getTranslations({ locale: locale as Locale, namespace: "Meta" }),
+    getHomeContent(locale as Locale),
+  ]);
   return buildMetadata({
     locale: locale as Locale,
     path: "",
-    title: t("homeTitle"),
-    description: t("homeDescription"),
+    title: home?.seoTitle ?? home?.title ?? t("homeTitle"),
+    description: home?.seoDescription ?? home?.intro ?? t("homeDescription"),
     siteName: t("siteName"),
     absoluteTitle: true,
   });
@@ -31,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
-  const [t, tm, tn, tnews, org, causes, events, news] = await Promise.all([
+  const [t, tm, tn, tnews, org, causes, events, news, home] = await Promise.all([
     getTranslations("Home"),
     getTranslations("Meta"),
     getTranslations("Nav"),
@@ -40,7 +44,16 @@ export default async function HomePage({ params }: Props) {
     getCauses(locale as Locale),
     getEvents(locale as Locale),
     getNews(locale as Locale),
+    getHomeContent(locale as Locale),
   ]);
+  // Text edited under Content → Pages → Home, or the built-in text for languages not written yet.
+  const hero = {
+    eyebrow: home ? home.eyebrow : t("eyebrow"),
+    h1: home?.h1 ?? t("h1"),
+    intro: home ? home.intro : t("intro"),
+    points:
+      home?.points ?? ([1, 2, 3] as const).map((n) => ({ title: t(`trust${n}t`), text: t(`trust${n}`) })),
+  };
   const upcoming = splitEvents(events).upcoming.slice(0, 3);
   const lang = locale as Locale;
   const graph = pageGraph([
@@ -53,9 +66,9 @@ export default async function HomePage({ params }: Props) {
     <>
       <JsonLd graph={graph} />
       <section className="mx-auto max-w-(--size-container-max) px-4 py-16 lg:px-8 lg:py-24">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
-        <h1 className="max-w-3xl text-4xl lg:text-5xl">{t("h1")}</h1>
-        <p className="mt-6 max-w-2xl text-xl text-fg-muted">{t("intro")}</p>
+        {hero.eyebrow ? <Eyebrow>{hero.eyebrow}</Eyebrow> : null}
+        <h1 className="max-w-3xl text-4xl lg:text-5xl">{hero.h1}</h1>
+        {hero.intro ? <p className="mt-6 max-w-2xl text-xl text-fg-muted">{hero.intro}</p> : null}
       </section>
       <section aria-labelledby="why-h" className="bg-bg-subtle py-12 lg:py-20">
         <div className="mx-auto max-w-(--size-container-max) px-4 lg:px-8">
@@ -63,10 +76,10 @@ export default async function HomePage({ params }: Props) {
             {t("whyTitle")}
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
-            {(["1", "2", "3"] as const).map((n) => (
-              <div key={n} className="border-t-2 border-border-rule pt-3">
-                <h3 className="mb-2 text-xl">{t(`trust${n}t`)}</h3>
-                <p className="text-fg-muted">{t(`trust${n}`)}</p>
+            {hero.points.map((p, i) => (
+              <div key={i} className="border-t-2 border-border-rule pt-3">
+                <h3 className="mb-2 text-xl">{p.title}</h3>
+                <p className="text-fg-muted">{p.text}</p>
               </div>
             ))}
           </div>

@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/seo/page";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { PageHeader } from "@/components/content/PageHeader";
 import { SampleBanner } from "@/components/content/Banners";
-import { RichText } from "@/components/ui/RichText";
+import { ContentBody } from "@/components/content/ContentBody";
 
 export const revalidate = 3600;
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -86,7 +86,7 @@ export default async function NewsArticlePage({ params }: Props) {
       </PageHeader>
       <SampleBanner show={post.isSample} />
       <article>
-        <RichText blocks={post.body} />
+        <ContentBody blocks={post.body} locale={locale as Locale} />
       </article>
     </div>
   );
