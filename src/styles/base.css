@@ -93,3 +93,28 @@
     }
   }
 }
+
+/* Thank-you page: the badge and amount pop in, the cards rise (off under reduced motion). */
+@keyframes thank-you-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes thank-you-rise {
+  from {
+    transform: translateY(0.75rem);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

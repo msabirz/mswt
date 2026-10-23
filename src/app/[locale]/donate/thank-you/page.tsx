@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/seo/page";
-import { PageHeader } from "@/components/content/PageHeader";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { StatusPoller, type ThankYouStrings } from "./StatusPoller";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -32,10 +32,29 @@ export default async function ThankYouPage({ params }: Props) {
     "checking",
     "checkingHint",
     "paidTitle",
-    "paid",
-    "receipt",
+    "paidLead",
+    "amountLabel",
+    "receiptTitle",
+    "receiptNumber",
+    "kind80g",
+    "kindAck",
+    "towards",
+    "generalFund",
+    "date",
+    "email",
+    "emailSent",
+    "emailPending",
+    "preparing",
     "download",
-    "emailed",
+    "nextTitle",
+    "next1",
+    "next2For80g",
+    "next2Ack",
+    "next3",
+    "transparency",
+    "share",
+    "shareText",
+    "copied",
     "failedTitle",
     "failed",
     "retry",
@@ -47,13 +66,15 @@ export default async function ThankYouPage({ params }: Props) {
   ] as const;
   const strings = Object.fromEntries(keys.map((k) => [k, t.raw(k) as string])) as ThankYouStrings;
   return (
-    <div className="mx-auto max-w-(--size-container-max) px-4 py-12 lg:px-8">
-      <PageHeader
-        crumbs={[{ label: tc("home"), href: `/${locale}` }, { label: t("title") }]}
-        crumbLabel={tc("breadcrumb")}
-        title={t("title")}
+    <div className="mx-auto max-w-(--size-container-max) px-4 py-10 lg:px-8 lg:py-14">
+      <Breadcrumbs
+        label={tc("breadcrumb")}
+        items={[{ label: tc("home"), href: `/${locale}` }, { label: t("title") }]}
       />
-      <StatusPoller locale={locale} t={strings} />
+      {/* The page's single h1 is the outcome heading inside StatusPoller. */}
+      <div className="mt-6">
+        <StatusPoller locale={locale} t={strings} />
+      </div>
     </div>
   );
 }

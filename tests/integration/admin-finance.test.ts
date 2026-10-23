@@ -22,6 +22,7 @@ import { financialYear } from "@/lib/dates/fy";
 import { db } from "@/lib/db/client";
 import { auditLog, donations, donors, receipts, users } from "@/lib/db/schema";
 import { recordOfflineDonation } from "@/lib/donations/offline";
+import { donationStatus } from "@/lib/donations/status";
 import { sentEmails } from "@/lib/email";
 
 const url = process.env.DATABASE_URL ?? "";
@@ -113,6 +114,9 @@ describe("receipt corrections", () => {
     const [don] = await db.select().from(donations).where(eq(donations.id, d.donationId));
     expect(don!.nameSnapshot).toBe("Offline Donor Corrected");
     expect(don!.panLast4Snapshot).toBe("234F");
+    // The thank-you page shows the live receipt, not the voided one.
+    const status = await donationStatus(don!.publicOrderId, "hi");
+    expect(status).toMatchObject({ status: "paid", receiptNumber: out.number, kind: "80g", cause: null });
   });
 
   it("cash above ₹2,000 stays an acknowledgement even with PAN", async () => {
