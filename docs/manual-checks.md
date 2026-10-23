@@ -29,6 +29,7 @@ Open the preview in a browser where you are signed in to Vercel.
 - [ ] **M7-9 Closed tab (no redirect).** Pay successfully but close the tab before returning to the site. The webhook should still mark the donation paid, and the receipt email should still arrive.
 - [ ] **M7-10 Webhook signature.** In Cashfree's webhook logs, the deliveries to `/api/webhooks/cashfree` return **200**. A retried delivery also returns 200 and doesn't create a second receipt.
 - [ ] **M7-11 Refund.** Refund the M7-4 payment from the Cashfree dashboard. In the database, the donation becomes `refunded` and the receipt is voided with the same number.
+- [ ] **M7-11b Automatic refund.** The webhook has **auto refund** ticked. If Cashfree's sandbox can simulate it (a second payment on the same order), check that the donation stays paid when the extra payment is returned, and that the admin timeline shows the auto-refund event.
 - [ ] **M7-12 Daily reconciliation.** In Vercel → Project → Cron Jobs, `/api/cron/reconcile` is listed (03:00 IST). Run it once from there. It returns 200, and `reconciliation_runs` has a new row.
 
 ### Accessibility and devices
