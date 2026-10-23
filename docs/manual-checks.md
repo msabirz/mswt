@@ -68,6 +68,24 @@ Open the preview in a browser where you are signed in to Vercel.
 - [ ] **M8c-4 Screen reader** (VoiceOver/NVDA): the editor toolbar, the photo picker dialog (Esc closes it) and the language tabs are announced; error messages are read on save.
 - [ ] **M8c-5 Move the legal drafts in.** For each legal page, open it in English, check the draft text with the Trust (B11), save, and mark reviewed only when approved.
 
+## Step 8c-2: Events, news, gallery, documents, menus
+
+- [ ] **M8c-6 CORS rule for PDF uploads.** Cloudflare → R2 → the **public media bucket** (stage's, and later production's) → Settings → **CORS policy** → add:
+  ```json
+  [
+    {
+      "AllowedOrigins": ["https://mswt-git-stage-mswt.vercel.app", "https://mswelfaretrust.vercel.app", "https://mswelfaretrust.org"],
+      "AllowedMethods": ["PUT"],
+      "AllowedHeaders": ["content-type"],
+      "MaxAgeSeconds": 3600
+    }
+  ]
+  ```
+  Without it, "Upload PDF" says the upload was refused.
+- [ ] **M8c-7 Upload a real annual report** (about 10 MB) on stage, publish it, and download it from `/en/transparency`.
+- [ ] **M8c-8 Sliders on a phone and with a screen reader.** Swipe an event's slider on Android and iPhone; open the full-screen viewer and close it. With VoiceOver/NVDA, the buttons say "Next photo", "Photo 2 of 5" and the viewer announces the photo.
+- [ ] **M8c-9 Menus.** Rename a header link in Hindi and check `/hi`; add a link to a cause; reset the menu and check the built-in one is back.
+
 ## Workflow setup (stage → main)
 
 - [ ] **MW-1 Production secrets.** In Vercel → Settings → Environment Variables → **Production**, add `PII_ENCRYPTION_KEY` (the **same** value as in `.env.local`, which points at the production database) and `AUTH_SECRET` (a new `openssl rand -base64 32`). Redeploy production. Production builds now fail without them.

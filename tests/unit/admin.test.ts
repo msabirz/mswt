@@ -57,7 +57,12 @@ describe("role permissions match docs/spec.md §5", () => {
       "home",
       "pages",
       "causes",
+      "events",
+      "news",
+      "gallery",
+      "documents",
       "media",
+      "menus",
       "messages",
       "seo",
       "audit",
@@ -103,6 +108,12 @@ describe("role permissions match docs/spec.md §5", () => {
       "src/app/admin/(app)/content/media/[id]/page.tsx",
       "src/app/admin/(app)/content/messages/page.tsx",
       "src/app/admin/(app)/content/messages/[id]/page.tsx",
+      ...["events", "news", "gallery", "documents"].flatMap((k) => [
+        `src/app/admin/(app)/content/${k}/page.tsx`,
+        `src/app/admin/(app)/content/${k}/new/page.tsx`,
+        `src/app/admin/(app)/content/${k}/[id]/page.tsx`,
+      ]),
+      "src/app/admin/(app)/content/menus/page.tsx",
     ];
     // actorFor() (src/lib/admin/actor.ts) runs requireCapability first.
     for (const f of files) expect(readFileSync(f, "utf8"), f).toMatch(/requireCapability\(|actorFor\(/);
@@ -117,6 +128,10 @@ describe("role permissions match docs/spec.md §5", () => {
       "src/app/admin/(app)/content/pages/actions.ts",
       "src/app/admin/(app)/content/causes/actions.ts",
       "src/app/admin/(app)/content/messages/actions.ts",
+      "src/app/admin/(app)/content/items-actions.ts",
+      "src/app/admin/(app)/content/gallery/actions.ts",
+      "src/app/admin/(app)/content/documents/actions.ts",
+      "src/app/admin/(app)/content/menus/actions.ts",
     ]) {
       const src = readFileSync(f, "utf8");
       const actions = [...src.matchAll(/export async function (\w+)/g)].map((m) => m[1]);

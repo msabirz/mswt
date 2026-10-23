@@ -70,7 +70,7 @@ tests/{unit,e2e}/         Vitest, Playwright
 - Validate all input on the server (zod); never trust client-sent amounts, fees or status.
 - Every admin write goes through a service that records an audit-log entry.
 - Every admin page and Server Action starts with `requireCapability(...)` (`src/lib/admin/guard.ts`); roles live only in `src/lib/admin/permissions.ts` (spec §5). Never trust hidden links or the client.
-- Admin forms use `AdminForm` + a Server Action returning `FormState` (`src/components/admin/`); group long forms with `sections` and use `sticky` on settings-style pages. Page layout comes from `src/components/admin/ui.tsx` (PageHeader, Card, Section, StatCard, DataTable, FilterBar, Details). Admin is English-only and noindex.
+- Admin forms use `AdminForm` + a Server Action returning `FormState` (`src/components/admin/`); group long forms with `sections` and use `sticky` on settings-style pages. Photo fields are `type: "photo"`/`"photos"` (library picker); public photos go through `ResponsiveImage`, `LibraryPhotos` or `PhotoSlider`, never a bare `<img>`. Header/footer links come from `resolveMenu()` (Admin → Menus, falling back to `src/config/nav.ts`). Page layout comes from `src/components/admin/ui.tsx` (PageHeader, Card, Section, StatCard, DataTable, FilterBar, Details). Admin is English-only and noindex.
 - Webhook handlers: verify signature on the raw body, be idempotent, return 200 only after commit.
 - Anything that must be atomic (receipt numbers, payment confirmation, audited writes) uses `withTx()`; the Neon HTTP `db` cannot hold a transaction.
 - PAN is stored only encrypted (`encryptPii`) + last 4 + HMAC; show it masked. Never log it.

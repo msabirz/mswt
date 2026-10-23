@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { MenuInput } from "@/lib/admin/menus";
 import { HomeExtras } from "@/lib/content/home";
 import { blocksToMarkup, imageIds, markupToBlocks } from "@/lib/content/markup";
 import { mediaSlug } from "@/lib/media/process";
@@ -113,5 +114,25 @@ describe("home page fields", () => {
     expect(HomeExtras.safeParse({ eyebrow: "", points: [point, point, point] }).success).toBe(true);
     expect(HomeExtras.safeParse({ points: [point, point] }).success).toBe(false);
     expect(HomeExtras.safeParse({ points: [point, point, { title: "", text: "x" }] }).success).toBe(false);
+  });
+});
+
+describe("menus", () => {
+  it("accepts pages, items and https links with a label", () => {
+    const ok = MenuInput.safeParse([
+      { kind: "page", target: "about" },
+      { kind: "cause", target: "school-support", labels: { hi: "स्कूल" } },
+      { kind: "url", target: "https://example.org/report", labels: { en: "Report" }, hidden: true },
+    ]);
+    expect(ok.success).toBe(true);
+  });
+  it("refuses unknown pages, http links and unlabelled web links", () => {
+    for (const bad of [
+      [{ kind: "page", target: "nope" }],
+      [{ kind: "url", target: "http://example.org", labels: { en: "x" } }],
+      [{ kind: "url", target: "https://example.org" }],
+      [{ kind: "news", target: "Not A Slug" }],
+    ])
+      expect(MenuInput.safeParse(bad).success).toBe(false);
   });
 });

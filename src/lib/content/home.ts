@@ -4,7 +4,7 @@ import { z } from "zod";
 import { routing, type Locale } from "@/i18n/routing";
 import { db } from "@/lib/db/client";
 import { pageTranslations } from "@/lib/db/schema";
-import { CONTENT_TAG, isProduction } from "./source";
+import { CONTENT_SAFETY_REVALIDATE, CONTENT_TAG, isProduction } from "./source";
 
 /** Home-only fields stored in page_translations.extras (Content → Pages → Home). */
 export const HomeExtras = z.object({
@@ -51,5 +51,5 @@ export const getHomeContent = unstable_cache(
     };
   },
   ["home-content"],
-  { tags: [CONTENT_TAG] },
+  { tags: [CONTENT_TAG], revalidate: CONTENT_SAFETY_REVALIDATE },
 );

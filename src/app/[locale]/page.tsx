@@ -10,6 +10,7 @@ import { getCauses, getEvents, getNews, splitEvents } from "@/lib/content/querie
 import { formatDate } from "@/lib/dates/format";
 import { CauseCard, EventCard, NewsCard } from "@/components/content/Cards";
 import { SampleBanner } from "@/components/content/Banners";
+import { PageHero } from "@/components/content/LibraryPhotos";
 import { HeadingRule } from "@/components/ui/Typography";
 import { TextLink } from "@/components/ui/TextLink";
 import { Eyebrow } from "@/components/ui/Typography";
@@ -66,6 +67,7 @@ export default async function HomePage({ params }: Props) {
     <>
       <JsonLd graph={graph} />
       <section className="mx-auto max-w-(--size-container-max) px-4 py-16 lg:px-8 lg:py-24">
+        <PageHero pageKey="home" locale={lang} className="mb-10" />
         {hero.eyebrow ? <Eyebrow>{hero.eyebrow}</Eyebrow> : null}
         <h1 className="max-w-3xl text-4xl lg:text-5xl">{hero.h1}</h1>
         {hero.intro ? <p className="mt-6 max-w-2xl text-xl text-fg-muted">{hero.intro}</p> : null}
